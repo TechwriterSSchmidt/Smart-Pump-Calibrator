@@ -46,15 +46,15 @@ const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
-const unsigned long CAL_PAUSE_MIN = 200;     // Lower bound for binary search
+const unsigned long CAL_PAUSE_MIN = 280;     // Lower bound for binary search (Increased to avoid aggressive jumps into unstable areas)
 const unsigned long CAL_PAUSE_START = 900;   // Upper bound for binary search (Max Pause - Optimization Limit)
 const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in binary search but good for reference)
 
 // Calibration Logic
 const int CAL_PRIMING_PULSES = 20;      // Pulses to pressurize hose before measuring (increased to flush warm oil)
-const int CAL_TEST_PULSES = 50;         // Number of pulses to test per step
-const int CAL_TARGET_DROPS_MIN = 40;    // Minimum acceptable drops for 50 pulses
-const int CAL_TARGET_DROPS_MAX = 60;    // Maximum acceptable drops for 50 pulses
+const int CAL_TEST_PULSES = 60;        // Number of pulses to test per step (Increased for better statistics)
+const int CAL_TARGET_DROPS_MIN = 55;    // Minimum acceptable drops for 100 pulses
+const int CAL_TARGET_DROPS_MAX = 65;   // Maximum acceptable drops for 100 pulses
 
 // Stability Criteria
 // Maximum allowed jitter (Standard Deviation / Average Interval).
