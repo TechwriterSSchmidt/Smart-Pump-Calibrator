@@ -230,7 +230,8 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
     if (i == (testPulses / 2)) {
         unsigned long currentDrops = dropCount - startTotalDrops;
         if (currentDrops == 0) {
-            // Serial.print("(Quick Fail: No drops) ");
+            if (digitalRead(DROP_SENSOR_PIN) == LOW) Serial.print("(Quick Fail: Stream detected) ");
+            else Serial.print("(Quick Fail: No drops) ");
             return result; // success is false
         }
     }
@@ -238,6 +239,11 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
   
   // Wait a bit for last drop
   delay(500);
+
+  // Check for blocked sensor at the end (Stream)
+  if (digitalRead(DROP_SENSOR_PIN) == LOW) {
+      Serial.print(" [End: Sensor Blocked/Stream] ");
+  }
   
   result.drops = dropCount - startTotalDrops;
   result.jitter = calculateJitter();
