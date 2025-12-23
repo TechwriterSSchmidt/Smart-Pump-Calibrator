@@ -24,8 +24,8 @@ const int NUM_LEDS = 1;
 // Default "Bleeding Mode" Settings
 // Used on startup or if calibration fails.
 // Purpose: Quickly fill the hose with oil and bleed air bubbles.
-const unsigned long DEFAULT_BLEED_PULSE_MS = 60;
-const unsigned long DEFAULT_BLEED_PAUSE_MS = 250;
+const unsigned long DEFAULT_BLEED_PULSE_MS = 70;
+const unsigned long DEFAULT_BLEED_PAUSE_MS = 300;
 
 // Debounce Settings (ms)
 const int BUTTON_DEBOUNCE_MS = 25;
@@ -42,21 +42,21 @@ const unsigned long CAL_PULSE_STEP = 10;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
-const unsigned long CAL_PAUSE_MIN = 50;     // Lower bound for binary search
-const unsigned long CAL_PAUSE_START = 500;  // Upper bound for binary search (Max Pause)
+const unsigned long CAL_PAUSE_MIN = 200;     // Lower bound for binary search
+const unsigned long CAL_PAUSE_START = 1500;  // Upper bound for binary search (Max Pause)
 const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in binary search but good for reference)
 
 // Calibration Logic
 const int CAL_PRIMING_PULSES = 10;      // Pulses to pressurize hose before measuring
 const int CAL_TEST_PULSES = 50;         // Number of pulses to test per step
-const int CAL_TARGET_DROPS_MIN = 48;    // Minimum acceptable drops for 50 pulses
-const int CAL_TARGET_DROPS_MAX = 52;    // Maximum acceptable drops for 50 pulses
+const int CAL_TARGET_DROPS_MIN = 40;    // Minimum acceptable drops for 50 pulses
+const int CAL_TARGET_DROPS_MAX = 60;    // Maximum acceptable drops for 50 pulses
 
 // Stability Criteria
 // Maximum allowed jitter (Standard Deviation / Average Interval).
-// 0.10 = The drop intervals must not deviate by more than 10% from the average.
+// 0.05 = The drop intervals must not deviate by more than 5% from the average.
 // Lower is stricter.
-const float CAL_MAX_JITTER_PERCENT = 0.10;
+const float CAL_MAX_JITTER_PERCENT = 0.05;
 
 // Safety Factor
 // Added to the experimentally found minimum pause to ensure reliability.

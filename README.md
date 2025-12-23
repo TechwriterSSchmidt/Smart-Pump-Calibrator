@@ -1,75 +1,77 @@
 # Pump Volume Test (ESP32-S3)
 
-This firmware controls a 12V metering pump to find the optimal settings for a chain oiler system. It features an **Auto-Calibration** mode that uses an IR drop sensor to detect flow and avoid hydraulic resonance.
+This tool is designed to calibrate and stress-test oil pump systems (e.g., for chain oilers). It automatically determines the optimal **Pulse Duration** and **Pause Duration** to achieve a perfectly synchronized, stable oil flow without resonance.
 
 ## Hardware Setup
+*   **Microcontroller**: ESP32-S3
+*   **Pump Driver**: MOSFET Module (e.g., HW-197), 5V Logic, 12V Load.
+*   **Sensor**: IR Obstacle Sensor (e.g., LM393 based), Active LOW.
+*   **Pinout**:
+    *   **Pump**: GPIO 4
+    *   **Button**: GPIO 5 (External) / GPIO 0 (Boot)
+    *   **Sensor**: GPIO 6
 
-*   **Controller**: ESP32-S3 DevKitC-1
-*   **Pump**: 12V Pulse Metering Pump (Webasto/Eberspacher type)
-*   **Driver**: HW-197 MOSFET Module (GPIO 4)
-*   **Sensor**: IR Obstacle Sensor (LM393) at the nozzle (GPIO 6)
-*   **Controls**:
-    *   **External Button**: GPIO 5 (to GND)
-    *   **Boot Button**: GPIO 0 (Onboard)
+## Controls & Status
+
+| Component | Action / Color | Function |
+| :--- | :--- | :--- |
+| **Boot Button** | Short Press | **Start / Stop Auto-Calibration** |
+| **Ext. Button** | Short Press | **Toggle Continuous Pumping** (On/Off) |
+| **LED** | 🟢 **Green** | **Ready** (Idle or Pumping with valid settings) |
+| **LED** | 🔵 **Blue** | **Calibrating** (Do not disturb sensor) |
+| **LED** | 🟡 **Yellow** | **Continuous Mode** (Running) |
+| **LED** | 🔴 **Red** | **Error / Stopped** (Sensor blocked or Calibration failed) |
+
+---
 
 ## How to Use
 
-### 1. Bleeding the System (Manual Mode)
-Use this mode to fill the hose with oil or test the pump.
-*   **Action**: Press the **External Button** (GPIO 5).
-*   **Result**: The pump runs continuously.
-    *   *Default Speed*: 60ms Pulse / 250ms Pause (Fast, for bleeding).
-    *   *Note*: If you have successfully run calibration, it will use those optimized values instead.
-*   **Stop**: Press the button again to stop.
+### 1. Bleeding (Initial Setup)
+When the system starts, it uses default "Bleeding" settings (70ms Pulse / 300ms Pause).
+1.  Press the **External Button** to start pumping.
+2.  Let it run until oil flows steadily from the nozzle without air bubbles.
+3.  Press the button again to stop.
 
-### 2. Auto-Calibration (Fast Mode)
-Use this mode to find the optimal settings where pump cycles and drop formation are **perfectly synchronized**. The goal is a steady flow with a stable Pulse-to-Drop ratio, avoiding resonance or chaotic dripping.
-*   **Action**: Press the **Boot Button** (GPIO 0).
-*   **Result**: The system runs a comprehensive sweep test.
-    *   **Pulse Sweep**: Iterates through different pulse durations (e.g., 50ms - 150ms).
-    *   **Binary Search**: Uses a smart search algorithm to quickly find the minimum stable pause duration, drastically reducing test time compared to linear searching.
-    *   **Quick Fail**: Aborts a test step early if no flow is detected, saving time on invalid configurations.
-    *   **Optimization**: It automatically selects the configuration that offers the **highest flow rate** (shortest cycle time) while maintaining perfect stability (Jitter < 10%).
-*   **Completion**:
-    *   **Success**: LED turns Green. The new values are saved for "Continuous Mode".
-    *   **Failure**: LED turns Red. Defaults are restored.
-*   **Abort**: Press the Boot Button again to cancel.
+### 2. Auto-Calibration (The "Magic" Button)
+This process finds the physical limits of your hydraulic system.
+1.  Ensure the sensor is clean and the hose is full (bled).
+2.  Press the **Boot Button**. The LED turns **Blue**.
+3.  **Wait.** The system will perform a series of stress tests.
+4.  **Watch the Serial Monitor** (115200 baud) for details.
 
-## LED Status Codes
+#### What happens during Calibration?
+The system performs a **Binary Search** to find the fastest stable flow rate. Even if the Serial Log looks fast or abbreviated, the following happens **before every single test step**:
+1.  **Sensor Clear**: The system waits until the sensor is free of old drops.
+2.  **Priming**: It fires **10 pulses** (blind) to pressurize the hose and ensure the next drop is ready.
+3.  **Measurement**: It fires 50 test pulses and records the exact timing of every drop.
 
-| Color  | State | Description |
-| :--- | :--- | :--- |
-| **Green** | **Ready** | System is idle and ready for input. |
-| **Yellow** | **Pumping** | Pump is running (Continuous Mode). |
-| **Blue** | **Calibrating** | Auto-Calibration is in progress. |
-| **Red** | **Error** | Calibration failed (no stable settings found). |
+#### Understanding the Log Output
+*   `OK (Drops: 50, Jitter: 1.3%)`: **Perfect Result.** 50 drops detected, and the time gap between them varied by only 1.3%.
+*   `FAIL (Drops: 49, Jitter: 17.6%)`: **Unstable.** The count was close, but the drops were irregular (oscillating). Rejected.
+*   `(Quick Fail: ...)`: **Optimization.** The system detected chaos (e.g., continuous stream or no drops) early and aborted this step to save time. This is normal behavior.
 
-## Configuration
+### 3. Result
+When finished, the LED turns **Green**.
+The Serial Monitor will display:
+*   **Raw Values**: The absolute physical limit found.
+*   **Recommended Settings**: The limit + **15% Safety Margin**.
+The system automatically applies these recommended settings for Continuous Mode.
 
-All adjustable parameters are located in `include/config.h`. You can change:
-*   **Pins**: Pump, Buttons, Sensor, LED.
-*   **Bleeding Defaults**: Speed for manual mode.
-*   **Calibration Ranges**: Min/Max pulse widths and pause times.
-*   **Safety Margins**: Default is +15% safety buffer on pause time.
+---
 
 ## Technical Details
 
-The Auto-Calibration logic ensures reliability by:
-1.  **Priming**: Firing **10 pulses** before every test to pressurize the hose. The system also reports the number of drops detected during priming to verify flow.
-2.  **Smart Filtering**:
-    *   **Noise Rejection**: Signals shorter than 4ms are ignored (filters electrical noise).
-    *   **Debouncing**: A 50ms refractory period prevents double-counting wobbly drops.
-3.  **Safety Checks & Flow Management**:
-    *   **Pre-Flight**: Checks if the sensor is blocked before starting.
-    *   **Auto-Clear**: Waits up to 3 seconds between tests for the sensor to clear if the previous setting caused a backup.
-    *   **Continuous Flow Detection**: If the sensor remains blocked for >1 second (continuous stream), the specific test step is marked as "Failed" (too fast), allowing the algorithm to recover and try a slower speed instead of aborting completely.
-4.  **Safety Margin**: Adds a **15% buffer** to the calculated pause time to account for temperature or viscosity changes.
-5.  **Stability Analysis**: Calculates the **Jitter** (variation in drop intervals). A setting is only accepted if the flow is steady (Jitter < 15%), ensuring true synchronization.
-6.  **Efficiency**: Calculates and reports the actual **Drops per Stroke** ratio.
-7.  **Search Algorithm (Binary Search)**:
-    *   **Speed**: Uses a "Divide and Conquer" approach to find the limit in ~5 steps instead of ~20.
-    *   **Accuracy**: Assumes physical continuity (if speed X is unstable, X+1 is also unstable).
-    *   **Resolution**: Rounds results to the nearest 5ms. The **Safety Margin** compensates for any minor granularity loss.
-8.  **Adaptive Optimization**:
-    *   The system learns from previous steps. If a 40ms pulse requires a 200ms pause, it knows that a 50ms pulse (which pumps more oil) will require *at least* 200ms.
-    *   It automatically adjusts the search start point, skipping impossible configurations and saving further time.
+### 1. Stability Analysis (Jitter)
+We don't just count drops. We measure the **Standard Deviation** of the time intervals between drops.
+*   **Goal**: A steady heartbeat-like dripping.
+*   **Criteria**: A configuration is only accepted if the Jitter is **< 5%**. This filters out resonance effects where the drop count might be correct by chance, but the flow is actually chaotic.
+
+### 2. Fast Binary Search & Adaptive Optimization
+Instead of testing every millisecond (which would take hours), the algorithm:
+*   **Divides & Conquers**: It tests the middle of the range. If that fails, it knows the limit is slower. If it passes, it tries faster.
+*   **Learns**: If 40ms Pulse required 300ms Pause, it won't try 50ms Pulse with 100ms Pause. It adapts the search window based on previous results.
+
+### 3. Safety Checks & Flow Management
+*   **Auto-Clear**: If a test runs too fast and causes a continuous stream, the system pauses and waits for the sensor to clear before starting the next test.
+*   **Blockage Protection**: During normal operation, if the sensor is blocked for >2 seconds, the pump performs an emergency stop.
+*   **Noise Filter**: Signals shorter than 4ms are ignored to filter out electrical noise.
