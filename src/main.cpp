@@ -455,15 +455,20 @@ void setup() {
 
   // Initialize RGB LED
   rgbLed.begin();
+  rgbLed.setBrightness(50); // Set brightness (0-255)
+  
   // Initialize Preferences
   preferences.begin("pump-stats", false);
   strokeCounter = preferences.getULong("strokes", 0);
 
   Serial.println("Smart Pump Calibrator (ESP32-S3)");
   Serial.println("--------------------------------");
-  Serial.printf("Total Lifetime Strokes: %lu\n", strokeCounter
-  Serial.println("Smart Pump Calibrator (ESP32-S3)");
-  Serial.println("--------------------------------");
+  Serial.printf("Total Lifetime Strokes: %lu\n", strokeCounter);
+  if (strokeCounter < 5000) {
+      Serial.printf("Break-in Progress: %lu / 5000 (%.1f%%)\n", strokeCounter, (float)strokeCounter / 50.0);
+  } else {
+      Serial.println("Break-in Period: COMPLETE");
+  }
   Serial.printf("Flash Size: %d MB\n", ESP.getFlashChipSize() / (1024 * 1024));
   Serial.printf("PSRAM Size: %d MB\n", ESP.getPsramSize() / (1024 * 1024));
   Serial.println("--------------------------------");

@@ -37,13 +37,13 @@ const int DROP_SENSOR_MIN_WIDTH_MS = 4; // Minimum signal width to be considered
 // ============================================================================
 // Pulse Width Search Range (ms)
 const unsigned long CAL_PULSE_MIN = 40;
-const unsigned long CAL_PULSE_MAX = 150;
-const unsigned long CAL_PULSE_STEP = 10;
+const unsigned long CAL_PULSE_MAX = 110;
+const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
 const unsigned long CAL_PAUSE_MIN = 200;     // Lower bound for binary search
-const unsigned long CAL_PAUSE_START = 1500;  // Upper bound for binary search (Max Pause)
+const unsigned long CAL_PAUSE_START = 900;   // Upper bound for binary search (Max Pause - Optimization Limit)
 const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in binary search but good for reference)
 
 // Calibration Logic
