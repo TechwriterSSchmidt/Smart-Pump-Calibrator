@@ -69,11 +69,13 @@ The system performs a **Binary Search** to find the most stable flow rate. Even 
 3.  **Measurement**: It fires 50 test pulses and records the exact timing of every drop.
 4.  **Optimization**: It automatically selects the configuration that offers the **lowest Jitter** (highest stability). If two settings are equally stable, it chooses the faster one.
 5.  **Smart Limits**: The search optimization is capped at 450ms pause, as values above this are always considered valid.
+6.  **Cool-Down**: Between major test steps (Pulse Width changes), the system pauses for **2 minutes** to let the solenoid coil cool down. This ensures consistent magnetic force and prevents overheating.
 
 #### Understanding the Log Output
 *   `OK (Drops: 50, Jitter: 1.3%)`: **Perfect Result.** 50 drops detected, and the time gap between them varied by only 1.3%.
 *   `FAIL (Drops: 49, Jitter: 17.6%)`: **Unstable.** The count was close, but the drops were irregular (oscillating). Rejected.
-*   `(Quick Fail: ...)`: **Optimization.** The system detected chaos (e.g., continuous stream or no drops) early and aborted this step to save time. This is normal behavior.
+*   `(Quick Fail: ...)`: **Optimization.** The system detected chaos (e.g., continuous stream or no drops) early and aborted this step to save time.
+*   `[Cool-Down]`: The system is actively cooling the coil. You can abort this wait with the Boot Button.
 
 ### 3. Result
 When finished, the LED turns **Green**.
@@ -90,13 +92,23 @@ The system automatically applies these recommended settings for Continuous Mode.
 We don't just count drops. We measure the **Standard Deviation** of the time intervals between drops.
 *   **Goal**: A steady heartbeat-like dripping.
 *   **Criteria**: A configuration is only accepted if the Jitter is **< 5%**. This filters out resonance effects where the drop count might be correct by chance, but the flow is actually chaotic.
+*   **Inertia Fix**: The algorithm ignores the very first drop interval to account for mechanical "stiction" (static friction) and startup inertia.
 
 ### 2. Fast Binary Search & Adaptive Optimization
 Instead of testing every millisecond (which would take hours), the algorithm:
 *   **Divides & Conquers**: It tests the middle of the range. If that fails, it knows the limit is slower. If it passes, it tries faster.
 *   **Learns**: If 40ms Pulse required 300ms Pause, it won't try 50ms Pulse with 100ms Pause. It adapts the search window based on previous results.
+*   **Smart Exit**: If the system has already found a highly stable configuration (Jitter < 1%) and subsequent tests with longer pulses yield worse results, it stops early to save time.
 
 ### 3. Safety Checks & Flow Management
 *   **Auto-Clear**: If a test runs too fast and causes a continuous stream, the system pauses and waits for the sensor to clear before starting the next test.
+*   **Thermal Protection**: The 2-minute cool-down ensures the solenoid resistance doesn't drift due to heat, keeping the calibration valid for "cold start" conditions.
+
+## Configuration (`include/config.h`)
+You can adjust the system behavior by editing `include/config.h`:
+*   `CAL_BREAK_IN_STROKES`: Number of strokes for break-in (Default: 5000).
+*   `CAL_COOLDOWN_MS`: Cool-down time between steps (Default: 120000ms = 2 min).
+*   `CAL_SMART_EXIT_JITTER_THRESHOLD`: Jitter target for early exit (Default: 0.01 = 1%).
+*   `CAL_MAX_JITTER_PERCENT`: Maximum allowed instability (Default: 0.05 = 5%).
 *   **Blockage Protection**: During normal operation, if the sensor is blocked for >2 seconds, the pump performs an emergency stop.
 *   **Noise Filter**: Signals shorter than 4ms are ignored to filter out electrical noise.
