@@ -59,9 +59,10 @@ The Auto-Calibration logic ensures reliability by:
 2.  **Smart Filtering**:
     *   **Noise Rejection**: Signals shorter than 4ms are ignored (filters electrical noise).
     *   **Debouncing**: A 50ms refractory period prevents double-counting wobbly drops.
-3.  **Safety Checks**:
+3.  **Safety Checks & Flow Management**:
     *   **Pre-Flight**: Checks if the sensor is blocked before starting.
-    *   **Runtime**: Aborts if the sensor remains blocked for >1 second (e.g., oil backup).
+    *   **Auto-Clear**: Waits up to 3 seconds between tests for the sensor to clear if the previous setting caused a backup.
+    *   **Continuous Flow Detection**: If the sensor remains blocked for >1 second (continuous stream), the specific test step is marked as "Failed" (too fast), allowing the algorithm to recover and try a slower speed instead of aborting completely.
 4.  **Safety Margin**: Adds a **15% buffer** to the calculated pause time to account for temperature or viscosity changes.
 5.  **Stability Analysis**: Calculates the **Jitter** (variation in drop intervals). A setting is only accepted if the flow is steady (Jitter < 15%), ensuring true synchronization.
 6.  **Efficiency**: Calculates and reports the actual **Drops per Stroke** ratio.

@@ -169,6 +169,22 @@ struct TestResult {
 TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
   TestResult result = {false, 0, 0.0f, false};
   
+  // 0. Pre-Test Check: Ensure Sensor is Clear
+  // If the previous test caused a backup, wait for it to clear.
+  if (digitalRead(DROP_SENSOR_PIN) == LOW) {
+      Serial.print(" [Waiting for sensor to clear]... ");
+      unsigned long waitStart = millis();
+      while (digitalRead(DROP_SENSOR_PIN) == LOW) {
+          if (millis() - waitStart > 3000) {
+              Serial.println("TIMEOUT. Sensor clogged.");
+              result.aborted = true;
+              return result;
+          }
+          delay(10);
+      }
+      Serial.println("OK.");
+  }
+
   // 1. Priming (Fast - 5 pulses)
   // We do a mini-prime here to ensure pressure is consistent for this specific timing
   for (int i = 0; i < 5; i++) {
@@ -198,9 +214,12 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
     while (millis() - startPause < pause) {
        if (checkAbort()) { result.aborted = true; return result; }
        // Safety Check: Sensor Blocked?
+       // If blocked for > 1000ms, it's likely continuous flow (too fast) or a clog.
+       // We treat it as "Test Failed" (need slower speed), not "System Abort".
        if (digitalRead(DROP_SENSOR_PIN) == LOW && (millis() - dropStartTime > 1000)) {
-         Serial.println("\nCRITICAL: Sensor blocked during operation!");
-         result.aborted = true; 
+         Serial.print(" [Flow Continuous/Blocked] ");
+         result.success = false; 
+         result.aborted = false; // Allow search to try slower speed
          return result;
        }
        delay(10);
