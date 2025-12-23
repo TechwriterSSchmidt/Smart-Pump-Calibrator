@@ -26,13 +26,21 @@ This firmware is a automatic analysis tool for 12V metering pumps (chain oilers)
 
 ## How to Use
 
-### 1. Bleeding (Initial Setup)
+### 1. Break-In Period (Important!)
+New pumps need a mechanical break-in period to deliver consistent results.
+1.  Fill the system with oil.
+2.  Press the **External Button** to start Continuous Mode.
+3.  Let the pump run for **3000-5000 strokes**.
+4.  The Serial Monitor will display `*** BREAK-IN PERIOD COMPLETE ***` when 5000 strokes are reached.
+5.  Only then proceed to calibration.
+
+### 2. Bleeding (Initial Setup)
 When the system starts, it uses default "Bleeding" settings (70ms Pulse / 300ms Pause).
 1.  Press the **External Button** to start pumping.
 2.  Let it run until oil flows steadily from the nozzle without air bubbles.
 3.  Press the button again to stop.
 
-### 2. Auto-Calibration (The "Magic" Button)
+### 3. Auto-Calibration (The "Magic" Button)
 This process finds the physical limits of your hydraulic system.
 1.  Ensure the sensor is clean and the hose is full (bled).
 2.  Press the **Boot Button**. The LED turns **Blue**.

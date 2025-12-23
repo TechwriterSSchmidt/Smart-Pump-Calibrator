@@ -275,11 +275,31 @@ void runCalibrationStep() {
   // A stronger pulse (longer duration) will generally require at least as much pause as a weaker one.
   unsigned long searchLowerBound = CAL_PAUSE_MIN;
 
+  // Time Estimation Variables
+  unsigned long calibrationStartTime = millis();
+  int totalSteps = (CAL_PULSE_MAX - CAL_PULSE_MIN) / CAL_PULSE_STEP + 1;
+  int completedSteps = 0;
+
   // Iterate through reasonable pulse widths
   for (unsigned long p = CAL_PULSE_MIN; p <= CAL_PULSE_MAX; p += CAL_PULSE_STEP) {
     if (checkAbort()) goto abort_calibration;
 
-    Serial.printf("\nTesting Pulse Width: %lu ms\n", p);
+    // Calculate Estimated Time Remaining
+    String timeMsg = "";
+    if (completedSteps > 0) {
+        unsigned long elapsed = millis() - calibrationStartTime;
+        unsigned long avgTimePerStep = elapsed / completedSteps;
+        unsigned long remainingSteps = totalSteps - completedSteps;
+        unsigned long remainingTimeMs = avgTimePerStep * remainingSteps;
+        
+        unsigned long remMin = remainingTimeMs / 60000;
+        unsigned long remSec = (remainingTimeMs % 60000) / 1000;
+        timeMsg = String(" [ETA: ") + remMin + "m " + remSec + "s]";
+    } else {
+        timeMsg = " [ETA: Calculating...]";
+    }
+
+    Serial.printf("\nTesting Pulse Width: %lu ms%s\n", p, timeMsg.c_str());
     
     unsigned long minPauseForThisPulse = 0;
     unsigned long dropsForMinPause = 0;
@@ -359,6 +379,8 @@ void runCalibrationStep() {
     } else {
         Serial.println("  => No valid config found for this pulse width.");
     }
+    
+    completedSteps++;
   }
   
   Serial.println("\n==========================================");
@@ -466,6 +488,11 @@ void loop() {
         
         strokeCounter++;
         Serial.printf("Stroke Count: %lu\n", strokeCounter);
+        
+        if (strokeCounter == 5000) {
+            Serial.println("\n*** BREAK-IN PERIOD COMPLETE (5000 Strokes) ***");
+            Serial.println("The pump is now mechanically stable and ready for calibration.");
+        }
         
         setStatusColor(255, 255, 0); // Yellow = Pump Active
       }
