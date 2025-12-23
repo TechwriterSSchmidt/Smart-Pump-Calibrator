@@ -115,6 +115,7 @@ bool performPriming(int pulseMs, int pauseMs) {
     digitalWrite(PUMP_PIN, HIGH);
     delay(pulseMs);
     digitalWrite(PUMP_PIN, LOW);
+    strokeCounter++; // Count priming strokes for lifetime stats
     
     // Break down pause into small checks
     unsigned long startPause = millis();
@@ -199,6 +200,7 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
       digitalWrite(PUMP_PIN, HIGH);
       delay(pulse);
       digitalWrite(PUMP_PIN, LOW);
+      strokeCounter++;
       delay(pause);
   }
 
@@ -215,6 +217,7 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
     digitalWrite(PUMP_PIN, HIGH);
     delay(pulse);
     digitalWrite(PUMP_PIN, LOW);
+    strokeCounter++;
     
     // Wait for pause duration with abort check
     unsigned long startPause = millis();
@@ -431,6 +434,7 @@ void runCalibrationStep() {
     }
     
     completedSteps++;
+    preferences.putULong("strokes", strokeCounter); // Save progress
   }
   
   Serial.println("\n==========================================");
@@ -475,6 +479,7 @@ void runCalibrationStep() {
 
 abort_calibration:
   Serial.println("Calibration Aborted.");
+  preferences.putULong("strokes", strokeCounter); // Save progress
   currentState = STATE_READY;
   setStatusColor(0, 255, 0); // Green
 }
