@@ -264,6 +264,12 @@ void runCalibrationStep() {
   if (!isSensorClear()) return;
 
   Serial.println("\n=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===");
+  
+  if (strokeCounter < 5000) {
+      Serial.println("!!! WARNING: BREAK-IN PERIOD NOT COMPLETE !!!");
+      Serial.printf("Calibration results may drift. Current Strokes: %lu/5000\n", strokeCounter);
+  }
+
   Serial.printf("Features: Binary Search, Quick Fail, Stability Check (Max Jitter %.0f%%)\n", CAL_MAX_JITTER_PERCENT * 100);
   Serial.println("Press BOOT BUTTON to STOP.");
   
@@ -465,7 +471,9 @@ void setup() {
   Serial.println("--------------------------------");
   Serial.printf("Total Lifetime Strokes: %lu\n", strokeCounter);
   if (strokeCounter < 5000) {
-      Serial.printf("Break-in Progress: %lu / 5000 (%.1f%%)\n", strokeCounter, (float)strokeCounter / 50.0);
+      Serial.println("\n!!! WARNING: BREAK-IN PERIOD NOT COMPLETE !!!");
+      Serial.printf("Current Strokes: %lu / 5000. Mechanical stability not guaranteed.\n", strokeCounter);
+      Serial.println("Please run Continuous Pumping mode until 5000 strokes are reached.\n");
   } else {
       Serial.println("Break-in Period: COMPLETE");
   }
