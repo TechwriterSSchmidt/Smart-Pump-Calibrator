@@ -477,6 +477,11 @@ finish_calibration:
   Serial.println("\n==========================================");
   Serial.println("       CALIBRATION COMPLETE");
   Serial.println("==========================================");
+
+  unsigned long totalDuration = millis() - calibrationStartTime;
+  unsigned long durationMin = totalDuration / 60000;
+  unsigned long durationSec = (totalDuration % 60000) / 1000;
+  Serial.printf("Total Duration: %lu min %lu sec\n", durationMin, durationSec);
   
   if (bestPulse != 0) {
     Serial.printf("Raw Optimal Values (Lab Conditions):\n");

@@ -111,15 +111,15 @@ This tool does more than just measure volume. It analyzes the **Hydraulic Resona
 
 If the pump frequency clashes with these shockwaves, the flow becomes chaotic (high Jitter). This tool finds the "Sweet Spot" where the shockwaves dissipate or harmonize, ensuring a clean, reliable drop release.
 
-### Elasticity Ratio (Elastizitätskonstante)
-The system calculates an **Elasticity Ratio** to determine how much time the hose needs to relax after a pulse. This prevents "stacking" pressure where the hose never fully contracts between strokes.
+### Elasticity Ratio
+The system calculates an **Elasticity Ratio** to determine how much time the hose needs to relax after a pulse. This prevents pressure buildup where the hose never fully contracts.
 
 `Minimum Pause = Pulse Width * Elasticity Ratio`
 
 | Ratio | Hose Type | Behavior |
 | :--- | :--- | :--- |
-| **2.0 - 3.0** | **Hard / Short** | Stiff lines (e.g., PTFE/Teflon). Pressure drops instantly. Allows fast cycle times. |
-| **4.0 - 6.0** | **Standard** | Typical PVC/Silicon oiler hoses. Good balance of damping and response. |
-| **> 8.0** | **Soft / Long** | Very soft or long hoses. The hose "balloons" significantly and needs a long time to stop dripping. |
+| **2.0 - 3.0** | **Hard / Short** | Stiff lines (e.g., PTFE). Pressure drops instantly. Fast cycles. |
+| **4.0 - 6.0** | **Standard** | Typical PVC/Silicon hoses. Balanced damping. |
+| **> 8.0** | **Soft / Long** | Soft hoses. The hose expands significantly and needs time to stop dripping. |
 
-*The system starts with a safe estimate and learns the specific ratio for your setup during calibration.*
+*The system learns the specific ratio for your setup during calibration.*
