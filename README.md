@@ -35,6 +35,7 @@ This firmware is an automatic analysis tool for 12V metering pumps (chain oilers
 | **Test Pulses** | 50 | Number of pulses per test step |
 | **Max Jitter** | 5% (0.05) | Maximum allowed instability |
 | **Smart Exit** | 0.8% (0.008) | Jitter threshold for early optimization stop |
+| **Optimization Cap** | 300 ms | Max lower bound for adaptive search |
 | **Safety Margin** | +15% (1.15) | Added to pause time for reliability |
 | **Cool-Down** | 120 s | Rest time between test steps |
 
@@ -101,3 +102,11 @@ Instead of testing every millisecond, the algorithm:
 ### Safety & Protection
 *   **Auto-Clear**: If a test runs too fast and causes a continuous stream, the system pauses and waits for the sensor to clear.
 *   **Thermal Protection**: A 2-minute cool-down between major steps prevents solenoid overheating and ensures consistent magnetic force.
+
+### The Physics: Shockwaves & Resonance
+This tool does more than just measure volume. It analyzes the **Hydraulic Resonance** of your specific setup.
+*   **Shockwaves**: Every pump stroke sends a pressure wave through the hose.
+*   **Reflections**: This wave reflects off the narrow cannula (nozzle) and travels back.
+*   **Elasticity**: The rubber hose expands and contracts ("breathing"), acting as a hydraulic capacitor.
+
+If the pump frequency clashes with these shockwaves, the flow becomes chaotic (high Jitter). This tool finds the "Sweet Spot" where the shockwaves dissipate or harmonize, ensuring a clean, reliable drop release.

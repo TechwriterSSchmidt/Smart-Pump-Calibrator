@@ -293,6 +293,9 @@ void runCalibrationStep() {
   unsigned long searchLowerBound = CAL_PAUSE_MIN;
   int consecutiveWorseResults = 0; // Optimization counter
 
+  // ADAPTIVE PHYSICS: Start with conservative estimate, then learn from real results.
+  float currentElasticityRatio = CAL_ELASTICITY_RATIO; 
+
   // Time Estimation Variables
   unsigned long calibrationStartTime = millis();
   int totalSteps = (CAL_PULSE_MAX - CAL_PULSE_MIN) / CAL_PULSE_STEP + 1;
@@ -335,9 +338,23 @@ void runCalibrationStep() {
     unsigned long dropsForMinPause = 0;
     float jitterForMinPause = 100.0;
     
+    // PHYSICS OPTIMIZATION 1: Elasticity Ratio
+    // The hose needs time to relax. Longer pulse = more expansion = longer required pause.
+    // We enforce a minimum pause based on the pulse width.
+    // ADAPTIVE: Use the learned ratio from previous successful steps.
+    unsigned long physicsMinPause = (unsigned long)(p * currentElasticityRatio);
+    
     // BINARY SEARCH for Minimum Valid Pause
     unsigned long low = searchLowerBound;
+    if (physicsMinPause > low) {
+        low = physicsMinPause; // Push the search start upwards
+        Serial.printf("   [Physics] Skipping pauses < %lu ms (Ratio %.1f)\n", low, currentElasticityRatio);
+    }
+    
     unsigned long high = CAL_PAUSE_START;
+    // Ensure high is always >= low
+    if (high < low) high = low + CAL_PAUSE_STEP;
+
     unsigned long candidatePause = 0;
     
     while (low <= high) {
@@ -364,6 +381,15 @@ void runCalibrationStep() {
             if (mid == 0) break; // prevent underflow
             if (mid < 5) high = 0; else high = mid - 5; 
         } else {
+            // PHYSICS OPTIMIZATION 2: Nozzle Saturation (Splatter)
+            // If we have more drops than pulses, the energy is too high for the nozzle.
+            // Increasing pulse width further is pointless.
+            if (res.drops > CAL_TARGET_DROPS_MAX) {
+                Serial.printf("FAIL (Drops: %lu) -> NOZZLE SATURATION (Splatter)\n", res.drops);
+                Serial.println("   => Stopping Calibration: Physical limit reached.");
+                goto finish_calibration; // Stop the entire calibration process
+            }
+
             Serial.printf("FAIL (Drops: %lu, Jitter: %.1f%%)\n", res.drops, res.jitter * 100);
             // This pause is too short (unstable or bad count). Need longer pause.
             low = mid + 5;
@@ -397,14 +423,23 @@ void runCalibrationStep() {
         bestPause = minPauseForThisPulse;
         bestDrops = dropsForMinPause;
         Serial.println("     (NEW BEST CONFIGURATION!)");
+        
+        // ADAPTIVE PHYSICS LEARNING
+        // Calculate the actual ratio required by this system.
+        // We use a slightly conservative value (90% of actual) to allow for non-linearity.
+        float observedRatio = (float)bestPause / (float)bestPulse;
+        if (observedRatio > currentElasticityRatio) {
+            currentElasticityRatio = observedRatio * 0.9; 
+            Serial.printf("     (Learning: Hose elasticity requires ratio ~%.1f)\n", currentElasticityRatio);
+        }
       }
 
       // OPTIMIZATION: Update lower bound for next pulse width
       // If 40ms pulse needs 200ms pause, 50ms pulse will likely need >= 200ms.
       if (minPauseForThisPulse > searchLowerBound) {
           searchLowerBound = minPauseForThisPulse;
-          // Cap optimization at 450ms (User Request: values > 450ms are always valid, don't force search higher)
-          if (searchLowerBound > 450) searchLowerBound = 450;
+          // Cap optimization at configured limit (User Request: values > CAP are always valid, don't force search higher)
+          if (searchLowerBound > CAL_OPTIMIZATION_LOWER_BOUND_CAP) searchLowerBound = CAL_OPTIMIZATION_LOWER_BOUND_CAP;
           Serial.printf("     (Optimization: Next search starts at %lu ms)\n", searchLowerBound);
       }
 
@@ -437,6 +472,7 @@ void runCalibrationStep() {
     preferences.putULong("strokes", strokeCounter); // Save progress
   }
   
+finish_calibration:
   Serial.println("\n==========================================");
   Serial.println("       CALIBRATION COMPLETE");
   Serial.println("==========================================");

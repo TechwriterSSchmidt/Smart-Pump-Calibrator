@@ -67,10 +67,22 @@ const float CAL_MAX_JITTER_PERCENT = 0.05;
 // 1.15 = +15% safety margin
 const float CAL_SAFETY_MARGIN_FACTOR = 1.15;
 
+// Physics Optimization
+// Minimum Ratio of Pause to Pulse duration.
+// The hose needs time to relax (Windkessel effect). 
+// 3.0 means: If Pulse is 50ms, Pause must be at least 150ms.
+const float CAL_ELASTICITY_RATIO = 3.0;
+
 // Smart Exit Optimization
 // If the best found jitter is below this threshold (e.g., 0.8%),
 // and subsequent tests with longer pulses are worse, stop early.
 const float CAL_SMART_EXIT_JITTER_THRESHOLD = 0.008; 
+
+// Optimization Cap
+// Limits the adaptive search lower bound. Even if a previous step required 600ms pause,
+// we don't force the next step to start at 600ms if this cap is set to 300ms.
+// Values > 300ms are often valid across different pulse widths.
+const unsigned long CAL_OPTIMIZATION_LOWER_BOUND_CAP = 300;
 
 // Solenoid Thermal Protection
 // Cool-down time between Pulse Width steps to prevent overheating.
