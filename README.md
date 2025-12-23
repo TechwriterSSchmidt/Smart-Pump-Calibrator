@@ -70,3 +70,6 @@ The Auto-Calibration logic ensures reliability by:
     *   **Speed**: Uses a "Divide and Conquer" approach to find the limit in ~5 steps instead of ~20.
     *   **Accuracy**: Assumes physical continuity (if speed X is unstable, X+1 is also unstable).
     *   **Resolution**: Rounds results to the nearest 5ms. The **Safety Margin** compensates for any minor granularity loss.
+8.  **Adaptive Optimization**:
+    *   The system learns from previous steps. If a 40ms pulse requires a 200ms pause, it knows that a 50ms pulse (which pumps more oil) will require *at least* 200ms.
+    *   It automatically adjusts the search start point, skipping impossible configurations and saving further time.
