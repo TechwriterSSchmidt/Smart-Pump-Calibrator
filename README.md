@@ -25,10 +25,10 @@ Use this mode to fill the hose with oil or test the pump.
 ### 2. Auto-Calibration
 Use this mode to find the optimal settings where pump cycles and drop formation are **perfectly synchronized**. The goal is a steady flow with a stable Pulse-to-Drop ratio, avoiding resonance or chaotic dripping.
 *   **Action**: Press the **Boot Button** (GPIO 0).
-*   **Result**: The system runs a 3-phase test (approx. 2-5 minutes).
-    *   **Phase 1**: Finds the minimum pulse length for reliable drops.
-    *   **Phase 2**: Finds the maximum speed (minimum pause) before resonance occurs.
-    *   **Phase 3**: Optimizes for the fastest total cycle time.
+*   **Result**: The system runs a comprehensive sweep test (approx. 2-5 minutes).
+    *   **Pulse Sweep**: Iterates through different pulse durations (e.g., 50ms - 150ms).
+    *   **Frequency Search**: For each pulse duration, it increases the speed (reduces pause) until instability is detected.
+    *   **Optimization**: It automatically selects the configuration that offers the **highest flow rate** (shortest cycle time) while maintaining perfect stability (Jitter < 15%).
 *   **Completion**:
     *   **Success**: LED turns Green. The new values are saved for "Continuous Mode".
     *   **Failure**: LED turns Red. Defaults are restored.
