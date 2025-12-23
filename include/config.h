@@ -37,7 +37,7 @@ const int DROP_SENSOR_MIN_WIDTH_MS = 4; // Minimum signal width to be considered
 // ============================================================================
 // Pulse Width Search Range (ms)
 const unsigned long CAL_PULSE_MIN = 40;
-const unsigned long CAL_PULSE_MAX = 110;
+const unsigned long CAL_PULSE_MAX = 100;
 const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
