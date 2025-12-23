@@ -269,6 +269,7 @@ void runCalibrationStep() {
   unsigned long bestPause = 0;
   unsigned long bestDrops = 0;
   unsigned long minCycleTime = 99999;
+  float bestJitter = 100.0; // Initialize with worst possible jitter
   
   // Optimization: Track the lowest valid pause found so far.
   // A stronger pulse (longer duration) will generally require at least as much pause as a weaker one.
@@ -282,6 +283,7 @@ void runCalibrationStep() {
     
     unsigned long minPauseForThisPulse = 0;
     unsigned long dropsForMinPause = 0;
+    float jitterForMinPause = 100.0;
     
     // BINARY SEARCH for Minimum Valid Pause
     unsigned long low = searchLowerBound;
@@ -307,6 +309,7 @@ void runCalibrationStep() {
             // This pause works! But can we go lower?
             candidatePause = mid;
             dropsForMinPause = res.drops;
+            jitterForMinPause = res.jitter;
             // Try smaller pause
             if (mid == 0) break; // prevent underflow
             if (mid < 5) high = 0; else high = mid - 5; 
@@ -321,13 +324,29 @@ void runCalibrationStep() {
     if (candidatePause != 0) {
       minPauseForThisPulse = candidatePause;
       unsigned long currentCycle = p + minPauseForThisPulse;
-      Serial.printf("  => Valid Config Found: %lu ms / %lu ms (Cycle: %lu ms)\n", p, minPauseForThisPulse, currentCycle);
+      Serial.printf("  => Valid Config Found: %lu ms / %lu ms (Cycle: %lu ms, Jitter: %.1f%%)\n", p, minPauseForThisPulse, currentCycle, jitterForMinPause * 100);
       
-      if (currentCycle < minCycleTime) {
+      // SELECTION CRITERIA: Lowest Jitter wins.
+      // If Jitter is very similar (diff < 0.5%), prefer the faster one (shorter cycle).
+      bool isBetter = false;
+      
+      if (jitterForMinPause < bestJitter - 0.005) {
+          // Significantly better stability
+          isBetter = true;
+      } else if (abs(jitterForMinPause - bestJitter) <= 0.005) {
+          // Similar stability -> prefer speed
+          if (currentCycle < minCycleTime) {
+              isBetter = true;
+          }
+      }
+
+      if (isBetter) {
+        bestJitter = jitterForMinPause;
         minCycleTime = currentCycle;
         bestPulse = p;
         bestPause = minPauseForThisPulse;
         bestDrops = dropsForMinPause;
+        Serial.println("     (NEW BEST CONFIGURATION!)");
       }
 
       // OPTIMIZATION: Update lower bound for next pulse width

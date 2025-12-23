@@ -40,10 +40,11 @@ This process finds the physical limits of your hydraulic system.
 4.  **Watch the Serial Monitor** (115200 baud) for details.
 
 #### What happens during Calibration?
-The system performs a **Binary Search** to find the fastest stable flow rate. Even if the Serial Log looks fast or abbreviated, the following happens **before every single test step**:
+The system performs a **Binary Search** to find the most stable flow rate. Even if the Serial Log looks fast or abbreviated, the following happens **before every single test step**:
 1.  **Sensor Clear**: The system waits until the sensor is free of old drops.
 2.  **Priming**: It fires **10 pulses** (blind) to pressurize the hose and ensure the next drop is ready.
 3.  **Measurement**: It fires 50 test pulses and records the exact timing of every drop.
+4.  **Optimization**: It automatically selects the configuration that offers the **lowest Jitter** (highest stability). If two settings are equally stable, it chooses the faster one.
 
 #### Understanding the Log Output
 *   `OK (Drops: 50, Jitter: 1.3%)`: **Perfect Result.** 50 drops detected, and the time gap between them varied by only 1.3%.
