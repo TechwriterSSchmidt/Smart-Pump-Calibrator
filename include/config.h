@@ -51,7 +51,7 @@ const unsigned long CAL_PAUSE_START = 900;   // Upper bound for binary search (M
 const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in binary search but good for reference)
 
 // Calibration Logic
-const int CAL_PRIMING_PULSES = 10;      // Pulses to pressurize hose before measuring
+const int CAL_PRIMING_PULSES = 20;      // Pulses to pressurize hose before measuring (increased to flush warm oil)
 const int CAL_TEST_PULSES = 50;         // Number of pulses to test per step
 const int CAL_TARGET_DROPS_MIN = 40;    // Minimum acceptable drops for 50 pulses
 const int CAL_TARGET_DROPS_MAX = 60;    // Maximum acceptable drops for 50 pulses
