@@ -52,6 +52,12 @@ const int CAL_TEST_PULSES = 50;         // Number of pulses to test per step
 const int CAL_TARGET_DROPS_MIN = 48;    // Minimum acceptable drops for 50 pulses
 const int CAL_TARGET_DROPS_MAX = 52;    // Maximum acceptable drops for 50 pulses
 
+// Stability Criteria
+// Maximum allowed jitter (Standard Deviation / Average Interval).
+// 0.15 = The drop intervals must not deviate by more than 15% from the average.
+// Lower is stricter.
+const float CAL_MAX_JITTER_PERCENT = 0.15;
+
 // Safety Factor
 // Added to the experimentally found minimum pause to ensure reliability.
 // 1.15 = +15% safety margin

@@ -23,7 +23,7 @@ Use this mode to fill the hose with oil or test the pump.
 *   **Stop**: Press the button again to stop.
 
 ### 2. Auto-Calibration
-Use this mode to find the perfect flow rate where 1 Pulse = 1 Drop.
+Use this mode to find the optimal settings where pump cycles and drop formation are **perfectly synchronized**. The goal is a steady flow with a stable Pulse-to-Drop ratio, avoiding resonance or chaotic dripping.
 *   **Action**: Press the **Boot Button** (GPIO 0).
 *   **Result**: The system runs a 3-phase test (approx. 2-5 minutes).
     *   **Phase 1**: Finds the minimum pulse length for reliable drops.
@@ -62,4 +62,5 @@ The Auto-Calibration logic ensures reliability by:
     *   **Pre-Flight**: Checks if the sensor is blocked before starting.
     *   **Runtime**: Aborts if the sensor remains blocked for >1 second (e.g., oil backup).
 4.  **Safety Margin**: Adds a **15% buffer** to the calculated pause time to account for temperature or viscosity changes.
-5.  **Efficiency**: Calculates and reports the actual **Drops per Stroke** ratio.
+5.  **Stability Analysis**: Calculates the **Jitter** (variation in drop intervals). A setting is only accepted if the flow is steady (Jitter < 15%), ensuring true synchronization.
+6.  **Efficiency**: Calculates and reports the actual **Drops per Stroke** ratio.

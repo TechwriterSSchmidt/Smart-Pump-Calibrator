@@ -33,6 +33,11 @@ volatile unsigned long lastDropTime = 0;
 volatile unsigned long dropStartTime = 0; // For measuring signal width
 unsigned long lastProcessedDropCount = 0;
 
+// Stability Analysis
+const int MAX_STORED_DROPS = 100;
+volatile unsigned long dropTimestamps[MAX_STORED_DROPS];
+volatile int dropTimestampIndex = 0;
+
 // Calibration Variables
 unsigned long calPulseDuration = 50;
 unsigned long calPauseDuration = 2000;
@@ -58,6 +63,12 @@ void IRAM_ATTR onDropDetected() {
     if (duration >= DROP_SENSOR_MIN_WIDTH_MS && (now - lastDropTime > DROP_SENSOR_DEBOUNCE_MS)) {
       dropCount++;
       lastDropTime = now;
+      
+      // Store timestamp for stability analysis
+      if (dropTimestampIndex < MAX_STORED_DROPS) {
+        dropTimestamps[dropTimestampIndex] = now;
+        dropTimestampIndex++;
+      }
     }
   }
 }
@@ -113,11 +124,44 @@ bool performPriming(int pulseMs, int pauseMs) {
   return false;
 }
 
+// Helper: Calculate Jitter (Coefficient of Variation)
+// Returns 0.0 if not enough data, otherwise StdDev / Mean
+float calculateJitter() {
+  int count = dropTimestampIndex;
+  if (count < 2) return 0.0;
+
+  // 1. Calculate Intervals
+  unsigned long intervals[MAX_STORED_DROPS];
+  unsigned long sumIntervals = 0;
+  int intervalCount = count - 1;
+
+  for (int i = 0; i < intervalCount; i++) {
+    intervals[i] = dropTimestamps[i+1] - dropTimestamps[i];
+    sumIntervals += intervals[i];
+  }
+
+  // 2. Calculate Mean
+  float mean = (float)sumIntervals / intervalCount;
+
+  // 3. Calculate Variance
+  float sumSquaredDiff = 0;
+  for (int i = 0; i < intervalCount; i++) {
+    float diff = intervals[i] - mean;
+    sumSquaredDiff += (diff * diff);
+  }
+  
+  // 4. Calculate StdDev and CV (Jitter)
+  float variance = sumSquaredDiff / intervalCount;
+  float stdDev = sqrt(variance);
+  
+  return stdDev / mean;
+}
+
 void runCalibrationStep() {
   if (!isSensorClear()) return;
 
   Serial.println("\n=== STARTING ROBUST AUTO-CALIBRATION ===");
-  Serial.printf("Features: Priming (%dx), Cycle Optimization, Safety Margin (+%.0f%%)\n", CAL_PRIMING_PULSES, (CAL_SAFETY_MARGIN_FACTOR - 1.0) * 100);
+  Serial.printf("Features: Priming (%dx), Stability Check (Max Jitter %.0f%%)\n", CAL_PRIMING_PULSES, CAL_MAX_JITTER_PERCENT * 100);
   Serial.println("Press BOOT BUTTON to STOP.");
   
   unsigned long bestPulse = 0;
@@ -145,6 +189,9 @@ void runCalibrationStep() {
       int testPulses = CAL_TEST_PULSES;
       unsigned long startTotalDrops = dropCount;
       
+      // Reset Stability Data
+      dropTimestampIndex = 0;
+      
       for (int i = 0; i < testPulses; i++) {
         if (checkAbort()) goto abort_calibration;
 
@@ -169,16 +216,23 @@ void runCalibrationStep() {
       delay(500);
       
       unsigned long dropsDetected = dropCount - startTotalDrops;
-      Serial.printf("  -> Pause %lu ms: %lu/%d drops. ", pause, dropsDetected, CAL_TEST_PULSES);
+      float jitter = calculateJitter();
       
-      if (dropsDetected >= CAL_TARGET_DROPS_MIN && dropsDetected <= CAL_TARGET_DROPS_MAX) {
-        Serial.println("OK.");
+      Serial.printf("  -> Pause %lu ms: %lu/%d drops. Jitter: %.1f%% ", pause, dropsDetected, CAL_TEST_PULSES, jitter * 100);
+      
+      bool countOk = (dropsDetected >= CAL_TARGET_DROPS_MIN && dropsDetected <= CAL_TARGET_DROPS_MAX);
+      bool stabilityOk = (jitter <= CAL_MAX_JITTER_PERCENT);
+
+      if (countOk && stabilityOk) {
+        Serial.println("[OK]");
         minPauseForThisPulse = pause;
         dropsForMinPause = dropsDetected;
       } else {
-        Serial.println("UNSTABLE.");
+        if (!countOk) Serial.print("[BAD COUNT] ");
+        if (!stabilityOk) Serial.print("[UNSTABLE] ");
+        Serial.println("");
+        
         // If we hit instability, the PREVIOUS pause was the limit.
-        // Since we go downwards, the last successful one is stored in minPauseForThisPulse.
         break; 
       }
     }
