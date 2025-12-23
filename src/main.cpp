@@ -29,6 +29,8 @@ unsigned long currentPauseDuration = DEFAULT_BLEED_PAUSE_MS;
 
 // Statistics
 unsigned long strokeCounter = 0;
+unsigned long sessionStartStrokes = 0;
+unsigned long sessionStartDrops = 0;
 
 // Drop Detection Variables
 volatile unsigned long dropCount = 0;
@@ -534,6 +536,10 @@ void loop() {
 
             currentState = STATE_PUMPING;
             
+            // Capture Session Start Values
+            sessionStartStrokes = strokeCounter;
+            sessionStartDrops = dropCount;
+
             // Start first pulse immediately
             digitalWrite(PUMP_PIN, HIGH);
             isPulseHigh = true;
@@ -571,7 +577,20 @@ void loop() {
 
     case STATE_PUMPING:
       // Check for Stop (External Button)
-      if (debouncer.fell()) {
+      if
+        // Calculate Session Stats
+        unsigned long sessionStrokes = strokeCounter - sessionStartStrokes;
+        unsigned long sessionDrops = dropCount - sessionStartDrops;
+        
+        Serial.println("\n=== SESSION STATISTICS ===");
+        Serial.printf("  Strokes: %lu\n", sessionStrokes);
+        Serial.printf("  Drops:   %lu\n", sessionDrops);
+        if (sessionStrokes > 0) {
+            Serial.printf("  Ratio:   %.2f Drops/Stroke\n", (float)sessionDrops / sessionStrokes);
+        }
+        Serial.println("==========================\n");
+
+         (debouncer.fell()) {
         Serial.println("External Button -> Stopping Pump...");
         digitalWrite(PUMP_PIN, LOW);
         preferences.putULong("strokes", strokeCounter); // Save on stop
