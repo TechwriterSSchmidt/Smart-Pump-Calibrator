@@ -229,9 +229,10 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
     // Check early (after 10 pulses) to save time on bad configs
     if (i == 9) {
         unsigned long currentDrops = dropCount - startTotalDrops;
-        // Threshold: Less than 2 drops (expected ~10). 
-        // If we have 0 or 1 drop after 10 pulses, it's either a stream or no flow.
-        if (currentDrops < 2) {
+        // Threshold: Less than 5 drops (expected ~10). 
+        // If we have < 50% drops after 10 pulses, it's likely a stream or no flow.
+        if (currentDrops < 5) {
+            result.drops = currentDrops; // Update for log
             if (digitalRead(DROP_SENSOR_PIN) == LOW) Serial.print("(Quick Fail: Stream detected) ");
             else Serial.printf("(Quick Fail: Only %lu drops) ", currentDrops);
             return result; // success is false
