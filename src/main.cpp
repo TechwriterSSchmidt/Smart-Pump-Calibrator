@@ -133,16 +133,18 @@ bool performPriming(int pulseMs, int pauseMs) {
 // Returns 0.0 if not enough data, otherwise StdDev / Mean
 float calculateJitter() {
   int count = dropTimestampIndex;
-  if (count < 2) return 0.0;
+  if (count < 3) return 0.0; // Need at least 3 drops (2 intervals) to skip the first one
 
-  // 1. Calculate Intervals
+  // 1. Calculate Intervals (Skipping the first one to avoid startup inertia)
   unsigned long intervals[MAX_STORED_DROPS];
   unsigned long sumIntervals = 0;
-  int intervalCount = count - 1;
+  int intervalCount = 0;
 
-  for (int i = 0; i < intervalCount; i++) {
-    intervals[i] = dropTimestamps[i+1] - dropTimestamps[i];
-    sumIntervals += intervals[i];
+  // Start loop from 1 to skip the first interval (dropTimestamps[1] - dropTimestamps[0])
+  for (int i = 1; i < count - 1; i++) {
+    intervals[intervalCount] = dropTimestamps[i+1] - dropTimestamps[i];
+    sumIntervals += intervals[intervalCount];
+    intervalCount++;
   }
 
   // 2. Calculate Mean
@@ -286,6 +288,7 @@ void runCalibrationStep() {
   // Optimization: Track the lowest valid pause found so far.
   // A stronger pulse (longer duration) will generally require at least as much pause as a weaker one.
   unsigned long searchLowerBound = CAL_PAUSE_MIN;
+  int consecutiveWorseResults = 0; // Optimization counter
 
   // Time Estimation Variables
   unsigned long calibrationStartTime = millis();
@@ -296,6 +299,18 @@ void runCalibrationStep() {
   for (unsigned long p = CAL_PULSE_MIN; p <= CAL_PULSE_MAX; p += CAL_PULSE_STEP) {
     if (checkAbort()) goto abort_calibration;
 
+    // Only if this isn't the first step
+    if (p > CAL_PULSE_MIN) {
+        Serial.printf("   [Cool-Down] Letting coil rest for %lu seconds...\n", CAL_COOLDOWN_MS / 1000);
+        // Break delay into small chunks to allow abort
+        unsigned long steps = CAL_COOLDOWN_MS / 100;
+        for(unsigned long w=0; w<steps; w++) { 
+            if (checkAbort()) goto abort_calibration;
+            delay(100);
+        }
+    }
+
+    // 
     // Calculate Estimated Time Remaining
     String timeMsg = "";
     if (completedSteps > 0) {
@@ -390,8 +405,29 @@ void runCalibrationStep() {
           Serial.printf("     (Optimization: Next search starts at %lu ms)\n", searchLowerBound);
       }
 
+      // INTELLIGENT EARLY EXIT
+      // If we already have a great result (< 1.0% Jitter) and results are getting worse, stop.
+      if (bestJitter < CAL_SMART_EXIT_JITTER_THRESHOLD) {
+          if (jitterForMinPause > bestJitter) {
+              consecutiveWorseResults++;
+              Serial.printf("     (Optimization: Result worse than best (%.1f%%). Count: %d)\n", bestJitter*100, consecutiveWorseResults);
+          } else {
+              consecutiveWorseResults = 0;
+          }
+          
+          if (consecutiveWorseResults >= 2) {
+              Serial.println("\n>> OPTIMIZATION: Stopping early. Longer pulses are not improving stability.");
+              break;
+          }
+      }
+
     } else {
         Serial.println("  => No valid config found for this pulse width.");
+        // If we have a good result and suddenly can't find valid configs (e.g. too fast), maybe stop too?
+        if (bestJitter < CAL_SMART_EXIT_JITTER_THRESHOLD) {
+             consecutiveWorseResults++;
+             if (consecutiveWorseResults >= 2) break;
+        }
     }
     
     completedSteps++;
