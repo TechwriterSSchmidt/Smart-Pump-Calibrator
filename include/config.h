@@ -40,9 +40,9 @@ const unsigned long CAL_BREAK_IN_STROKES = 10000;
 // AUTO-CALIBRATION SETTINGS
 // ============================================================================
 // Pulse Width Search Range (ms)
-const unsigned long CAL_PULSE_MIN = 35;
-const unsigned long CAL_PULSE_MAX = 75;
-const unsigned long CAL_PULSE_STEP = 10;
+const unsigned long CAL_PULSE_MIN = 40;
+const unsigned long CAL_PULSE_MAX = 80;
+const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
