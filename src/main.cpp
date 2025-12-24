@@ -110,6 +110,45 @@ void setStatusColor(uint8_t r, uint8_t g, uint8_t b) {
   rgbLed.show();
 }
 
+// --- HELPER FUNCTION: SMART PUMP DRIVER (PWM) ---
+void pumpPulse(unsigned long durationMs) {
+    if (!PUMP_USE_PWM) {
+        // Fallback: Hard Switching
+        digitalWrite(PUMP_PIN, HIGH);
+        delay(durationMs);
+        digitalWrite(PUMP_PIN, LOW);
+        return;
+    }
+
+    // 1. RAMP UP (Soft Start)
+    // Linearly increase duty cycle from 0 to 255
+    unsigned long stepDelay = (PUMP_RAMP_UP_MS * 1000) / 255; // Microseconds per step
+    for (int duty = 0; duty <= 255; duty += 15) { // Step size 15 for speed
+        ledcWrite(PUMP_PWM_CHANNEL, duty);
+        delayMicroseconds(stepDelay * 15);
+    }
+    ledcWrite(PUMP_PWM_CHANNEL, 255); // Ensure full power
+
+    // 2. HOLD (Main Pulse)
+    // We subtract the ramp time from the duration to keep timing roughly accurate,
+    // but ensure at least 5ms of full power hold.
+    unsigned long holdTime = 0;
+    if (durationMs > PUMP_RAMP_UP_MS) {
+        holdTime = durationMs - PUMP_RAMP_UP_MS;
+    }
+    delay(holdTime);
+
+    // 3. RAMP DOWN (Soft Stop)
+    // Linearly decrease duty cycle from 255 to 0
+    stepDelay = (PUMP_RAMP_DOWN_MS * 1000) / 255;
+    for (int duty = 255; duty >= 0; duty -= 15) {
+        ledcWrite(PUMP_PWM_CHANNEL, duty);
+        delayMicroseconds(stepDelay * 15);
+    }
+    ledcWrite(PUMP_PWM_CHANNEL, 0); // Ensure off
+    digitalWrite(PUMP_PIN, LOW);    // Safety: Disable PWM pin output
+}
+
 // Helper to check for abort (Boot Button)
 bool checkAbort() {
   bootDebouncer.update();
@@ -138,9 +177,7 @@ bool performPriming(int pulseMs, int pauseMs) {
 
   for (int i = 0; i < CAL_PRIMING_PULSES; i++) {
     if (checkAbort()) return true;
-    digitalWrite(PUMP_PIN, HIGH);
-    delay(pulseMs);
-    digitalWrite(PUMP_PIN, LOW);
+    pumpPulse(pulseMs);
     strokeCounter++; // Count priming strokes for lifetime stats
     
     // Break down pause into small checks
@@ -223,9 +260,7 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
   // We do a mini-prime here to ensure pressure is consistent for this specific timing
   for (int i = 0; i < 5; i++) {
       if (checkAbort()) { result.aborted = true; return result; }
-      digitalWrite(PUMP_PIN, HIGH);
-      delay(pulse);
-      digitalWrite(PUMP_PIN, LOW);
+      pumpPulse(pulse);
       strokeCounter++;
       delay(pause);
   }
@@ -240,9 +275,7 @@ TestResult testConfiguration(unsigned long pulse, unsigned long pause) {
   for (int i = 0; i < testPulses; i++) {
     if (checkAbort()) { result.aborted = true; return result; }
 
-    digitalWrite(PUMP_PIN, HIGH);
-    delay(pulse);
-    digitalWrite(PUMP_PIN, LOW);
+    pumpPulse(pulse);
     strokeCounter++;
     
     // Wait for pause duration with abort check
@@ -755,7 +788,10 @@ void loop() {
             runCalibrationStep();
             
             // Check if aborted inside runCalibrationStep (it sets state to READY)
-            if (currentState == STATE_READY) break;
+            if (currentState == STATE_READY) {
+                Serial.println(">> Sequence Aborted. Generating report for completed cycles...");
+                break;
+            }
             
             // Cool-down between full cycles if not the last one
             if (i < CAL_REPEAT_CYCLES - 1) {
@@ -764,6 +800,7 @@ void loop() {
                 for(unsigned long w=0; w<steps; w++) { 
                     if (checkAbort()) {
                         currentState = STATE_READY;
+                        Serial.println(">> Sequence Aborted during Cool-Down. Generating report for completed cycles...");
                         break;
                     }
                     delay(100);
@@ -924,18 +961,20 @@ void loop() {
       {
         unsigned long currentMillis = millis();
         if (isPulseHigh) {
-          if (currentMillis - lastPulseSwitchTime >= validationPulse) {
-            digitalWrite(PUMP_PIN, LOW);
-            isPulseHigh = false;
-            lastPulseSwitchTime = currentMillis;
-          }
-        } else {
-          if (currentMillis - lastPulseSwitchTime >= validationPause) {
-            digitalWrite(PUMP_PIN, HIGH);
-            isPulseHigh = true;
-            lastPulseSwitchTime = currentMillis;
+          // In Validation Mode, we use pumpPulse() which is blocking for the pulse duration.
+          // So we don't need the non-blocking state machine logic for the pulse part here if we switch to pumpPulse.
+          // HOWEVER: pumpPulse() is blocking. The original code here was non-blocking.
+          // To use pumpPulse() (blocking) inside this loop, we need to change the logic slightly.
+          // But wait, pumpPulse() handles the entire pulse (UP -> HOLD -> DOWN).
+          // So we only trigger it when the PAUSE is over.
+        } 
+        
+        // REVISED LOGIC FOR BLOCKING PUMP_PULSE
+        // We only track the PAUSE time. When pause is over, we call pumpPulse() (which blocks for ~50ms), then reset the timer.
+        if (currentMillis - lastPulseSwitchTime >= validationPause) {
+            pumpPulse(validationPulse);
+            lastPulseSwitchTime = millis(); // Reset timer AFTER the pulse
             validationStrokes++;
-          }
         }
 
         // Logging (Every Minute)
@@ -961,7 +1000,10 @@ void loop() {
       // Check for Stop (External Button)
       if (debouncer.fell()) {
         Serial.println("External Button -> Stopping Pump...");
+        // Ensure Pump is Off (PWM 0)
+        if (PUMP_USE_PWM) ledcWrite(PUMP_PWM_CHANNEL, 0);
         digitalWrite(PUMP_PIN, LOW);
+        
         preferences.putULong("strokes", strokeCounter); // Save on stop
         
         // Calculate Session Stats
@@ -983,18 +1025,11 @@ void loop() {
         longPressHandled = true; // Prevent restart on release
       } else {
         // Handle Pulsing Logic (Continuous)
+        // REVISED FOR BLOCKING PUMP_PULSE
         unsigned long currentMillis = millis();
-        if (isPulseHigh) {
-          if (currentMillis - lastPulseSwitchTime >= currentPulseDuration) {
-            digitalWrite(PUMP_PIN, LOW);
-            isPulseHigh = false;
-            lastPulseSwitchTime = currentMillis;
-          }
-        } else {
-          if (currentMillis - lastPulseSwitchTime >= currentPauseDuration) {
-            digitalWrite(PUMP_PIN, HIGH);
-            isPulseHigh = true;
-            lastPulseSwitchTime = currentMillis;
+        if (currentMillis - lastPulseSwitchTime >= currentPauseDuration) {
+            pumpPulse(currentPulseDuration);
+            lastPulseSwitchTime = millis();
             
             strokeCounter++;
             

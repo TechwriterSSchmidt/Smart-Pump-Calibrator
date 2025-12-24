@@ -43,6 +43,8 @@ This firmware is an automatic analysis tool for 12V metering pumps (chain oilers
 | **Validation Duration** | 15 min | Duration of the automatic post-calibration test run |
 | **Pre-Bleed Duration** | 30 s | Duration of the automatic bleeding before calibration starts |
 | **Cool-Down** | 30 s | Rest time between test steps |
+| **PWM Soft-Start** | 12 ms | Ramp-up time to reduce noise |
+| **PWM Soft-Stop** | 12 ms | Ramp-down time to reduce wear |
 
 ---
 
@@ -50,9 +52,9 @@ This firmware is an automatic analysis tool for 12V metering pumps (chain oilers
 
 ### 1. Break-In Period
 New pumps need a mechanical break-in period to deliver consistent results.
-*   **Requirement**: 10000 Strokes.
+*   **Requirement**: 10,000 Strokes.
 *   **Status**: The system tracks total strokes persistently (saved to memory).
-*   **Warning**: If you try to calibrate before 10000 strokes, the system will warn you that results may drift.
+*   **Warning**: If you try to calibrate before 10,000 strokes, the system will warn you that results may drift.
 *   **Action**: Run Continuous Mode until the Serial Monitor confirms `*** BREAK-IN PERIOD COMPLETE ***`.
 
 ### 2. Bleeding (Initial Setup)
@@ -71,9 +73,10 @@ To calibrate your tank level sensor or measure flow rate:
 ### 4. Auto-Calibration
 This process finds the physical limits of your hydraulic system.
 1.  Ensure the sensor is clean and the hose is full (bled).
-2.  Press the **Boot Button**. The LED turns **Blue**.
-3.  **Wait.** The system will perform a series of stress tests.
-4.  **Watch the Serial Monitor** (115200 baud) for details.
+2.  **Important:** Ensure the hose is **lying flat** and secured. If it hangs loosely, the "kick" from the pump pulse will cause the hose to swing and may influence jitter.
+3.  Press the **Boot Button**. The LED turns **Blue**.
+4.  **Wait.** The system will perform a series of stress tests.
+5.  **Watch the Serial Monitor** (115200 baud) for details.
 
 #### Understanding the Log Output
 *   `OK (Drops: 50, Jitter: 1.3%)`: **Perfect Result.** 50 drops detected, and the time gap between them varied by only 1.3%.
@@ -125,7 +128,8 @@ Instead of testing every millisecond, the algorithm:
 
 ### Safety & Protection
 *   **Auto-Clear**: If a test runs too fast and causes a continuous stream, the system pauses and waits for the sensor to clear.
-*   **Thermal Protection**: A 2-minute cool-down between major steps prevents solenoid overheating and ensures consistent magnetic force.
+*   **Thermal Protection**: A 30-second cool-down between major steps prevents solenoid overheating and ensures consistent magnetic force.
+*   **Silent Mode (PWM)**: The pump is driven with a **Soft-Start** and **Soft-Stop** ramp (12ms) instead of hard switching. This reduces mechanical noise ("clack") and wear on the piston.
 
 ### The Physics: Shockwaves & Resonance
 This tool does more than just measure volume. It analyzes the **Hydraulic Resonance** of your specific setup.
@@ -134,6 +138,19 @@ This tool does more than just measure volume. It analyzes the **Hydraulic Resona
 *   **Elasticity**: The rubber hose expands and contracts ("breathing"), acting as a hydraulic capacitor.
 
 If the pump frequency clashes with these shockwaves, the flow becomes chaotic (high Jitter). This tool finds the "Sweet Spot" where the shockwaves dissipate or harmonize, ensuring a clean, reliable drop release.
+
+### Oil Viscosity & Temperature Guide
+Chain oil viscosity changes dramatically with temperature. Based on standard chainsaw oil (ISO VG 85):
+
+| Temp | Viscosity | State | Est. Pulse | Est. Pause |
+| :--- | :--- | :--- | :--- | :--- |
+| **0°C** | ~2000 mm²/s | Syrup | **60-70 ms** | **800-1200 ms** |
+| **10°C** | ~900 mm²/s | Thick | **55-60 ms** | **600-900 ms** |
+| **20°C** | ~380 mm²/s | Normal | **45-50 ms** | **400-600 ms** |
+| **30°C** | ~180 mm²/s | Fluid | **40-45 ms** | **300-500 ms** |
+| **40°C** | ~85 mm²/s | Thin | **35-40 ms** | **250-400 ms** |
+
+*Note: These are estimates based on the Ubbelohde-Walther equation. Always run Auto-Calibration for your specific setup.*
 
 ### Thermal Drift Analysis (Multi-Cycle)
 Solenoid pumps and oil viscosity change significantly with temperature.

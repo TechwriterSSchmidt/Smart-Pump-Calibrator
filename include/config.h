@@ -114,4 +114,14 @@ const unsigned long CAL_PRE_BLEED_DURATION_MS = 30000; // 30 Seconds
 const unsigned long CAL_PRE_BLEED_PULSE_MS = 45;
 const unsigned long CAL_PRE_BLEED_PAUSE_MS = 250;      // Fast pumping to force bubbles out
 
+// PWM Soft-Start / Soft-Stop (Silent Mode)
+// Instead of hard 12V pulses, we ramp the voltage up and down.
+// This reduces mechanical noise ("clack") and wear.
+const bool PUMP_USE_PWM = true;
+const int PUMP_PWM_FREQ = 5000;      // 5 kHz is safe for most solenoids
+const int PUMP_PWM_CHANNEL = 0;      // ESP32 LEDC Channel
+const int PUMP_PWM_RESOLUTION = 8;   // 8-bit resolution (0-255)
+const int PUMP_RAMP_UP_MS = 12;      // Soft-Start duration (Generic: 12ms)
+const int PUMP_RAMP_DOWN_MS = 12;    // Soft-Stop duration (Generic: 12ms)
+
 #endif
