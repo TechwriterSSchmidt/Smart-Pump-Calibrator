@@ -446,11 +446,16 @@ void runCalibrationStep() {
         
         // ADAPTIVE PHYSICS LEARNING
         // Calculate the actual ratio required by this system.
-        // We use a slightly conservative value (90% of actual) to allow for non-linearity.
+        // We use a Moving Average to smooth out outliers and learn gradually.
         float observedRatio = (float)bestPause / (float)bestPulse;
-        if (observedRatio > currentElasticityRatio) {
-            currentElasticityRatio = observedRatio * 0.9; 
-            Serial.printf("     (Learning: Hose elasticity requires ratio ~%.1f)\n", currentElasticityRatio);
+        
+        // Apply safety factor (90% of observed)
+        float safeObservedRatio = observedRatio * 0.9;
+
+        if (safeObservedRatio > currentElasticityRatio) {
+            // Moving Average: New = (Old + New) / 2
+            currentElasticityRatio = (currentElasticityRatio + safeObservedRatio) / 2.0;
+            Serial.printf("     (Learning: Hose elasticity requires ratio ~%.1f [Moving Avg])\n", currentElasticityRatio);
         }
       } else {
           // Result is NOT better (Diminishing Returns)
