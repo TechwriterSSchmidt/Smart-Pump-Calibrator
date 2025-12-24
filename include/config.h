@@ -92,7 +92,7 @@ const int CAL_MAX_CONSECUTIVE_WORSE_STEPS = 2;
 // Calibration Cycles (max 10)
 // How many times to repeat the full calibration process automatically.
 // Useful to analyze thermal drift (Cold vs. Warm performance).
-const int CAL_REPEAT_CYCLES = 10;
+const int CAL_REPEAT_CYCLES = 5;
 
 // Optimization Cap
 // Limits the adaptive search lower bound. Even if a previous step required 600ms pause,
@@ -103,5 +103,7 @@ const unsigned long CAL_OPTIMIZATION_LOWER_BOUND_CAP = 300;
 // Solenoid Thermal Protection
 // Cool-down time between Pulse Width steps to prevent overheating.
 const unsigned long CAL_COOLDOWN_MS = 30000; // 30 Seconds
-
+// Validation Run
+// Duration of the automatic validation run after calibration (in minutes).
+const int CAL_VALIDATION_DURATION_MIN = 15;
 #endif

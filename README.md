@@ -40,7 +40,8 @@ This firmware is an automatic analysis tool for 12V metering pumps (chain oilers
 | **Optimization Cap** | 300 ms | Max lower bound for adaptive search |
 | **Safety Margin** | +15% (1.15) | Added to pause time for reliability |
 | **Rec. Pulse Rounding** | 5 ms | Rounding step for pulse recommendation (always rounds up) |
-| **Cool-Down** | 120 s | Rest time between test steps |
+| **Validation Duration** | 15 min | Duration of the automatic post-calibration test run |
+| **Cool-Down** | 15 s | Rest time between test steps |
 
 ---
 
@@ -91,6 +92,18 @@ To analyze how the pump behaves as it warms up (Thermal Drift), you can configur
 *   The system will run the full calibration process multiple times automatically.
 *   It enforces a cool-down period between cycles.
 *   **Final Report**: After the last cycle, a summary table is printed to the Serial Monitor, showing the drift in Pulse, Pause, and Flow Ratio over time.
+
+### 7. Validation Run
+Immediately after the final recommendation is calculated, the system automatically starts a **15-Minute Validation Run**.
+*   **Purpose**: To verify that the calculated settings (Pulse + Safety Margin) remain stable over a longer period of continuous operation.
+*   **Operation**: The pump runs at the recommended settings.
+*   **Logging**: Every minute, a status line is printed:
+    *   `Time`: Elapsed minutes.
+    *   `Strokes`: Total strokes in this run.
+    *   `Drops`: Total drops detected.
+    *   `Ratio`: Drops per Stroke (should be close to 1.00).
+    *   `Jitter`: Stability of the drop intervals (should be < 5%).
+*   **Abort**: You can stop this run at any time by pressing the **Boot Button**.
 
 ---
 

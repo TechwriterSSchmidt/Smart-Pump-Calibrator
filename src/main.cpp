@@ -15,7 +15,8 @@ bool longPressHandled = false;
 enum SystemState {
   STATE_READY,
   STATE_PUMPING,
-  STATE_CALIBRATION
+  STATE_CALIBRATION,
+  STATE_VALIDATION
 };
 
 SystemState currentState = STATE_READY;
@@ -27,6 +28,15 @@ bool isPulseHigh = false;
 // Operational Variables (Default: Bleeding Mode)
 unsigned long currentPulseDuration = DEFAULT_BLEED_PULSE_MS;
 unsigned long currentPauseDuration = DEFAULT_BLEED_PAUSE_MS;
+
+// Validation Variables
+unsigned long validationStartTime = 0;
+unsigned long lastValidationLogTime = 0;
+unsigned long validationStrokes = 0;
+unsigned long validationDrops = 0;
+unsigned long validationStartDrops = 0;
+unsigned long validationPulse = 0;
+unsigned long validationPause = 0;
 
 // Statistics
 unsigned long strokeCounter = 0;
@@ -813,10 +823,36 @@ void loop() {
             Serial.printf("  Pause Duration: %lu ms (Base Avg: %lu ms + %.0f%% margin)\n", recPause, avgPause, (CAL_SAFETY_MARGIN_FACTOR - 1.0) * 100);
             Serial.printf("  Cycle Time:     %lu ms\n", recCycle);
             Serial.println("##########################################\n");
+
+            // Start Validation Run
+            Serial.println("Starting 15-Minute Validation Run...");
+            Serial.printf("Running with Pulse: %lu ms, Pause: %lu ms\n", recPulse, recPause);
+            Serial.println("Time (min) | Strokes | Drops | Ratio | Jitter");
+            Serial.println("---------------------------------------------");
+
+            validationPulse = recPulse;
+            validationPause = recPause;
+            validationStartTime = millis();
+            lastValidationLogTime = millis();
+            validationStrokes = 0;
+            validationDrops = 0;
+            validationStartDrops = dropCount;
+            
+            // Reset Jitter Analysis for Validation
+            dropTimestampIndex = 0;
+            
+            // Reset Pump State for Validation
+            isPulseHigh = false;
+            lastPulseSwitchTime = millis();
+            digitalWrite(PUMP_PIN, LOW);
+
+            currentState = STATE_VALIDATION;
+            setStatusColor(0, 0, 255); // Blue for Validation
+        } else {
+            // If calibration failed or no cycles completed
+            currentState = STATE_READY;
+            setStatusColor(0, 255, 0); // Green
         }
-        
-        currentState = STATE_READY;
-        setStatusColor(0, 255, 0); // Green
       }
       break;
 
@@ -826,6 +862,62 @@ void loop() {
       // Ensure we go back to READY if not already set.
       currentState = STATE_READY;
       setStatusColor(0, 255, 0);
+      break;
+
+    case STATE_VALIDATION:
+      // Check for Abort (Boot Button)
+      if (bootDebouncer.fell()) {
+        Serial.println("\nValidation Aborted by User.");
+        digitalWrite(PUMP_PIN, LOW);
+        currentState = STATE_READY;
+        setStatusColor(0, 255, 0);
+        break;
+      }
+
+      // Check for Timeout
+      if (millis() - validationStartTime >= (unsigned long)CAL_VALIDATION_DURATION_MIN * 60 * 1000) {
+        Serial.println("\nValidation Run Complete.");
+        digitalWrite(PUMP_PIN, LOW);
+        currentState = STATE_READY;
+        setStatusColor(0, 255, 0);
+        break;
+      }
+
+      // Pumping Logic
+      {
+        unsigned long currentMillis = millis();
+        if (isPulseHigh) {
+          if (currentMillis - lastPulseSwitchTime >= validationPulse) {
+            digitalWrite(PUMP_PIN, LOW);
+            isPulseHigh = false;
+            lastPulseSwitchTime = currentMillis;
+          }
+        } else {
+          if (currentMillis - lastPulseSwitchTime >= validationPause) {
+            digitalWrite(PUMP_PIN, HIGH);
+            isPulseHigh = true;
+            lastPulseSwitchTime = currentMillis;
+            validationStrokes++;
+          }
+        }
+
+        // Logging (Every Minute)
+        if (currentMillis - lastValidationLogTime >= 60000) {
+            unsigned long currentDrops = dropCount - validationStartDrops;
+            float ratio = (validationStrokes > 0) ? (float)currentDrops / validationStrokes : 0.0;
+            unsigned long elapsedMin = (currentMillis - validationStartTime) / 60000;
+            
+            // Calculate Jitter for this minute (based on the first 100 drops captured)
+            float currentJitter = calculateJitter();
+            
+            Serial.printf("%lu min | %lu strokes | %lu drops | %.2f d/s | %.1f%%\n", elapsedMin, validationStrokes, currentDrops, ratio, currentJitter * 100);
+            
+            lastValidationLogTime = currentMillis;
+            
+            // Reset Jitter Buffer for next minute's sample
+            dropTimestampIndex = 0;
+        }
+      }
       break;
 
     case STATE_PUMPING:
