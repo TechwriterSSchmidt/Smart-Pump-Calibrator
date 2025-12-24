@@ -102,6 +102,6 @@ const unsigned long CAL_OPTIMIZATION_LOWER_BOUND_CAP = 300;
 
 // Solenoid Thermal Protection
 // Cool-down time between Pulse Width steps to prevent overheating.
-const unsigned long CAL_COOLDOWN_MS = 120000; // 2 Minutes
+const unsigned long CAL_COOLDOWN_MS = 60000; // 1 Minute
 
 #endif
