@@ -1052,7 +1052,6 @@ void loop() {
             }
           }
         }
-      }
       break;
 
     default:
