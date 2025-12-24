@@ -120,6 +120,14 @@ This tool does more than just measure volume. It analyzes the **Hydraulic Resona
 
 If the pump frequency clashes with these shockwaves, the flow becomes chaotic (high Jitter). This tool finds the "Sweet Spot" where the shockwaves dissipate or harmonize, ensuring a clean, reliable drop release.
 
+### Thermal Drift Analysis (Multi-Cycle)
+Solenoid pumps and oil viscosity change significantly with temperature.
+*   **Cold Oil**: Thicker, higher resistance, requires longer pulses.
+*   **Warm Oil**: Thinner, flows faster, might require shorter pulses or longer pauses.
+*   **Coil Heat**: As the solenoid warms up, its magnetic force decreases slightly.
+
+By running **Multiple Cycles** (configured via `CAL_REPEAT_CYCLES`), the system captures this "Thermal Drift". It allows you to see if the optimal settings shift as the system reaches operating temperature. The final report highlights these changes, ensuring you choose settings that work for both cold starts and long rides.
+
 ### Elasticity Ratio
 The system calculates an **Elasticity Ratio** to determine how much time the hose needs to relax after a pulse. This prevents pressure buildup where the hose never fully contracts.
 
