@@ -27,22 +27,22 @@ This firmware is an automatic analysis tool for 12V metering pumps (chain oilers
 
 | Parameter | Value | Description |
 | :--- | :--- | :--- |
-| **Break-In Strokes** | 7500 | Required strokes for mechanical stability |
-| **Bleeding Pulse** | 70 ms | Pulse width for manual bleeding |
-| **Bleeding Pause** | 300 ms | Pause duration for manual bleeding |
-| **Cal. Pulse Range** | 40 - 100 ms | Range of pulse widths to test |
+| **Break-In Strokes** | 10000 | Required strokes for mechanical stability |
+| **Bleeding Pulse** | 45 ms | Pulse width for manual bleeding |
+| **Bleeding Pause** | 400 ms | Pause duration for manual bleeding |
+| **Cal. Pulse Range** | 40 - 80 ms | Range of pulse widths to test |
 | **Cal. Pause Range** | 280 - 1000 ms | Range of pause durations to test |
-| **Test Pulses** | 100 | Number of pulses per test step |
+| **Test Pulses** | 60 | Number of pulses per test step |
 | **Max Jitter** | 5% (0.05) | Maximum allowed instability |
 | **Smart Exit** | 0.8% (0.008) | Jitter threshold for early optimization stop |
 | **Trend Stop** | 2 Steps | Stop if results get worse consecutively |
-| **Repeat Cycles** | 10 | Number of times to run calibration automatically |
+| **Repeat Cycles** | 5 | Number of times to run calibration automatically |
 | **Optimization Cap** | 300 ms | Max lower bound for adaptive search |
 | **Safety Margin** | +15% (1.15) | Added to pause time for reliability |
 | **Rec. Pulse Rounding** | 5 ms | Rounding step for pulse recommendation (always rounds up) |
 | **Validation Duration** | 15 min | Duration of the automatic post-calibration test run |
 | **Pre-Bleed Duration** | 30 s | Duration of the automatic bleeding before calibration starts |
-| **Cool-Down** | 15 s | Rest time between test steps |
+| **Cool-Down** | 30 s | Rest time between test steps |
 
 ---
 
@@ -50,9 +50,9 @@ This firmware is an automatic analysis tool for 12V metering pumps (chain oilers
 
 ### 1. Break-In Period
 New pumps need a mechanical break-in period to deliver consistent results.
-*   **Requirement**: 7500 Strokes.
+*   **Requirement**: 10000 Strokes.
 *   **Status**: The system tracks total strokes persistently (saved to memory).
-*   **Warning**: If you try to calibrate before 7500 strokes, the system will warn you that results may drift.
+*   **Warning**: If you try to calibrate before 10000 strokes, the system will warn you that results may drift.
 *   **Action**: Run Continuous Mode until the Serial Monitor confirms `*** BREAK-IN PERIOD COMPLETE ***`.
 
 ### 2. Bleeding (Initial Setup)
