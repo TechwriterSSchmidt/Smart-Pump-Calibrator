@@ -34,14 +34,14 @@ const int DROP_SENSOR_MIN_WIDTH_MS = 4; // Minimum signal width to be considered
 
 // Break-in Period
 // Number of strokes required before the pump is considered mechanically stable.
-const unsigned long CAL_BREAK_IN_STROKES = 7500;
+const unsigned long CAL_BREAK_IN_STROKES = 10000;
 
 // ============================================================================
 // AUTO-CALIBRATION SETTINGS
 // ============================================================================
 // Pulse Width Search Range (ms)
-const unsigned long CAL_PULSE_MIN = 40;
-const unsigned long CAL_PULSE_MAX = 100;
+const unsigned long CAL_PULSE_MIN = 30;
+const unsigned long CAL_PULSE_MAX = 90;
 const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
@@ -53,8 +53,8 @@ const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in 
 // Calibration Logic
 const int CAL_PRIMING_PULSES = 20;      // Pulses to pressurize hose before measuring (increased to flush warm oil)
 const int CAL_TEST_PULSES = 100;        // Number of pulses to test per step
-const int CAL_TARGET_DROPS_MIN = 80;    // Minimum acceptable drops for 100 pulses
-const int CAL_TARGET_DROPS_MAX = 120;   // Maximum acceptable drops for 100 pulses
+const int CAL_TARGET_DROPS_MIN = 85;    // Minimum acceptable drops for 100 pulses
+const int CAL_TARGET_DROPS_MAX = 115;   // Maximum acceptable drops for 100 pulses
 
 // Stability Criteria
 // Maximum allowed jitter (Standard Deviation / Average Interval).
