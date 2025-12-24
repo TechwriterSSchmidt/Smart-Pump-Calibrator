@@ -67,6 +67,12 @@ const float CAL_MAX_JITTER_PERCENT = 0.05;
 // 1.15 = +15% safety margin
 const float CAL_SAFETY_MARGIN_FACTOR = 1.15;
 
+// Recommendation Settings
+// Rounding for Pulse Width Recommendation (e.g. 5ms).
+// The calculated average pulse is rounded UP to the nearest multiple of this value.
+// Ensures the solenoid has enough force even if slightly warmer than average.
+const int CAL_RECOMMENDATION_PULSE_ROUNDING_MS = 5;
+
 // Physics Optimization
 // Minimum Ratio of Pause to Pulse duration.
 // The hose needs time to relax (Windkessel effect). 

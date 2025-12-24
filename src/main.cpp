@@ -745,15 +745,72 @@ void loop() {
             }
             Serial.println("##########################################\n");
 
-            // Final Recommendation based on last cycle
-            int last = completedCycles - 1;
-            unsigned long recPulse = cycleResults[last].pulse;
-            unsigned long recPause = (unsigned long)(cycleResults[last].pause * CAL_SAFETY_MARGIN_FACTOR);
+            // Final Recommendation based on TRIMMED MEAN (Robust Strategy)
+            // We ignore the lowest and highest values to filter out outliers,
+            // then average the rest.
+            
+            unsigned long avgPulse = 0;
+            unsigned long avgPause = 0;
+
+            // Arrays to store values for sorting
+            unsigned long pulses[10];
+            unsigned long pauses[10];
+
+            for (int i = 0; i < completedCycles; i++) {
+                pulses[i] = cycleResults[i].pulse;
+                pauses[i] = cycleResults[i].pause;
+            }
+
+            if (completedCycles >= 3) {
+                // Sort Arrays (Simple Bubble Sort is fine for 10 items)
+                for (int i = 0; i < completedCycles - 1; i++) {
+                    for (int j = 0; j < completedCycles - i - 1; j++) {
+                        if (pulses[j] > pulses[j + 1]) {
+                            unsigned long temp = pulses[j]; pulses[j] = pulses[j + 1]; pulses[j + 1] = temp;
+                        }
+                        if (pauses[j] > pauses[j + 1]) {
+                            unsigned long temp = pauses[j]; pauses[j] = pauses[j + 1]; pauses[j + 1] = temp;
+                        }
+                    }
+                }
+
+                // Sum the middle values (ignore index 0 and index last)
+                unsigned long sumPulse = 0;
+                unsigned long sumPause = 0;
+                for (int i = 1; i < completedCycles - 1; i++) {
+                    sumPulse += pulses[i];
+                    sumPause += pauses[i];
+                }
+                
+                avgPulse = sumPulse / (completedCycles - 2);
+                avgPause = sumPause / (completedCycles - 2);
+                
+                Serial.println("FINAL RECOMMENDATION (Trimmed Mean Strategy):");
+                Serial.println("  (Outliers removed: Lowest and Highest values ignored to ensure stability.)");
+
+            } else {
+                // Fallback for < 3 cycles: Simple Average
+                unsigned long sumPulse = 0;
+                unsigned long sumPause = 0;
+                for (int i = 0; i < completedCycles; i++) {
+                    sumPulse += pulses[i];
+                    sumPause += pauses[i];
+                }
+                avgPulse = sumPulse / completedCycles;
+                avgPause = sumPause / completedCycles;
+                Serial.println("FINAL RECOMMENDATION (Simple Average Strategy):");
+            }
+
+            // Apply Safety Margins
+            // Pulse: Round UP to nearest configured step (e.g. 5ms)
+            unsigned long recPulse = ((avgPulse + (CAL_RECOMMENDATION_PULSE_ROUNDING_MS - 1)) / CAL_RECOMMENDATION_PULSE_ROUNDING_MS) * CAL_RECOMMENDATION_PULSE_ROUNDING_MS; 
+            
+            // Pause: Add standard safety margin
+            unsigned long recPause = (unsigned long)(avgPause * CAL_SAFETY_MARGIN_FACTOR);
             unsigned long recCycle = recPulse + recPause;
             
-            Serial.println("FINAL RECOMMENDATION (Based on last cycle):");
-            Serial.printf("  Pulse Width:    %lu ms\n", recPulse);
-            Serial.printf("  Pause Duration: %lu ms (includes +%.0f%% safety margin)\n", recPause, (CAL_SAFETY_MARGIN_FACTOR - 1.0) * 100);
+            Serial.printf("  Pulse Width:    %lu ms (Base Avg: %lu ms)\n", recPulse, avgPulse);
+            Serial.printf("  Pause Duration: %lu ms (Base Avg: %lu ms + %.0f%% margin)\n", recPause, avgPause, (CAL_SAFETY_MARGIN_FACTOR - 1.0) * 100);
             Serial.printf("  Cycle Time:     %lu ms\n", recCycle);
             Serial.println("##########################################\n");
         }

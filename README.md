@@ -39,6 +39,7 @@ This firmware is an automatic analysis tool for 12V metering pumps (chain oilers
 | **Repeat Cycles** | 10 | Number of times to run calibration automatically |
 | **Optimization Cap** | 300 ms | Max lower bound for adaptive search |
 | **Safety Margin** | +15% (1.15) | Added to pause time for reliability |
+| **Rec. Pulse Rounding** | 5 ms | Rounding step for pulse recommendation (always rounds up) |
 | **Cool-Down** | 120 s | Rest time between test steps |
 
 ---
@@ -127,6 +128,27 @@ Solenoid pumps and oil viscosity change significantly with temperature.
 *   **Coil Heat**: As the solenoid warms up, its magnetic force decreases slightly.
 
 By running **Multiple Cycles** (configured via `CAL_REPEAT_CYCLES`), the system captures this "Thermal Drift". It allows you to see if the optimal settings shift as the system reaches operating temperature. The final report highlights these changes, ensuring you choose settings that work for both cold starts and long rides.
+
+### Final Recommendation Strategy (Trimmed Mean)
+To ensure the recommended settings are robust against outliers (e.g., a single "lucky shot" or a measurement error), the system uses a **Trimmed Mean** calculation:
+1.  **Sort**: All cycle results are sorted.
+2.  **Filter**: The lowest and highest values are ignored (outliers).
+3.  **Average**: The remaining values are averaged.
+4.  **Safety**: The Pulse is rounded UP (to ensure force), and the Pause gets a safety margin.
+
+**Example Calculation:**
+
+| Cycle | Pulse | Pause | Status |
+| :--- | :--- | :--- | :--- |
+| 1 | 40 ms | 300 ms | *Ignored (Lowest)* |
+| 2 | 45 ms | 350 ms | Used |
+| 3 | 45 ms | 360 ms | Used |
+| 4 | 50 ms | 450 ms | *Ignored (Highest)* |
+
+*   **Avg Pulse**: (45+45)/2 = 45 ms -> Rounded Up -> **45 ms**
+*   **Avg Pause**: (350+360)/2 = 355 ms -> +15% Margin -> **408 ms**
+
+This ensures the pump works reliably in both cold and warm conditions without being skewed by extreme values.
 
 ### Elasticity Ratio
 The system calculates an **Elasticity Ratio** to determine how much time the hose needs to relax after a pulse. This prevents pressure buildup where the hose never fully contracts.
