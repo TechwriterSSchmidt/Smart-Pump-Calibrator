@@ -40,8 +40,8 @@ const unsigned long CAL_BREAK_IN_STROKES = 10000;
 // AUTO-CALIBRATION SETTINGS
 // ============================================================================
 // Pulse Width Search Range (ms)
-const unsigned long CAL_PULSE_MIN = 30;
-const unsigned long CAL_PULSE_MAX = 90;
+const unsigned long CAL_PULSE_MIN = 35;
+const unsigned long CAL_PULSE_MAX = 75;
 const unsigned long CAL_PULSE_STEP = 10;
 
 // Pause Duration Search Range (ms)
@@ -52,9 +52,9 @@ const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in 
 
 // Calibration Logic
 const int CAL_PRIMING_PULSES = 20;      // Pulses to pressurize hose before measuring (increased to flush warm oil)
-const int CAL_TEST_PULSES = 60;        // Number of pulses to test per step
-const int CAL_TARGET_DROPS_MIN = 54;    // Minimum acceptable drops for 100 pulses
-const int CAL_TARGET_DROPS_MAX = 66;   // Maximum acceptable drops for 100 pulses
+const int CAL_TEST_PULSES = 60;         // Number of pulses to test per step
+const int CAL_TARGET_DROPS_MIN = 55;    // Minimum acceptable drops for 60 pulses
+const int CAL_TARGET_DROPS_MAX = 65;    // Maximum acceptable drops for 60 pulses
 
 // Stability Criteria
 // Maximum allowed jitter (Standard Deviation / Average Interval).
@@ -102,6 +102,6 @@ const unsigned long CAL_OPTIMIZATION_LOWER_BOUND_CAP = 300;
 
 // Solenoid Thermal Protection
 // Cool-down time between Pulse Width steps to prevent overheating.
-const unsigned long CAL_COOLDOWN_MS = 60000; // 1 Minute
+const unsigned long CAL_COOLDOWN_MS = 30000; // 30 Seconds
 
 #endif
