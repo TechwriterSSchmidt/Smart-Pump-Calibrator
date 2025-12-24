@@ -628,6 +628,12 @@ void setup() {
   pinMode(PUMP_PIN, OUTPUT);
   digitalWrite(PUMP_PIN, LOW);
 
+  // Initialize PWM for Pump
+  if (PUMP_USE_PWM) {
+      ledcSetup(PUMP_PWM_CHANNEL, PUMP_PWM_FREQ, PUMP_PWM_RESOLUTION);
+      ledcAttachPin(PUMP_PIN, PUMP_PWM_CHANNEL);
+  }
+
   // Initialize Button with Pullup
   debouncer.attach(BUTTON_PIN, INPUT_PULLUP);
   debouncer.interval(BUTTON_DEBOUNCE_MS); 
