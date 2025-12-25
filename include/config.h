@@ -46,14 +46,14 @@ const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
-const unsigned long CAL_PAUSE_MIN = 280;     // Lower bound for binary search
+const unsigned long CAL_PAUSE_MIN = 250;     // Lower bound for binary search
 const unsigned long CAL_PAUSE_START = 1000;   // Upper bound for binary search (Max Pause - Optimization Limit)
 const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in binary search but good for reference)
 
 // Calibration Logic
 const int CAL_PRIMING_PULSES = 20;      // Pulses to pressurize hose before measuring (increased to flush warm oil)
 const int CAL_TEST_PULSES = 60;         // Number of pulses to test per step
-const int CAL_TARGET_DROPS_MIN = 55;    // Minimum acceptable drops for 60 pulses
+const int CAL_TARGET_DROPS_MIN = 50;    // Minimum acceptable drops for 60 pulses
 const int CAL_TARGET_DROPS_MAX = 65;    // Maximum acceptable drops for 60 pulses
 
 // Stability Criteria
@@ -98,7 +98,7 @@ const int CAL_REPEAT_CYCLES = 5;
 // Limits the adaptive search lower bound. Even if a previous step required 600ms pause,
 // we don't force the next step to start at 600ms if this cap is set to 300ms.
 // Values > 300ms are often valid across different pulse widths.
-const unsigned long CAL_OPTIMIZATION_LOWER_BOUND_CAP = 300;
+const unsigned long CAL_OPTIMIZATION_LOWER_BOUND_CAP = 250;
 
 // Solenoid Thermal Protection
 // Cool-down time between Pulse Width steps to prevent overheating.
@@ -111,7 +111,7 @@ const int CAL_VALIDATION_DURATION_MIN = 15;
 // Runs before the first calibration cycle to flush air bubbles and warm up the oil.
 const bool CAL_ENABLE_PRE_BLEED = true;
 const unsigned long CAL_PRE_BLEED_DURATION_MS = 30000; // 30 Seconds
-const unsigned long CAL_PRE_BLEED_PULSE_MS = 45;
+const unsigned long CAL_PRE_BLEED_PULSE_MS = 80;
 const unsigned long CAL_PRE_BLEED_PAUSE_MS = 250;      // Fast pumping to force bubbles out
 
 // PWM Soft-Start / Soft-Stop (Silent Mode)

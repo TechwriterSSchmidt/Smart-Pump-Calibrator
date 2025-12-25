@@ -410,6 +410,9 @@ void runCalibrationStep() {
         Serial.printf("   [Physics] Skipping pauses < %lu ms (Ratio %.1f)\n", low, currentElasticityRatio);
     }
     
+    // SAFETY: Ensure low is never below the absolute hardware minimum
+    if (low < CAL_PAUSE_MIN) low = CAL_PAUSE_MIN;
+
     unsigned long high = CAL_PAUSE_START;
     // Ensure high is always >= low
     if (high < low) high = low + CAL_PAUSE_STEP;
@@ -423,6 +426,8 @@ void runCalibrationStep() {
         unsigned long mid = low + (high - low) / 2;
         // Round mid to nearest 5ms step to avoid weird numbers
         mid = (mid / 5) * 5;
+        
+        // Clamp to minimum allowed pause
         if (mid < CAL_PAUSE_MIN) mid = CAL_PAUSE_MIN;
 
         Serial.printf("  [Range %lu-%lu] Testing Pause %lu ms... ", low, high, mid);
@@ -437,6 +442,13 @@ void runCalibrationStep() {
             candidatePause = mid;
             dropsForMinPause = res.drops;
             jitterForMinPause = res.jitter;
+            
+            // If we are already at the minimum, we can't go lower.
+            if (mid == CAL_PAUSE_MIN) {
+                 Serial.println("   => Reached Minimum Pause Limit. Stopping search.");
+                 break;
+            }
+
             // Try smaller pause
             if (mid == 0) break; // prevent underflow
             if (mid < 5) high = 0; else high = mid - 5; 
@@ -450,9 +462,17 @@ void runCalibrationStep() {
                 break; // Stop search for this pulse, but allow saving of previous valid results
             }
 
-            Serial.printf("FAIL (Drops: %lu, Jitter: %.1f%%)\n", res.drops, res.jitter * 100);
-            // This pause is too short (unstable or bad count). Need longer pause.
-            low = mid + 5;
+            // PHYSICS OPTIMIZATION 3: High Jitter Handling (Air Bubble Theory)
+            // If we have good flow (enough drops) but high jitter, it might be due to air compression
+            // during long pauses. In this case, a SHORTER pause might stabilize the flow.
+            if (res.drops >= CAL_TARGET_DROPS_MIN && res.jitter > CAL_MAX_JITTER_PERCENT) {
+                 Serial.printf("FAIL (Drops: %lu, Jitter: %.1f%%) -> High Jitter detected. Trying SHORTER pause.\n", res.drops, res.jitter * 100);
+                 if (mid < 5) high = 0; else high = mid - 5;
+            } else {
+                 // Standard Failure (Too few drops, or other issues): Need longer pause
+                 Serial.printf("FAIL (Drops: %lu, Jitter: %.1f%%) -> Need longer pause.\n", res.drops, res.jitter * 100);
+                 low = mid + 5;
+            }
         }
     }
     
