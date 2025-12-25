@@ -3,3 +3,2596 @@ Pump strokes total: 17011
 Calibration cycles: 5x
 
 
+ --------------------------------
+Total Lifetime Strokes: 17011
+Break-in Period: COMPLETE
+Flash Size: 16 MB
+PSRAM Size: 7 MB
+--------------------------------
+State: READY (Green).
+  - External Button (GPIO 5): Toggle Continuous Pumping (ON/OFF)
+  - Boot Button (GPIO 0): Start/Stop AUTO-CALIBRATION
+  - Current Config: Pulse 45 ms / Pause 400 ms
+>> DROP DETECTED! Total: 1
+>> DROP DETECTED! Total: 2
+>> DROP DETECTED! Total: 3
+>> DROP DETECTED! Total: 4
+>> DROP DETECTED! Total: 5
+External Button -> Starting Continuous Pumping...
+Total Lifetime Strokes: 17011
+Using Config: Pulse 45 ms / Pause 400 ms
+Stroke Count: 17012
+Stroke Count: 17013
+>> DROP DETECTED! Total: 6
+Stroke Count: 17014
+>> DROP DETECTED! Total: 7
+Stroke Count: 17015
+Stroke Count: 17016
+>> DROP DETECTED! Total: 8
+Stroke Count: 17017
+>> DROP DETECTED! Total: 9
+Stroke Count: 17018
+External Button -> Stopping Pump...
+
+=== SESSION STATISTICS ===
+  Strokes: 7
+  Drops:   4
+  Ratio:   0.57 Drops/Stroke
+==========================
+
+Stats saved.
+State: READY (Green).
+>> DROP DETECTED! Total: 10
+>> DROP DETECTED! Total: 11
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+Smart Pump Calibrator (ESP32-S3)
+--------------------------------
+Total Lifetime Strokes: 17018
+Break-in Period: COMPLETE
+Flash Size: 16 MB
+PSRAM Size: 7 MB
+--------------------------------
+State: READY (Green).
+  - External Button (GPIO 5): Toggle Continuous Pumping (ON/OFF)
+  - Boot Button (GPIO 0): Start/Stop AUTO-CALIBRATION
+  - Current Config: Pulse 45 ms / Pause 400 ms
+Boot Button -> Starting Calibration...
+
+>>> STARTING PRE-CALIBRATION BLEED <<<
+   (Flushing system for 30 s to remove air bubbles...)
+>> BLEED COMPLETE. System primed.
+
+
+>>> STARTING CALIBRATION CYCLE 1 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 17018
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 35 ms [ETA: Calculating...]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.5%)
+  [Range 240-490] Testing Pause 365 ms... FAIL (Drops: 53, Jitter: 14.4%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 59, Jitter: 3.4%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 2.2%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 0.9%)
+  [Range 240-245] Testing Pause 240 ms... FAIL (Drops: 62, Jitter: 8.0%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 35 ms / 250 ms (Cycle: 285 ms, Jitter: 0.9%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~5.0 [Moving Avg])
+     (Optimization: Next search starts at 250 ms)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 40 ms [ETA: 23m 40s]
+  [Range 250-750] Testing Pause 500 ms... OK (Drops: 52, Jitter: 2.4%)
+  [Range 250-495] Testing Pause 370 ms... OK (Drops: 55, Jitter: 2.7%)
+  [Range 250-365] Testing Pause 305 ms... FAIL (Drops: 58, Jitter: 13.4%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 250-300] Testing Pause 275 ms... OK (Drops: 60, Jitter: 2.0%)
+  [Range 250-270] Testing Pause 260 ms... OK (Drops: 60, Jitter: 1.5%)
+  [Range 250-255] Testing Pause 250 ms... OK (Drops: 61, Jitter: 1.9%)
+  => Valid Config Found: 40 ms / 250 ms (Cycle: 290 ms, Jitter: 1.9%)
+  => No valid config found for this pulse width.
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 45 ms [ETA: 20m 58s]
+  [Range 250-750] Testing Pause 500 ms... OK (Drops: 53, Jitter: 2.5%)
+  [Range 250-495] Testing Pause 370 ms... OK (Drops: 55, Jitter: 2.8%)
+  [Range 250-365] Testing Pause 305 ms... OK (Drops: 58, Jitter: 3.4%)
+  [Range 250-300] Testing Pause 275 ms... OK (Drops: 60, Jitter: 2.3%)
+  [Range 250-270] Testing Pause 260 ms... OK (Drops: 60, Jitter: 1.6%)
+  [Range 250-255] Testing Pause 250 ms... OK (Drops: 60, Jitter: 1.5%)
+  => Valid Config Found: 45 ms / 250 ms (Cycle: 295 ms, Jitter: 1.5%)
+  => No valid config found for this pulse width.
+
+>> OPTIMIZATION: Stopping early. Cannot find valid configs anymore.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 8 min 33 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 35 ms
+  Pause: 250 ms
+  Cycle: 285 ms
+  Learned Elasticity Ratio: 5.0
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 35 ms
+  Pause: 250 ms  (includes +0% safety margin)
+  Cycle: 285 ms
+  Ratio: 1.00 Drops/Stroke (Measured: 60 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 1 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 2 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 18188
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 35 ms [ETA: Calculating...]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 4.9%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.1%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.7%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 2.0%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 1.8%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.5%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 35 ms / 240 ms (Cycle: 275 ms, Jitter: 1.5%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.8 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 40 ms [ETA: 23m 40s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.2%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.2%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.4%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 2.4%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 1.7%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.6%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 40 ms / 240 ms (Cycle: 280 ms, Jitter: 1.6%)
+  => No valid config found for this pulse width.
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 45 ms [ETA: 20m 49s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.5%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.5%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 58, Jitter: 3.8%)
+  [Range 240-295] Testing Pause 265 ms... FAIL (Drops: 59, Jitter: 12.8%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 1.5%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 2.0%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 45 ms / 240 ms (Cycle: 285 ms, Jitter: 2.0%)
+  => No valid config found for this pulse width.
+
+>> OPTIMIZATION: Stopping early. Cannot find valid configs anymore.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 8 min 28 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 35 ms
+  Pause: 240 ms
+  Cycle: 275 ms
+  Learned Elasticity Ratio: 4.8
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 35 ms
+  Pause: 240 ms  (includes +0% safety margin)
+  Cycle: 275 ms
+  Ratio: 1.00 Drops/Stroke (Measured: 60 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 2 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 3 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 19358
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 35 ms [ETA: Calculating...]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.4%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.3%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.9%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 61, Jitter: 1.9%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.0%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.7%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 35 ms / 240 ms (Cycle: 275 ms, Jitter: 1.7%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.8 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 40 ms [ETA: 23m 40s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.3%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 53, Jitter: 2.1%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 56, Jitter: 3.4%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 3.0%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.1%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.9%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 40 ms / 240 ms (Cycle: 280 ms, Jitter: 1.9%)
+  => No valid config found for this pulse width.
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 45 ms [ETA: 20m 49s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.6%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.3%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.4%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 2.9%)
+  [Range 240-260] Testing Pause 250 ms... FAIL (Drops: 59, Jitter: 12.9%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.5%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 45 ms / 240 ms (Cycle: 285 ms, Jitter: 1.5%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.8 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 50 ms [ETA: 17m 56s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.5%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.4%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.7%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 2.5%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.4%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.3%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 50 ms / 240 ms (Cycle: 290 ms, Jitter: 1.3%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.6 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 55 ms [ETA: 15m 2s]
+   [Physics] Skipping pauses < 251 ms (Ratio 4.6)
+  [Range 251-750] Testing Pause 500 ms... 
+---- Closed the serial port COM5 ----
+---- Opened the serial port COM5 ----
+OK (Drops: 56, Jitter: 2.9%)
+  [Range 251-300] Testing Pause 275 ms... OK (Drops: 60, Jitter: 2.3%)
+  [Range 251-270] Testing Pause 260 ms... OK (Drops: 60, Jitter: 1.6%)
+  [Range 251-255] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.8%)
+  => Valid Config Found: 55 ms / 250 ms (Cycle: 305 ms, Jitter: 2.8%)
+  => No valid config found for this pulse width.
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 60 ms [ETA: 12m 7s]
+   [Physics] Skipping pauses < 274 ms (Ratio 4.6)
+  [Range 274-750] Testing Pause 510 ms... OK (Drops: 53, Jitter: 2.6%)
+  [Range 274-505] Testing Pause 385 ms... FAIL (Drops: 55, Jitter: 5.6%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 274-380] Testing Pause 325 ms... OK (Drops: 57, Jitter: 3.1%)
+  [Range 274-320] Testing Pause 295 ms... FAIL (Drops: 57, Jitter: 12.9%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 274-290] Testing Pause 280 ms... OK (Drops: 60, Jitter: 1.7%)
+  [Range 274-275] Testing Pause 270 ms... OK (Drops: 60, Jitter: 1.9%)
+  => Valid Config Found: 60 ms / 270 ms (Cycle: 330 ms, Jitter: 1.9%)
+  => No valid config found for this pulse width.
+
+>> OPTIMIZATION: Stopping early. Cannot find valid configs anymore.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 17 min 56 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 50 ms
+  Pause: 240 ms
+  Cycle: 290 ms
+  Learned Elasticity Ratio: 4.6
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 50 ms
+  Pause: 240 ms  (includes +0% safety margin)
+  Cycle: 290 ms
+  Ratio: 1.00 Drops/Stroke (Measured: 60 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 3 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 4 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 21698
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 35 ms [ETA: Calculating...]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.1%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 3.8%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.0%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 3.4%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.5%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.9%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 35 ms / 240 ms (Cycle: 275 ms, Jitter: 1.9%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.8 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 40 ms [ETA: 23m 40s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.5%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.2%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.4%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 2.6%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.3%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.9%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 40 ms / 240 ms (Cycle: 280 ms, Jitter: 1.9%)
+  => No valid config found for this pulse width.
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 45 ms [ETA: 20m 49s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.4%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.4%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.7%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 1.6%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 1.4%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 2.0%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 45 ms / 240 ms (Cycle: 285 ms, Jitter: 2.0%)
+  => No valid config found for this pulse width.
+
+>> OPTIMIZATION: Stopping early. Cannot find valid configs anymore.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 8 min 28 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 35 ms
+  Pause: 240 ms
+  Cycle: 275 ms
+  Learned Elasticity Ratio: 4.8
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 35 ms
+  Pause: 240 ms  (includes +0% safety margin)
+  Cycle: 275 ms
+  Ratio: 1.00 Drops/Stroke (Measured: 60 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 4 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 5 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 22868
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 35 ms [ETA: Calculating...]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.5%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 54, Jitter: 2.1%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 56, Jitter: 2.9%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 3.2%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.2%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 2.3%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 35 ms / 240 ms (Cycle: 275 ms, Jitter: 2.3%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.8 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 40 ms [ETA: 23m 40s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 52, Jitter: 2.3%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 53, Jitter: 2.3%)
+  [Range 240-360] Testing Pause 300 ms... FAIL (Drops: 56, Jitter: 14.6%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 2.2%)
+  [Range 240-260] Testing Pause 250 ms... FAIL (Drops: 59, Jitter: 13.1%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 2.2%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 40 ms / 240 ms (Cycle: 280 ms, Jitter: 2.2%)
+  => No valid config found for this pulse width.
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 45 ms [ETA: 20m 49s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 53, Jitter: 4.4%)
+  [Range 240-490] Testing Pause 365 ms... FAIL (Drops: 55, Jitter: 7.8%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 59, Jitter: 4.0%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 1.0%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.1%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 2.1%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 45 ms / 240 ms (Cycle: 285 ms, Jitter: 2.1%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.8 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 50 ms [ETA: 17m 56s]
+  [Range 240-750] Testing Pause 495 ms... OK (Drops: 53, Jitter: 2.6%)
+  [Range 240-490] Testing Pause 365 ms... OK (Drops: 55, Jitter: 2.6%)
+  [Range 240-360] Testing Pause 300 ms... OK (Drops: 57, Jitter: 3.6%)
+  [Range 240-295] Testing Pause 265 ms... OK (Drops: 60, Jitter: 1.3%)
+  [Range 240-260] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.1%)
+  [Range 240-245] Testing Pause 240 ms... OK (Drops: 60, Jitter: 1.7%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 50 ms / 240 ms (Cycle: 290 ms, Jitter: 1.7%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~4.6 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 55 ms [ETA: 15m 2s]
+   [Physics] Skipping pauses < 251 ms (Ratio 4.6)
+  [Range 251-750] Testing Pause 500 ms... OK (Drops: 53, Jitter: 2.5%)
+  [Range 251-495] Testing Pause 370 ms... OK (Drops: 54, Jitter: 2.5%)
+  [Range 251-365] Testing Pause 305 ms... OK (Drops: 56, Jitter: 3.1%)
+  [Range 251-300] Testing Pause 275 ms... OK (Drops: 60, Jitter: 1.4%)
+  [Range 251-270] Testing Pause 260 ms... OK (Drops: 60, Jitter: 1.3%)
+  [Range 251-255] Testing Pause 250 ms... OK (Drops: 60, Jitter: 2.3%)
+  => Valid Config Found: 55 ms / 250 ms (Cycle: 305 ms, Jitter: 2.3%)
+  => No valid config found for this pulse width.
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 60 ms [ETA: 12m 7s]
+   [Physics] Skipping pauses < 274 ms (Ratio 4.6)
+  [Range 274-750] Testing Pause 510 ms... OK (Drops: 53, Jitter: 2.6%)
+  [Range 274-505] Testing Pause 385 ms... OK (Drops: 55, Jitter: 3.3%)
+  [Range 274-380] Testing Pause 325 ms... OK (Drops: 55, Jitter: 3.0%)
+  [Range 274-320] Testing Pause 295 ms... OK (Drops: 58, Jitter: 3.8%)
+  [Range 274-290] Testing Pause 280 ms... OK (Drops: 60, Jitter: 1.9%)
+  [Range 274-275] Testing Pause 270 ms... OK (Drops: 60, Jitter: 1.9%)
+  => Valid Config Found: 60 ms / 270 ms (Cycle: 330 ms, Jitter: 1.9%)
+  => No valid config found for this pulse width.
+
+>> OPTIMIZATION: Stopping early. Cannot find valid configs anymore.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 17 min 56 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 50 ms
+  Pause: 240 ms
+  Cycle: 290 ms
+  Learned Elasticity Ratio: 4.6
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 50 ms
+  Pause: 240 ms  (includes +0% safety margin)
+  Cycle: 290 ms
+  Ratio: 1.00 Drops/Stroke (Measured: 60 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+
+##########################################
+       MULTI-CYCLE CALIBRATION REPORT
+##########################################
+Cycle | Pulse | Pause | Ratio | Jitter | Duration
+------+-------+-------+-------+--------+----------
+  1   | 35 ms | 250 ms |  5.0  |  0.9%  | 8 min 33 s
+  2   | 35 ms | 240 ms |  4.8  |  1.5%  | 8 min 28 s
+  3   | 50 ms | 240 ms |  4.6  |  1.3%  | 17 min 56 s
+  4   | 35 ms | 240 ms |  4.8  |  1.9%  | 8 min 28 s
+  5   | 50 ms | 240 ms |  4.6  |  1.7%  | 17 min 56 s
+##########################################
+
+FINAL RECOMMENDATION (Trimmed Mean Strategy):
+  (Outliers removed: Lowest and Highest values ignored to ensure stability.)
+  Pulse Width:    40 ms (Base Avg: 40 ms)
+  Pause Duration: 240 ms (Base Avg: 240 ms + 0% margin)
+  Cycle Time:     280 ms
+##########################################
+
+Starting 15-Minute Validation Run...
+Running with Pulse: 40 ms, Pause: 240 ms
+Time (min) | Strokes | Drops | Ratio | Jitter
+---------------------------------------------
+>> DROP DETECTED! Total: 7783
+>> DROP DETECTED! Total: 7784
+>> DROP DETECTED! Total: 7785
+>> DROP DETECTED! Total: 7786
+>> DROP DETECTED! Total: 7787
+>> DROP DETECTED! Total: 7788
+>> DROP DETECTED! Total: 7789
+>> DROP DETECTED! Total: 7790
+>> DROP DETECTED! Total: 7791
+>> DROP DETECTED! Total: 7792
+>> DROP DETECTED! Total: 7793
+>> DROP DETECTED! Total: 7794
+>> DROP DETECTED! Total: 7795
+>> DROP DETECTED! Total: 7796
+>> DROP DETECTED! Total: 7797
+>> DROP DETECTED! Total: 7798
+>> DROP DETECTED! Total: 7799
+>> DROP DETECTED! Total: 7800
+>> DROP DETECTED! Total: 7801
+>> DROP DETECTED! Total: 7802
+>> DROP DETECTED! Total: 7803
+>> DROP DETECTED! Total: 7804
+>> DROP DETECTED! Total: 7805
+>> DROP DETECTED! Total: 7806
+>> DROP DETECTED! Total: 7807
+>> DROP DETECTED! Total: 7808
+>> DROP DETECTED! Total: 7809
+>> DROP DETECTED! Total: 7810
+>> DROP DETECTED! Total: 7811
+>> DROP DETECTED! Total: 7812
+>> DROP DETECTED! Total: 7813
+>> DROP DETECTED! Total: 7814
+>> DROP DETECTED! Total: 7815
+>> DROP DETECTED! Total: 7816
+>> DROP DETECTED! Total: 7817
+>> DROP DETECTED! Total: 7818
+>> DROP DETECTED! Total: 7819
+>> DROP DETECTED! Total: 7820
+>> DROP DETECTED! Total: 7821
+>> DROP DETECTED! Total: 7822
+>> DROP DETECTED! Total: 7823
+>> DROP DETECTED! Total: 7824
+>> DROP DETECTED! Total: 7825
+>> DROP DETECTED! Total: 7826
+>> DROP DETECTED! Total: 7827
+>> DROP DETECTED! Total: 7828
+>> DROP DETECTED! Total: 7829
+>> DROP DETECTED! Total: 7830
+>> DROP DETECTED! Total: 7831
+>> DROP DETECTED! Total: 7832
+>> DROP DETECTED! Total: 7833
+>> DROP DETECTED! Total: 7834
+>> DROP DETECTED! Total: 7835
+>> DROP DETECTED! Total: 7836
+>> DROP DETECTED! Total: 7837
+>> DROP DETECTED! Total: 7838
+>> DROP DETECTED! Total: 7839
+>> DROP DETECTED! Total: 7840
+>> DROP DETECTED! Total: 7841
+>> DROP DETECTED! Total: 7842
+>> DROP DETECTED! Total: 7843
+>> DROP DETECTED! Total: 7844
+>> DROP DETECTED! Total: 7845
+>> DROP DETECTED! Total: 7846
+>> DROP DETECTED! Total: 7847
+>> DROP DETECTED! Total: 7848
+>> DROP DETECTED! Total: 7849
+>> DROP DETECTED! Total: 7850
+>> DROP DETECTED! Total: 7851
+>> DROP DETECTED! Total: 7852
+>> DROP DETECTED! Total: 7853
+>> DROP DETECTED! Total: 7854
+>> DROP DETECTED! Total: 7855
+>> DROP DETECTED! Total: 7856
+>> DROP DETECTED! Total: 7857
+>> DROP DETECTED! Total: 7858
+>> DROP DETECTED! Total: 7859
+>> DROP DETECTED! Total: 7860
+>> DROP DETECTED! Total: 7861
+>> DROP DETECTED! Total: 7862
+>> DROP DETECTED! Total: 7863
+>> DROP DETECTED! Total: 7864
+>> DROP DETECTED! Total: 7865
+>> DROP DETECTED! Total: 7866
+>> DROP DETECTED! Total: 7867
+>> DROP DETECTED! Total: 7868
+>> DROP DETECTED! Total: 7869
+>> DROP DETECTED! Total: 7870
+>> DROP DETECTED! Total: 7871
+>> DROP DETECTED! Total: 7872
+>> DROP DETECTED! Total: 7873
+>> DROP DETECTED! Total: 7874
+>> DROP DETECTED! Total: 7875
+>> DROP DETECTED! Total: 7876
+>> DROP DETECTED! Total: 7877
+>> DROP DETECTED! Total: 7878
+>> DROP DETECTED! Total: 7879
+>> DROP DETECTED! Total: 7880
+>> DROP DETECTED! Total: 7881
+>> DROP DETECTED! Total: 7882
+>> DROP DETECTED! Total: 7883
+>> DROP DETECTED! Total: 7884
+>> DROP DETECTED! Total: 7885
+>> DROP DETECTED! Total: 7886
+>> DROP DETECTED! Total: 7887
+>> DROP DETECTED! Total: 7888
+>> DROP DETECTED! Total: 7889
+>> DROP DETECTED! Total: 7890
+>> DROP DETECTED! Total: 7891
+>> DROP DETECTED! Total: 7892
+>> DROP DETECTED! Total: 7893
+>> DROP DETECTED! Total: 7894
+>> DROP DETECTED! Total: 7895
+>> DROP DETECTED! Total: 7896
+>> DROP DETECTED! Total: 7897
+>> DROP DETECTED! Total: 7898
+>> DROP DETECTED! Total: 7899
+>> DROP DETECTED! Total: 7900
+>> DROP DETECTED! Total: 7901
+>> DROP DETECTED! Total: 7902
+>> DROP DETECTED! Total: 7903
+>> DROP DETECTED! Total: 7904
+>> DROP DETECTED! Total: 7905
+>> DROP DETECTED! Total: 7906
+>> DROP DETECTED! Total: 7907
+>> DROP DETECTED! Total: 7908
+>> DROP DETECTED! Total: 7909
+>> DROP DETECTED! Total: 7910
+>> DROP DETECTED! Total: 7911
+>> DROP DETECTED! Total: 7912
+>> DROP DETECTED! Total: 7913
+>> DROP DETECTED! Total: 7914
+>> DROP DETECTED! Total: 7915
+>> DROP DETECTED! Total: 7916
+>> DROP DETECTED! Total: 7917
+>> DROP DETECTED! Total: 7918
+>> DROP DETECTED! Total: 7919
+>> DROP DETECTED! Total: 7920
+>> DROP DETECTED! Total: 7921
+>> DROP DETECTED! Total: 7922
+>> DROP DETECTED! Total: 7923
+>> DROP DETECTED! Total: 7924
+>> DROP DETECTED! Total: 7925
+>> DROP DETECTED! Total: 7926
+>> DROP DETECTED! Total: 7927
+>> DROP DETECTED! Total: 7928
+>> DROP DETECTED! Total: 7929
+>> DROP DETECTED! Total: 7930
+>> DROP DETECTED! Total: 7931
+>> DROP DETECTED! Total: 7932
+>> DROP DETECTED! Total: 7933
+>> DROP DETECTED! Total: 7934
+>> DROP DETECTED! Total: 7935
+>> DROP DETECTED! Total: 7936
+>> DROP DETECTED! Total: 7937
+>> DROP DETECTED! Total: 7938
+>> DROP DETECTED! Total: 7939
+>> DROP DETECTED! Total: 7940
+>> DROP DETECTED! Total: 7941
+>> DROP DETECTED! Total: 7942
+>> DROP DETECTED! Total: 7943
+>> DROP DETECTED! Total: 7944
+>> DROP DETECTED! Total: 7945
+>> DROP DETECTED! Total: 7946
+>> DROP DETECTED! Total: 7947
+>> DROP DETECTED! Total: 7948
+>> DROP DETECTED! Total: 7949
+>> DROP DETECTED! Total: 7950
+>> DROP DETECTED! Total: 7951
+>> DROP DETECTED! Total: 7952
+>> DROP DETECTED! Total: 7953
+>> DROP DETECTED! Total: 7954
+>> DROP DETECTED! Total: 7955
+>> DROP DETECTED! Total: 7956
+>> DROP DETECTED! Total: 7957
+>> DROP DETECTED! Total: 7958
+>> DROP DETECTED! Total: 7959
+>> DROP DETECTED! Total: 7960
+>> DROP DETECTED! Total: 7961
+>> DROP DETECTED! Total: 7962
+>> DROP DETECTED! Total: 7963
+>> DROP DETECTED! Total: 7964
+>> DROP DETECTED! Total: 7965
+>> DROP DETECTED! Total: 7966
+>> DROP DETECTED! Total: 7967
+>> DROP DETECTED! Total: 7968
+>> DROP DETECTED! Total: 7969
+>> DROP DETECTED! Total: 7970
+>> DROP DETECTED! Total: 7971
+>> DROP DETECTED! Total: 7972
+>> DROP DETECTED! Total: 7973
+>> DROP DETECTED! Total: 7974
+>> DROP DETECTED! Total: 7975
+>> DROP DETECTED! Total: 7976
+>> DROP DETECTED! Total: 7977
+>> DROP DETECTED! Total: 7978
+>> DROP DETECTED! Total: 7979
+>> DROP DETECTED! Total: 7980
+>> DROP DETECTED! Total: 7981
+>> DROP DETECTED! Total: 7982
+>> DROP DETECTED! Total: 7983
+>> DROP DETECTED! Total: 7984
+>> DROP DETECTED! Total: 7985
+1 min | 204 strokes | 202 drops | 0.99 d/s | 3.2%
+>> DROP DETECTED! Total: 7986
+>> DROP DETECTED! Total: 7987
+>> DROP DETECTED! Total: 7988
+>> DROP DETECTED! Total: 7989
+>> DROP DETECTED! Total: 7990
+>> DROP DETECTED! Total: 7991
+>> DROP DETECTED! Total: 7992
+>> DROP DETECTED! Total: 7993
+>> DROP DETECTED! Total: 7994
+>> DROP DETECTED! Total: 7995
+>> DROP DETECTED! Total: 7996
+>> DROP DETECTED! Total: 7997
+>> DROP DETECTED! Total: 7998
+>> DROP DETECTED! Total: 7999
+>> DROP DETECTED! Total: 8000
+>> DROP DETECTED! Total: 8001
+>> DROP DETECTED! Total: 8002
+>> DROP DETECTED! Total: 8003
+>> DROP DETECTED! Total: 8004
+>> DROP DETECTED! Total: 8005
+>> DROP DETECTED! Total: 8006
+>> DROP DETECTED! Total: 8007
+>> DROP DETECTED! Total: 8008
+>> DROP DETECTED! Total: 8009
+>> DROP DETECTED! Total: 8010
+>> DROP DETECTED! Total: 8011
+>> DROP DETECTED! Total: 8012
+>> DROP DETECTED! Total: 8013
+>> DROP DETECTED! Total: 8014
+>> DROP DETECTED! Total: 8015
+>> DROP DETECTED! Total: 8016
+>> DROP DETECTED! Total: 8017
+>> DROP DETECTED! Total: 8018
+>> DROP DETECTED! Total: 8019
+>> DROP DETECTED! Total: 8020
+>> DROP DETECTED! Total: 8021
+>> DROP DETECTED! Total: 8022
+>> DROP DETECTED! Total: 8023
+>> DROP DETECTED! Total: 8024
+>> DROP DETECTED! Total: 8025
+>> DROP DETECTED! Total: 8026
+>> DROP DETECTED! Total: 8027
+>> DROP DETECTED! Total: 8028
+>> DROP DETECTED! Total: 8029
+>> DROP DETECTED! Total: 8030
+>> DROP DETECTED! Total: 8031
+>> DROP DETECTED! Total: 8032
+>> DROP DETECTED! Total: 8033
+>> DROP DETECTED! Total: 8034
+>> DROP DETECTED! Total: 8035
+>> DROP DETECTED! Total: 8036
+>> DROP DETECTED! Total: 8037
+>> DROP DETECTED! Total: 8038
+>> DROP DETECTED! Total: 8039
+>> DROP DETECTED! Total: 8040
+>> DROP DETECTED! Total: 8041
+>> DROP DETECTED! Total: 8042
+>> DROP DETECTED! Total: 8043
+>> DROP DETECTED! Total: 8044
+>> DROP DETECTED! Total: 8045
+>> DROP DETECTED! Total: 8046
+>> DROP DETECTED! Total: 8047
+>> DROP DETECTED! Total: 8048
+>> DROP DETECTED! Total: 8049
+>> DROP DETECTED! Total: 8050
+>> DROP DETECTED! Total: 8051
+>> DROP DETECTED! Total: 8052
+>> DROP DETECTED! Total: 8053
+>> DROP DETECTED! Total: 8054
+>> DROP DETECTED! Total: 8055
+>> DROP DETECTED! Total: 8056
+>> DROP DETECTED! Total: 8057
+>> DROP DETECTED! Total: 8058
+>> DROP DETECTED! Total: 8059
+>> DROP DETECTED! Total: 8060
+>> DROP DETECTED! Total: 8061
+>> DROP DETECTED! Total: 8062
+>> DROP DETECTED! Total: 8063
+>> DROP DETECTED! Total: 8064
+>> DROP DETECTED! Total: 8065
+>> DROP DETECTED! Total: 8066
+>> DROP DETECTED! Total: 8067
+>> DROP DETECTED! Total: 8068
+>> DROP DETECTED! Total: 8069
+>> DROP DETECTED! Total: 8070
+>> DROP DETECTED! Total: 8071
+>> DROP DETECTED! Total: 8072
+>> DROP DETECTED! Total: 8073
+>> DROP DETECTED! Total: 8074
+>> DROP DETECTED! Total: 8075
+>> DROP DETECTED! Total: 8076
+>> DROP DETECTED! Total: 8077
+>> DROP DETECTED! Total: 8078
+>> DROP DETECTED! Total: 8079
+>> DROP DETECTED! Total: 8080
+>> DROP DETECTED! Total: 8081
+>> DROP DETECTED! Total: 8082
+>> DROP DETECTED! Total: 8083
+>> DROP DETECTED! Total: 8084
+>> DROP DETECTED! Total: 8085
+>> DROP DETECTED! Total: 8086
+>> DROP DETECTED! Total: 8087
+>> DROP DETECTED! Total: 8088
+>> DROP DETECTED! Total: 8089
+>> DROP DETECTED! Total: 8090
+>> DROP DETECTED! Total: 8091
+>> DROP DETECTED! Total: 8092
+>> DROP DETECTED! Total: 8093
+>> DROP DETECTED! Total: 8094
+>> DROP DETECTED! Total: 8095
+>> DROP DETECTED! Total: 8096
+>> DROP DETECTED! Total: 8097
+>> DROP DETECTED! Total: 8098
+>> DROP DETECTED! Total: 8099
+>> DROP DETECTED! Total: 8100
+>> DROP DETECTED! Total: 8101
+>> DROP DETECTED! Total: 8102
+>> DROP DETECTED! Total: 8103
+>> DROP DETECTED! Total: 8104
+>> DROP DETECTED! Total: 8105
+>> DROP DETECTED! Total: 8106
+>> DROP DETECTED! Total: 8107
+>> DROP DETECTED! Total: 8108
+>> DROP DETECTED! Total: 8109
+>> DROP DETECTED! Total: 8110
+>> DROP DETECTED! Total: 8111
+>> DROP DETECTED! Total: 8112
+>> DROP DETECTED! Total: 8113
+>> DROP DETECTED! Total: 8114
+>> DROP DETECTED! Total: 8115
+>> DROP DETECTED! Total: 8116
+>> DROP DETECTED! Total: 8117
+>> DROP DETECTED! Total: 8118
+>> DROP DETECTED! Total: 8119
+>> DROP DETECTED! Total: 8120
+>> DROP DETECTED! Total: 8121
+>> DROP DETECTED! Total: 8122
+>> DROP DETECTED! Total: 8123
+>> DROP DETECTED! Total: 8124
+>> DROP DETECTED! Total: 8125
+>> DROP DETECTED! Total: 8126
+>> DROP DETECTED! Total: 8127
+>> DROP DETECTED! Total: 8128
+>> DROP DETECTED! Total: 8129
+>> DROP DETECTED! Total: 8130
+>> DROP DETECTED! Total: 8131
+>> DROP DETECTED! Total: 8132
+>> DROP DETECTED! Total: 8133
+>> DROP DETECTED! Total: 8134
+>> DROP DETECTED! Total: 8135
+>> DROP DETECTED! Total: 8136
+>> DROP DETECTED! Total: 8137
+>> DROP DETECTED! Total: 8138
+>> DROP DETECTED! Total: 8139
+>> DROP DETECTED! Total: 8140
+>> DROP DETECTED! Total: 8141
+>> DROP DETECTED! Total: 8142
+>> DROP DETECTED! Total: 8143
+>> DROP DETECTED! Total: 8144
+>> DROP DETECTED! Total: 8145
+>> DROP DETECTED! Total: 8146
+>> DROP DETECTED! Total: 8147
+>> DROP DETECTED! Total: 8148
+>> DROP DETECTED! Total: 8149
+>> DROP DETECTED! Total: 8150
+>> DROP DETECTED! Total: 8151
+>> DROP DETECTED! Total: 8152
+>> DROP DETECTED! Total: 8153
+>> DROP DETECTED! Total: 8154
+>> DROP DETECTED! Total: 8155
+>> DROP DETECTED! Total: 8156
+>> DROP DETECTED! Total: 8157
+>> DROP DETECTED! Total: 8158
+>> DROP DETECTED! Total: 8159
+>> DROP DETECTED! Total: 8160
+>> DROP DETECTED! Total: 8161
+>> DROP DETECTED! Total: 8162
+>> DROP DETECTED! Total: 8163
+>> DROP DETECTED! Total: 8164
+>> DROP DETECTED! Total: 8165
+>> DROP DETECTED! Total: 8166
+>> DROP DETECTED! Total: 8167
+>> DROP DETECTED! Total: 8168
+>> DROP DETECTED! Total: 8169
+>> DROP DETECTED! Total: 8170
+>> DROP DETECTED! Total: 8171
+>> DROP DETECTED! Total: 8172
+>> DROP DETECTED! Total: 8173
+>> DROP DETECTED! Total: 8174
+>> DROP DETECTED! Total: 8175
+>> DROP DETECTED! Total: 8176
+>> DROP DETECTED! Total: 8177
+>> DROP DETECTED! Total: 8178
+>> DROP DETECTED! Total: 8179
+>> DROP DETECTED! Total: 8180
+>> DROP DETECTED! Total: 8181
+>> DROP DETECTED! Total: 8182
+>> DROP DETECTED! Total: 8183
+>> DROP DETECTED! Total: 8184
+>> DROP DETECTED! Total: 8185
+>> DROP DETECTED! Total: 8186
+>> DROP DETECTED! Total: 8187
+>> DROP DETECTED! Total: 8188
+>> DROP DETECTED! Total: 8189
+2 min | 408 strokes | 406 drops | 1.00 d/s | 1.1%
+>> DROP DETECTED! Total: 8190
+>> DROP DETECTED! Total: 8191
+>> DROP DETECTED! Total: 8192
+>> DROP DETECTED! Total: 8193
+>> DROP DETECTED! Total: 8194
+>> DROP DETECTED! Total: 8195
+>> DROP DETECTED! Total: 8196
+>> DROP DETECTED! Total: 8197
+>> DROP DETECTED! Total: 8198
+>> DROP DETECTED! Total: 8199
+>> DROP DETECTED! Total: 8200
+>> DROP DETECTED! Total: 8201
+>> DROP DETECTED! Total: 8202
+>> DROP DETECTED! Total: 8203
+>> DROP DETECTED! Total: 8204
+>> DROP DETECTED! Total: 8205
+>> DROP DETECTED! Total: 8206
+>> DROP DETECTED! Total: 8207
+>> DROP DETECTED! Total: 8208
+>> DROP DETECTED! Total: 8209
+>> DROP DETECTED! Total: 8210
+>> DROP DETECTED! Total: 8211
+>> DROP DETECTED! Total: 8212
+>> DROP DETECTED! Total: 8213
+>> DROP DETECTED! Total: 8214
+>> DROP DETECTED! Total: 8215
+>> DROP DETECTED! Total: 8216
+>> DROP DETECTED! Total: 8217
+>> DROP DETECTED! Total: 8218
+>> DROP DETECTED! Total: 8219
+>> DROP DETECTED! Total: 8220
+>> DROP DETECTED! Total: 8221
+>> DROP DETECTED! Total: 8222
+>> DROP DETECTED! Total: 8223
+>> DROP DETECTED! Total: 8224
+>> DROP DETECTED! Total: 8225
+>> DROP DETECTED! Total: 8226
+>> DROP DETECTED! Total: 8227
+>> DROP DETECTED! Total: 8228
+>> DROP DETECTED! Total: 8229
+>> DROP DETECTED! Total: 8230
+>> DROP DETECTED! Total: 8231
+>> DROP DETECTED! Total: 8232
+>> DROP DETECTED! Total: 8233
+>> DROP DETECTED! Total: 8234
+>> DROP DETECTED! Total: 8235
+>> DROP DETECTED! Total: 8236
+>> DROP DETECTED! Total: 8237
+>> DROP DETECTED! Total: 8238
+>> DROP DETECTED! Total: 8239
+>> DROP DETECTED! Total: 8240
+>> DROP DETECTED! Total: 8241
+>> DROP DETECTED! Total: 8242
+>> DROP DETECTED! Total: 8243
+>> DROP DETECTED! Total: 8244
+>> DROP DETECTED! Total: 8245
+>> DROP DETECTED! Total: 8246
+>> DROP DETECTED! Total: 8247
+>> DROP DETECTED! Total: 8248
+>> DROP DETECTED! Total: 8249
+>> DROP DETECTED! Total: 8250
+>> DROP DETECTED! Total: 8251
+>> DROP DETECTED! Total: 8252
+>> DROP DETECTED! Total: 8253
+>> DROP DETECTED! Total: 8254
+>> DROP DETECTED! Total: 8255
+>> DROP DETECTED! Total: 8256
+>> DROP DETECTED! Total: 8257
+>> DROP DETECTED! Total: 8258
+>> DROP DETECTED! Total: 8259
+>> DROP DETECTED! Total: 8260
+>> DROP DETECTED! Total: 8261
+>> DROP DETECTED! Total: 8262
+>> DROP DETECTED! Total: 8263
+>> DROP DETECTED! Total: 8264
+>> DROP DETECTED! Total: 8265
+>> DROP DETECTED! Total: 8266
+>> DROP DETECTED! Total: 8267
+>> DROP DETECTED! Total: 8268
+>> DROP DETECTED! Total: 8269
+>> DROP DETECTED! Total: 8270
+>> DROP DETECTED! Total: 8271
+>> DROP DETECTED! Total: 8272
+>> DROP DETECTED! Total: 8273
+>> DROP DETECTED! Total: 8274
+>> DROP DETECTED! Total: 8275
+>> DROP DETECTED! Total: 8276
+>> DROP DETECTED! Total: 8277
+>> DROP DETECTED! Total: 8278
+>> DROP DETECTED! Total: 8279
+>> DROP DETECTED! Total: 8280
+>> DROP DETECTED! Total: 8281
+>> DROP DETECTED! Total: 8282
+>> DROP DETECTED! Total: 8283
+>> DROP DETECTED! Total: 8284
+>> DROP DETECTED! Total: 8285
+>> DROP DETECTED! Total: 8286
+>> DROP DETECTED! Total: 8287
+>> DROP DETECTED! Total: 8288
+>> DROP DETECTED! Total: 8289
+>> DROP DETECTED! Total: 8290
+>> DROP DETECTED! Total: 8291
+>> DROP DETECTED! Total: 8292
+>> DROP DETECTED! Total: 8293
+>> DROP DETECTED! Total: 8294
+>> DROP DETECTED! Total: 8295
+>> DROP DETECTED! Total: 8296
+>> DROP DETECTED! Total: 8297
+>> DROP DETECTED! Total: 8298
+>> DROP DETECTED! Total: 8299
+>> DROP DETECTED! Total: 8300
+>> DROP DETECTED! Total: 8301
+>> DROP DETECTED! Total: 8302
+>> DROP DETECTED! Total: 8303
+>> DROP DETECTED! Total: 8304
+>> DROP DETECTED! Total: 8305
+>> DROP DETECTED! Total: 8306
+>> DROP DETECTED! Total: 8307
+>> DROP DETECTED! Total: 8308
+>> DROP DETECTED! Total: 8309
+>> DROP DETECTED! Total: 8310
+>> DROP DETECTED! Total: 8311
+>> DROP DETECTED! Total: 8312
+>> DROP DETECTED! Total: 8313
+>> DROP DETECTED! Total: 8314
+>> DROP DETECTED! Total: 8315
+>> DROP DETECTED! Total: 8316
+>> DROP DETECTED! Total: 8317
+>> DROP DETECTED! Total: 8318
+>> DROP DETECTED! Total: 8319
+>> DROP DETECTED! Total: 8320
+>> DROP DETECTED! Total: 8321
+>> DROP DETECTED! Total: 8322
+>> DROP DETECTED! Total: 8323
+>> DROP DETECTED! Total: 8324
+>> DROP DETECTED! Total: 8325
+>> DROP DETECTED! Total: 8326
+>> DROP DETECTED! Total: 8327
+>> DROP DETECTED! Total: 8328
+>> DROP DETECTED! Total: 8329
+>> DROP DETECTED! Total: 8330
+>> DROP DETECTED! Total: 8331
+>> DROP DETECTED! Total: 8332
+>> DROP DETECTED! Total: 8333
+>> DROP DETECTED! Total: 8334
+>> DROP DETECTED! Total: 8335
+>> DROP DETECTED! Total: 8336
+>> DROP DETECTED! Total: 8337
+>> DROP DETECTED! Total: 8338
+>> DROP DETECTED! Total: 8339
+>> DROP DETECTED! Total: 8340
+>> DROP DETECTED! Total: 8341
+>> DROP DETECTED! Total: 8342
+>> DROP DETECTED! Total: 8343
+>> DROP DETECTED! Total: 8344
+>> DROP DETECTED! Total: 8345
+>> DROP DETECTED! Total: 8346
+>> DROP DETECTED! Total: 8347
+>> DROP DETECTED! Total: 8348
+>> DROP DETECTED! Total: 8349
+>> DROP DETECTED! Total: 8350
+>> DROP DETECTED! Total: 8351
+>> DROP DETECTED! Total: 8352
+>> DROP DETECTED! Total: 8353
+>> DROP DETECTED! Total: 8354
+>> DROP DETECTED! Total: 8355
+>> DROP DETECTED! Total: 8356
+>> DROP DETECTED! Total: 8357
+>> DROP DETECTED! Total: 8358
+>> DROP DETECTED! Total: 8359
+>> DROP DETECTED! Total: 8360
+>> DROP DETECTED! Total: 8361
+>> DROP DETECTED! Total: 8362
+>> DROP DETECTED! Total: 8363
+>> DROP DETECTED! Total: 8364
+>> DROP DETECTED! Total: 8365
+>> DROP DETECTED! Total: 8366
+>> DROP DETECTED! Total: 8367
+>> DROP DETECTED! Total: 8368
+>> DROP DETECTED! Total: 8369
+>> DROP DETECTED! Total: 8370
+>> DROP DETECTED! Total: 8371
+>> DROP DETECTED! Total: 8372
+>> DROP DETECTED! Total: 8373
+>> DROP DETECTED! Total: 8374
+>> DROP DETECTED! Total: 8375
+>> DROP DETECTED! Total: 8376
+>> DROP DETECTED! Total: 8377
+>> DROP DETECTED! Total: 8378
+>> DROP DETECTED! Total: 8379
+>> DROP DETECTED! Total: 8380
+>> DROP DETECTED! Total: 8381
+>> DROP DETECTED! Total: 8382
+>> DROP DETECTED! Total: 8383
+>> DROP DETECTED! Total: 8384
+>> DROP DETECTED! Total: 8385
+>> DROP DETECTED! Total: 8386
+>> DROP DETECTED! Total: 8387
+>> DROP DETECTED! Total: 8388
+>> DROP DETECTED! Total: 8389
+>> DROP DETECTED! Total: 8390
+>> DROP DETECTED! Total: 8391
+>> DROP DETECTED! Total: 8392
+>> DROP DETECTED! Total: 8393
+3 min | 612 strokes | 610 drops | 1.00 d/s | 1.2%
+>> DROP DETECTED! Total: 8394
+>> DROP DETECTED! Total: 8395
+>> DROP DETECTED! Total: 8396
+>> DROP DETECTED! Total: 8397
+>> DROP DETECTED! Total: 8398
+>> DROP DETECTED! Total: 8399
+>> DROP DETECTED! Total: 8400
+>> DROP DETECTED! Total: 8401
+>> DROP DETECTED! Total: 8402
+>> DROP DETECTED! Total: 8403
+>> DROP DETECTED! Total: 8404
+>> DROP DETECTED! Total: 8405
+>> DROP DETECTED! Total: 8406
+>> DROP DETECTED! Total: 8407
+>> DROP DETECTED! Total: 8408
+>> DROP DETECTED! Total: 8409
+>> DROP DETECTED! Total: 8410
+>> DROP DETECTED! Total: 8411
+>> DROP DETECTED! Total: 8412
+>> DROP DETECTED! Total: 8413
+>> DROP DETECTED! Total: 8414
+>> DROP DETECTED! Total: 8415
+>> DROP DETECTED! Total: 8416
+>> DROP DETECTED! Total: 8417
+>> DROP DETECTED! Total: 8418
+>> DROP DETECTED! Total: 8419
+>> DROP DETECTED! Total: 8420
+>> DROP DETECTED! Total: 8421
+>> DROP DETECTED! Total: 8422
+>> DROP DETECTED! Total: 8423
+>> DROP DETECTED! Total: 8424
+>> DROP DETECTED! Total: 8425
+>> DROP DETECTED! Total: 8426
+>> DROP DETECTED! Total: 8427
+>> DROP DETECTED! Total: 8428
+>> DROP DETECTED! Total: 8429
+>> DROP DETECTED! Total: 8430
+>> DROP DETECTED! Total: 8431
+>> DROP DETECTED! Total: 8432
+>> DROP DETECTED! Total: 8433
+>> DROP DETECTED! Total: 8434
+>> DROP DETECTED! Total: 8435
+>> DROP DETECTED! Total: 8436
+>> DROP DETECTED! Total: 8437
+>> DROP DETECTED! Total: 8438
+>> DROP DETECTED! Total: 8439
+>> DROP DETECTED! Total: 8440
+>> DROP DETECTED! Total: 8441
+>> DROP DETECTED! Total: 8442
+>> DROP DETECTED! Total: 8443
+>> DROP DETECTED! Total: 8444
+>> DROP DETECTED! Total: 8445
+>> DROP DETECTED! Total: 8446
+>> DROP DETECTED! Total: 8447
+>> DROP DETECTED! Total: 8448
+>> DROP DETECTED! Total: 8449
+>> DROP DETECTED! Total: 8450
+>> DROP DETECTED! Total: 8451
+>> DROP DETECTED! Total: 8452
+>> DROP DETECTED! Total: 8453
+>> DROP DETECTED! Total: 8454
+>> DROP DETECTED! Total: 8455
+>> DROP DETECTED! Total: 8456
+>> DROP DETECTED! Total: 8457
+>> DROP DETECTED! Total: 8458
+>> DROP DETECTED! Total: 8459
+>> DROP DETECTED! Total: 8460
+>> DROP DETECTED! Total: 8461
+>> DROP DETECTED! Total: 8462
+>> DROP DETECTED! Total: 8463
+>> DROP DETECTED! Total: 8464
+>> DROP DETECTED! Total: 8465
+>> DROP DETECTED! Total: 8466
+>> DROP DETECTED! Total: 8467
+>> DROP DETECTED! Total: 8468
+>> DROP DETECTED! Total: 8469
+>> DROP DETECTED! Total: 8470
+>> DROP DETECTED! Total: 8471
+>> DROP DETECTED! Total: 8472
+>> DROP DETECTED! Total: 8473
+>> DROP DETECTED! Total: 8474
+>> DROP DETECTED! Total: 8475
+>> DROP DETECTED! Total: 8476
+>> DROP DETECTED! Total: 8477
+>> DROP DETECTED! Total: 8478
+>> DROP DETECTED! Total: 8479
+>> DROP DETECTED! Total: 8480
+>> DROP DETECTED! Total: 8481
+>> DROP DETECTED! Total: 8482
+>> DROP DETECTED! Total: 8483
+>> DROP DETECTED! Total: 8484
+>> DROP DETECTED! Total: 8485
+>> DROP DETECTED! Total: 8486
+>> DROP DETECTED! Total: 8487
+>> DROP DETECTED! Total: 8488
+>> DROP DETECTED! Total: 8489
+>> DROP DETECTED! Total: 8490
+>> DROP DETECTED! Total: 8491
+>> DROP DETECTED! Total: 8492
+>> DROP DETECTED! Total: 8493
+>> DROP DETECTED! Total: 8494
+>> DROP DETECTED! Total: 8495
+>> DROP DETECTED! Total: 8496
+>> DROP DETECTED! Total: 8497
+>> DROP DETECTED! Total: 8498
+>> DROP DETECTED! Total: 8499
+>> DROP DETECTED! Total: 8500
+>> DROP DETECTED! Total: 8501
+>> DROP DETECTED! Total: 8502
+>> DROP DETECTED! Total: 8503
+>> DROP DETECTED! Total: 8504
+>> DROP DETECTED! Total: 8505
+>> DROP DETECTED! Total: 8506
+>> DROP DETECTED! Total: 8507
+>> DROP DETECTED! Total: 8508
+>> DROP DETECTED! Total: 8509
+>> DROP DETECTED! Total: 8510
+>> DROP DETECTED! Total: 8511
+>> DROP DETECTED! Total: 8512
+>> DROP DETECTED! Total: 8513
+>> DROP DETECTED! Total: 8514
+>> DROP DETECTED! Total: 8515
+>> DROP DETECTED! Total: 8516
+>> DROP DETECTED! Total: 8517
+>> DROP DETECTED! Total: 8518
+>> DROP DETECTED! Total: 8519
+>> DROP DETECTED! Total: 8520
+>> DROP DETECTED! Total: 8521
+>> DROP DETECTED! Total: 8522
+>> DROP DETECTED! Total: 8523
+>> DROP DETECTED! Total: 8524
+>> DROP DETECTED! Total: 8525
+>> DROP DETECTED! Total: 8526
+>> DROP DETECTED! Total: 8527
+>> DROP DETECTED! Total: 8528
+>> DROP DETECTED! Total: 8529
+>> DROP DETECTED! Total: 8530
+>> DROP DETECTED! Total: 8531
+>> DROP DETECTED! Total: 8532
+>> DROP DETECTED! Total: 8533
+>> DROP DETECTED! Total: 8534
+>> DROP DETECTED! Total: 8535
+>> DROP DETECTED! Total: 8536
+>> DROP DETECTED! Total: 8537
+>> DROP DETECTED! Total: 8538
+>> DROP DETECTED! Total: 8539
+>> DROP DETECTED! Total: 8540
+>> DROP DETECTED! Total: 8541
+>> DROP DETECTED! Total: 8542
+>> DROP DETECTED! Total: 8543
+>> DROP DETECTED! Total: 8544
+>> DROP DETECTED! Total: 8545
+>> DROP DETECTED! Total: 8546
+>> DROP DETECTED! Total: 8547
+>> DROP DETECTED! Total: 8548
+>> DROP DETECTED! Total: 8549
+>> DROP DETECTED! Total: 8550
+>> DROP DETECTED! Total: 8551
+>> DROP DETECTED! Total: 8552
+>> DROP DETECTED! Total: 8553
+>> DROP DETECTED! Total: 8554
+>> DROP DETECTED! Total: 8555
+>> DROP DETECTED! Total: 8556
+>> DROP DETECTED! Total: 8557
+>> DROP DETECTED! Total: 8558
+>> DROP DETECTED! Total: 8559
+>> DROP DETECTED! Total: 8560
+>> DROP DETECTED! Total: 8561
+>> DROP DETECTED! Total: 8562
+>> DROP DETECTED! Total: 8563
+>> DROP DETECTED! Total: 8564
+>> DROP DETECTED! Total: 8565
+>> DROP DETECTED! Total: 8566
+>> DROP DETECTED! Total: 8567
+>> DROP DETECTED! Total: 8568
+>> DROP DETECTED! Total: 8569
+>> DROP DETECTED! Total: 8570
+>> DROP DETECTED! Total: 8571
+>> DROP DETECTED! Total: 8572
+>> DROP DETECTED! Total: 8573
+>> DROP DETECTED! Total: 8574
+>> DROP DETECTED! Total: 8575
+>> DROP DETECTED! Total: 8576
+>> DROP DETECTED! Total: 8577
+>> DROP DETECTED! Total: 8578
+>> DROP DETECTED! Total: 8579
+>> DROP DETECTED! Total: 8580
+>> DROP DETECTED! Total: 8581
+>> DROP DETECTED! Total: 8582
+>> DROP DETECTED! Total: 8583
+>> DROP DETECTED! Total: 8584
+>> DROP DETECTED! Total: 8585
+>> DROP DETECTED! Total: 8586
+>> DROP DETECTED! Total: 8587
+>> DROP DETECTED! Total: 8588
+>> DROP DETECTED! Total: 8589
+>> DROP DETECTED! Total: 8590
+>> DROP DETECTED! Total: 8591
+>> DROP DETECTED! Total: 8592
+>> DROP DETECTED! Total: 8593
+>> DROP DETECTED! Total: 8594
+>> DROP DETECTED! Total: 8595
+>> DROP DETECTED! Total: 8596
+>> DROP DETECTED! Total: 8597
+4 min | 816 strokes | 814 drops | 1.00 d/s | 1.0%
+>> DROP DETECTED! Total: 8598
+>> DROP DETECTED! Total: 8599
+>> DROP DETECTED! Total: 8600
+>> DROP DETECTED! Total: 8601
+>> DROP DETECTED! Total: 8602
+>> DROP DETECTED! Total: 8603
+>> DROP DETECTED! Total: 8604
+>> DROP DETECTED! Total: 8605
+>> DROP DETECTED! Total: 8606
+>> DROP DETECTED! Total: 8607
+>> DROP DETECTED! Total: 8608
+>> DROP DETECTED! Total: 8609
+>> DROP DETECTED! Total: 8610
+>> DROP DETECTED! Total: 8611
+>> DROP DETECTED! Total: 8612
+>> DROP DETECTED! Total: 8613
+>> DROP DETECTED! Total: 8614
+>> DROP DETECTED! Total: 8615
+>> DROP DETECTED! Total: 8616
+>> DROP DETECTED! Total: 8617
+>> DROP DETECTED! Total: 8618
+>> DROP DETECTED! Total: 8619
+>> DROP DETECTED! Total: 8620
+>> DROP DETECTED! Total: 8621
+>> DROP DETECTED! Total: 8622
+>> DROP DETECTED! Total: 8623
+>> DROP DETECTED! Total: 8624
+>> DROP DETECTED! Total: 8625
+>> DROP DETECTED! Total: 8626
+>> DROP DETECTED! Total: 8627
+>> DROP DETECTED! Total: 8628
+>> DROP DETECTED! Total: 8629
+>> DROP DETECTED! Total: 8630
+>> DROP DETECTED! Total: 8631
+>> DROP DETECTED! Total: 8632
+>> DROP DETECTED! Total: 8633
+>> DROP DETECTED! Total: 8634
+>> DROP DETECTED! Total: 8635
+>> DROP DETECTED! Total: 8636
+>> DROP DETECTED! Total: 8637
+>> DROP DETECTED! Total: 8638
+>> DROP DETECTED! Total: 8639
+>> DROP DETECTED! Total: 8640
+>> DROP DETECTED! Total: 8641
+>> DROP DETECTED! Total: 8642
+>> DROP DETECTED! Total: 8643
+>> DROP DETECTED! Total: 8644
+>> DROP DETECTED! Total: 8645
+>> DROP DETECTED! Total: 8646
+>> DROP DETECTED! Total: 8647
+>> DROP DETECTED! Total: 8648
+>> DROP DETECTED! Total: 8649
+>> DROP DETECTED! Total: 8650
+>> DROP DETECTED! Total: 8651
+>> DROP DETECTED! Total: 8652
+>> DROP DETECTED! Total: 8653
+>> DROP DETECTED! Total: 8654
+>> DROP DETECTED! Total: 8655
+>> DROP DETECTED! Total: 8656
+>> DROP DETECTED! Total: 8657
+>> DROP DETECTED! Total: 8658
+>> DROP DETECTED! Total: 8659
+>> DROP DETECTED! Total: 8660
+>> DROP DETECTED! Total: 8661
+>> DROP DETECTED! Total: 8662
+>> DROP DETECTED! Total: 8663
+>> DROP DETECTED! Total: 8664
+>> DROP DETECTED! Total: 8665
+>> DROP DETECTED! Total: 8666
+>> DROP DETECTED! Total: 8667
+>> DROP DETECTED! Total: 8668
+>> DROP DETECTED! Total: 8669
+>> DROP DETECTED! Total: 8670
+>> DROP DETECTED! Total: 8671
+>> DROP DETECTED! Total: 8672
+>> DROP DETECTED! Total: 8673
+>> DROP DETECTED! Total: 8674
+>> DROP DETECTED! Total: 8675
+>> DROP DETECTED! Total: 8676
+>> DROP DETECTED! Total: 8677
+>> DROP DETECTED! Total: 8678
+>> DROP DETECTED! Total: 8679
+>> DROP DETECTED! Total: 8680
+>> DROP DETECTED! Total: 8681
+>> DROP DETECTED! Total: 8682
+>> DROP DETECTED! Total: 8683
+>> DROP DETECTED! Total: 8684
+>> DROP DETECTED! Total: 8685
+>> DROP DETECTED! Total: 8686
+>> DROP DETECTED! Total: 8687
+>> DROP DETECTED! Total: 8688
+>> DROP DETECTED! Total: 8689
+>> DROP DETECTED! Total: 8690
+>> DROP DETECTED! Total: 8691
+>> DROP DETECTED! Total: 8692
+>> DROP DETECTED! Total: 8693
+>> DROP DETECTED! Total: 8694
+>> DROP DETECTED! Total: 8695
+>> DROP DETECTED! Total: 8696
+>> DROP DETECTED! Total: 8697
+>> DROP DETECTED! Total: 8698
+>> DROP DETECTED! Total: 8699
+>> DROP DETECTED! Total: 8700
+>> DROP DETECTED! Total: 8701
+>> DROP DETECTED! Total: 8702
+>> DROP DETECTED! Total: 8703
+>> DROP DETECTED! Total: 8704
+>> DROP DETECTED! Total: 8705
+>> DROP DETECTED! Total: 8706
+>> DROP DETECTED! Total: 8707
+>> DROP DETECTED! Total: 8708
+>> DROP DETECTED! Total: 8709
+>> DROP DETECTED! Total: 8710
+>> DROP DETECTED! Total: 8711
+>> DROP DETECTED! Total: 8712
+>> DROP DETECTED! Total: 8713
+>> DROP DETECTED! Total: 8714
+>> DROP DETECTED! Total: 8715
+>> DROP DETECTED! Total: 8716
+>> DROP DETECTED! Total: 8717
+>> DROP DETECTED! Total: 8718
+>> DROP DETECTED! Total: 8719
+>> DROP DETECTED! Total: 8720
+>> DROP DETECTED! Total: 8721
+>> DROP DETECTED! Total: 8722
+>> DROP DETECTED! Total: 8723
+>> DROP DETECTED! Total: 8724
+>> DROP DETECTED! Total: 8725
+>> DROP DETECTED! Total: 8726
+>> DROP DETECTED! Total: 8727
+>> DROP DETECTED! Total: 8728
+>> DROP DETECTED! Total: 8729
+>> DROP DETECTED! Total: 8730
+>> DROP DETECTED! Total: 8731
+>> DROP DETECTED! Total: 8732
+>> DROP DETECTED! Total: 8733
+>> DROP DETECTED! Total: 8734
+>> DROP DETECTED! Total: 8735
+>> DROP DETECTED! Total: 8736
+>> DROP DETECTED! Total: 8737
+>> DROP DETECTED! Total: 8738
+>> DROP DETECTED! Total: 8739
+>> DROP DETECTED! Total: 8740
+>> DROP DETECTED! Total: 8741
+>> DROP DETECTED! Total: 8742
+>> DROP DETECTED! Total: 8743
+>> DROP DETECTED! Total: 8744
+>> DROP DETECTED! Total: 8745
+>> DROP DETECTED! Total: 8746
+>> DROP DETECTED! Total: 8747
+>> DROP DETECTED! Total: 8748
+>> DROP DETECTED! Total: 8749
+>> DROP DETECTED! Total: 8750
+>> DROP DETECTED! Total: 8751
+>> DROP DETECTED! Total: 8752
+>> DROP DETECTED! Total: 8753
+>> DROP DETECTED! Total: 8754
+>> DROP DETECTED! Total: 8755
+>> DROP DETECTED! Total: 8756
+>> DROP DETECTED! Total: 8757
+>> DROP DETECTED! Total: 8758
+>> DROP DETECTED! Total: 8759
+>> DROP DETECTED! Total: 8760
+>> DROP DETECTED! Total: 8761
+>> DROP DETECTED! Total: 8762
+>> DROP DETECTED! Total: 8763
+>> DROP DETECTED! Total: 8764
+>> DROP DETECTED! Total: 8765
+>> DROP DETECTED! Total: 8766
+>> DROP DETECTED! Total: 8767
+>> DROP DETECTED! Total: 8768
+>> DROP DETECTED! Total: 8769
+>> DROP DETECTED! Total: 8770
+>> DROP DETECTED! Total: 8771
+>> DROP DETECTED! Total: 8772
+>> DROP DETECTED! Total: 8773
+>> DROP DETECTED! Total: 8774
+>> DROP DETECTED! Total: 8775
+>> DROP DETECTED! Total: 8776
+>> DROP DETECTED! Total: 8777
+>> DROP DETECTED! Total: 8778
+>> DROP DETECTED! Total: 8779
+>> DROP DETECTED! Total: 8780
+>> DROP DETECTED! Total: 8781
+>> DROP DETECTED! Total: 8782
+>> DROP DETECTED! Total: 8783
+>> DROP DETECTED! Total: 8784
+>> DROP DETECTED! Total: 8785
+>> DROP DETECTED! Total: 8786
+>> DROP DETECTED! Total: 8787
+>> DROP DETECTED! Total: 8788
+>> DROP DETECTED! Total: 8789
+>> DROP DETECTED! Total: 8790
+>> DROP DETECTED! Total: 8791
+>> DROP DETECTED! Total: 8792
+>> DROP DETECTED! Total: 8793
+>> DROP DETECTED! Total: 8794
+>> DROP DETECTED! Total: 8795
+>> DROP DETECTED! Total: 8796
+>> DROP DETECTED! Total: 8797
+>> DROP DETECTED! Total: 8798
+>> DROP DETECTED! Total: 8799
+>> DROP DETECTED! Total: 8800
+>> DROP DETECTED! Total: 8801
+5 min | 1020 strokes | 1018 drops | 1.00 d/s | 1.2%
+>> DROP DETECTED! Total: 8802
+>> DROP DETECTED! Total: 8803
+>> DROP DETECTED! Total: 8804
+>> DROP DETECTED! Total: 8805
+>> DROP DETECTED! Total: 8806
+>> DROP DETECTED! Total: 8807
+>> DROP DETECTED! Total: 8808
+>> DROP DETECTED! Total: 8809
+>> DROP DETECTED! Total: 8810
+>> DROP DETECTED! Total: 8811
+>> DROP DETECTED! Total: 8812
+>> DROP DETECTED! Total: 8813
+>> DROP DETECTED! Total: 8814
+>> DROP DETECTED! Total: 8815
+>> DROP DETECTED! Total: 8816
+>> DROP DETECTED! Total: 8817
+>> DROP DETECTED! Total: 8818
+>> DROP DETECTED! Total: 8819
+>> DROP DETECTED! Total: 8820
+>> DROP DETECTED! Total: 8821
+>> DROP DETECTED! Total: 8822
+>> DROP DETECTED! Total: 8823
+>> DROP DETECTED! Total: 8824
+>> DROP DETECTED! Total: 8825
+>> DROP DETECTED! Total: 8826
+>> DROP DETECTED! Total: 8827
+>> DROP DETECTED! Total: 8828
+>> DROP DETECTED! Total: 8829
+>> DROP DETECTED! Total: 8830
+>> DROP DETECTED! Total: 8831
+>> DROP DETECTED! Total: 8832
+>> DROP DETECTED! Total: 8833
+>> DROP DETECTED! Total: 8834
+>> DROP DETECTED! Total: 8835
+>> DROP DETECTED! Total: 8836
+>> DROP DETECTED! Total: 8837
+>> DROP DETECTED! Total: 8838
+>> DROP DETECTED! Total: 8839
+>> DROP DETECTED! Total: 8840
+>> DROP DETECTED! Total: 8841
+>> DROP DETECTED! Total: 8842
+>> DROP DETECTED! Total: 8843
+>> DROP DETECTED! Total: 8844
+>> DROP DETECTED! Total: 8845
+>> DROP DETECTED! Total: 8846
+>> DROP DETECTED! Total: 8847
+>> DROP DETECTED! Total: 8848
+>> DROP DETECTED! Total: 8849
+>> DROP DETECTED! Total: 8850
+>> DROP DETECTED! Total: 8851
+>> DROP DETECTED! Total: 8852
+>> DROP DETECTED! Total: 8853
+>> DROP DETECTED! Total: 8854
+>> DROP DETECTED! Total: 8855
+>> DROP DETECTED! Total: 8856
+>> DROP DETECTED! Total: 8857
+>> DROP DETECTED! Total: 8858
+>> DROP DETECTED! Total: 8859
+>> DROP DETECTED! Total: 8860
+>> DROP DETECTED! Total: 8861
+>> DROP DETECTED! Total: 8862
+>> DROP DETECTED! Total: 8863
+>> DROP DETECTED! Total: 8864
+>> DROP DETECTED! Total: 8865
+>> DROP DETECTED! Total: 8866
+>> DROP DETECTED! Total: 8867
+>> DROP DETECTED! Total: 8868
+>> DROP DETECTED! Total: 8869
+>> DROP DETECTED! Total: 8870
+>> DROP DETECTED! Total: 8871
+>> DROP DETECTED! Total: 8872
+>> DROP DETECTED! Total: 8873
+>> DROP DETECTED! Total: 8874
+>> DROP DETECTED! Total: 8875
+>> DROP DETECTED! Total: 8876
+>> DROP DETECTED! Total: 8877
+>> DROP DETECTED! Total: 8878
+>> DROP DETECTED! Total: 8879
+>> DROP DETECTED! Total: 8880
+>> DROP DETECTED! Total: 8881
+>> DROP DETECTED! Total: 8882
+>> DROP DETECTED! Total: 8883
+>> DROP DETECTED! Total: 8884
+>> DROP DETECTED! Total: 8885
+>> DROP DETECTED! Total: 8886
+>> DROP DETECTED! Total: 8887
+>> DROP DETECTED! Total: 8888
+>> DROP DETECTED! Total: 8889
+>> DROP DETECTED! Total: 8890
+>> DROP DETECTED! Total: 8891
+>> DROP DETECTED! Total: 8892
+>> DROP DETECTED! Total: 8893
+>> DROP DETECTED! Total: 8894
+>> DROP DETECTED! Total: 8895
+>> DROP DETECTED! Total: 8896
+>> DROP DETECTED! Total: 8897
+>> DROP DETECTED! Total: 8898
+>> DROP DETECTED! Total: 8899
+>> DROP DETECTED! Total: 8900
+>> DROP DETECTED! Total: 8901
+>> DROP DETECTED! Total: 8902
+>> DROP DETECTED! Total: 8903
+>> DROP DETECTED! Total: 8904
+>> DROP DETECTED! Total: 8905
+>> DROP DETECTED! Total: 8906
+>> DROP DETECTED! Total: 8907
+>> DROP DETECTED! Total: 8908
+>> DROP DETECTED! Total: 8909
+>> DROP DETECTED! Total: 8910
+>> DROP DETECTED! Total: 8911
+>> DROP DETECTED! Total: 8912
+>> DROP DETECTED! Total: 8913
+>> DROP DETECTED! Total: 8914
+>> DROP DETECTED! Total: 8915
+>> DROP DETECTED! Total: 8916
+>> DROP DETECTED! Total: 8917
+>> DROP DETECTED! Total: 8918
+>> DROP DETECTED! Total: 8919
+>> DROP DETECTED! Total: 8920
+>> DROP DETECTED! Total: 8921
+>> DROP DETECTED! Total: 8922
+>> DROP DETECTED! Total: 8923
+>> DROP DETECTED! Total: 8924
+>> DROP DETECTED! Total: 8925
+>> DROP DETECTED! Total: 8926
+>> DROP DETECTED! Total: 8927
+>> DROP DETECTED! Total: 8928
+>> DROP DETECTED! Total: 8929
+>> DROP DETECTED! Total: 8930
+>> DROP DETECTED! Total: 8931
+>> DROP DETECTED! Total: 8932
+>> DROP DETECTED! Total: 8933
+>> DROP DETECTED! Total: 8934
+>> DROP DETECTED! Total: 8935
+>> DROP DETECTED! Total: 8936
+>> DROP DETECTED! Total: 8937
+>> DROP DETECTED! Total: 8938
+>> DROP DETECTED! Total: 8939
+>> DROP DETECTED! Total: 8940
+>> DROP DETECTED! Total: 8941
+>> DROP DETECTED! Total: 8942
+>> DROP DETECTED! Total: 8943
+>> DROP DETECTED! Total: 8944
+>> DROP DETECTED! Total: 8945
+>> DROP DETECTED! Total: 8946
+>> DROP DETECTED! Total: 8947
+>> DROP DETECTED! Total: 8948
+>> DROP DETECTED! Total: 8949
+>> DROP DETECTED! Total: 8950
+>> DROP DETECTED! Total: 8951
+>> DROP DETECTED! Total: 8952
+>> DROP DETECTED! Total: 8953
+>> DROP DETECTED! Total: 8954
+>> DROP DETECTED! Total: 8955
+>> DROP DETECTED! Total: 8956
+>> DROP DETECTED! Total: 8957
+>> DROP DETECTED! Total: 8958
+>> DROP DETECTED! Total: 8959
+>> DROP DETECTED! Total: 8960
+>> DROP DETECTED! Total: 8961
+>> DROP DETECTED! Total: 8962
+>> DROP DETECTED! Total: 8963
+>> DROP DETECTED! Total: 8964
+>> DROP DETECTED! Total: 8965
+>> DROP DETECTED! Total: 8966
+>> DROP DETECTED! Total: 8967
+>> DROP DETECTED! Total: 8968
+>> DROP DETECTED! Total: 8969
+>> DROP DETECTED! Total: 8970
+>> DROP DETECTED! Total: 8971
+>> DROP DETECTED! Total: 8972
+>> DROP DETECTED! Total: 8973
+>> DROP DETECTED! Total: 8974
+>> DROP DETECTED! Total: 8975
+>> DROP DETECTED! Total: 8976
+>> DROP DETECTED! Total: 8977
+>> DROP DETECTED! Total: 8978
+>> DROP DETECTED! Total: 8979
+>> DROP DETECTED! Total: 8980
+>> DROP DETECTED! Total: 8981
+>> DROP DETECTED! Total: 8982
+>> DROP DETECTED! Total: 8983
+>> DROP DETECTED! Total: 8984
+>> DROP DETECTED! Total: 8985
+>> DROP DETECTED! Total: 8986
+>> DROP DETECTED! Total: 8987
+>> DROP DETECTED! Total: 8988
+>> DROP DETECTED! Total: 8989
+>> DROP DETECTED! Total: 8990
+>> DROP DETECTED! Total: 8991
+>> DROP DETECTED! Total: 8992
+>> DROP DETECTED! Total: 8993
+>> DROP DETECTED! Total: 8994
+>> DROP DETECTED! Total: 8995
+>> DROP DETECTED! Total: 8996
+>> DROP DETECTED! Total: 8997
+>> DROP DETECTED! Total: 8998
+>> DROP DETECTED! Total: 8999
+>> DROP DETECTED! Total: 9000
+>> DROP DETECTED! Total: 9001
+>> DROP DETECTED! Total: 9002
+>> DROP DETECTED! Total: 9003
+>> DROP DETECTED! Total: 9004
+>> DROP DETECTED! Total: 9005
+6 min | 1224 strokes | 1222 drops | 1.00 d/s | 1.2%
+>> DROP DETECTED! Total: 9006
+>> DROP DETECTED! Total: 9007
+>> DROP DETECTED! Total: 9008
+>> DROP DETECTED! Total: 9009
+>> DROP DETECTED! Total: 9010
+>> DROP DETECTED! Total: 9011
+>> DROP DETECTED! Total: 9012
+>> DROP DETECTED! Total: 9013
+>> DROP DETECTED! Total: 9014
+>> DROP DETECTED! Total: 9015
+>> DROP DETECTED! Total: 9016
+>> DROP DETECTED! Total: 9017
+>> DROP DETECTED! Total: 9018
+>> DROP DETECTED! Total: 9019
+>> DROP DETECTED! Total: 9020
+>> DROP DETECTED! Total: 9021
+>> DROP DETECTED! Total: 9022
+>> DROP DETECTED! Total: 9023
+>> DROP DETECTED! Total: 9024
+>> DROP DETECTED! Total: 9025
+>> DROP DETECTED! Total: 9026
+>> DROP DETECTED! Total: 9027
+>> DROP DETECTED! Total: 9028
+>> DROP DETECTED! Total: 9029
+>> DROP DETECTED! Total: 9030
+>> DROP DETECTED! Total: 9031
+>> DROP DETECTED! Total: 9032
+>> DROP DETECTED! Total: 9033
+>> DROP DETECTED! Total: 9034
+>> DROP DETECTED! Total: 9035
+>> DROP DETECTED! Total: 9036
+>> DROP DETECTED! Total: 9037
+>> DROP DETECTED! Total: 9038
+>> DROP DETECTED! Total: 9039
+>> DROP DETECTED! Total: 9040
+>> DROP DETECTED! Total: 9041
+>> DROP DETECTED! Total: 9042
+>> DROP DETECTED! Total: 9043
+>> DROP DETECTED! Total: 9044
+>> DROP DETECTED! Total: 9045
+>> DROP DETECTED! Total: 9046
+>> DROP DETECTED! Total: 9047
+>> DROP DETECTED! Total: 9048
+>> DROP DETECTED! Total: 9049
+>> DROP DETECTED! Total: 9050
+>> DROP DETECTED! Total: 9051
+>> DROP DETECTED! Total: 9052
+>> DROP DETECTED! Total: 9053
+>> DROP DETECTED! Total: 9054
+>> DROP DETECTED! Total: 9055
+>> DROP DETECTED! Total: 9056
+>> DROP DETECTED! Total: 9057
+>> DROP DETECTED! Total: 9058
+>> DROP DETECTED! Total: 9059
+>> DROP DETECTED! Total: 9060
+>> DROP DETECTED! Total: 9061
+>> DROP DETECTED! Total: 9062
+>> DROP DETECTED! Total: 9063
+>> DROP DETECTED! Total: 9064
+>> DROP DETECTED! Total: 9065
+>> DROP DETECTED! Total: 9066
+>> DROP DETECTED! Total: 9067
+>> DROP DETECTED! Total: 9068
+>> DROP DETECTED! Total: 9069
+>> DROP DETECTED! Total: 9070
+>> DROP DETECTED! Total: 9071
+>> DROP DETECTED! Total: 9072
+>> DROP DETECTED! Total: 9073
+>> DROP DETECTED! Total: 9074
+>> DROP DETECTED! Total: 9075
+>> DROP DETECTED! Total: 9076
+>> DROP DETECTED! Total: 9077
+>> DROP DETECTED! Total: 9078
+>> DROP DETECTED! Total: 9079
+>> DROP DETECTED! Total: 9080
+>> DROP DETECTED! Total: 9081
+>> DROP DETECTED! Total: 9082
+>> DROP DETECTED! Total: 9083
+>> DROP DETECTED! Total: 9084
+>> DROP DETECTED! Total: 9085
+>> DROP DETECTED! Total: 9086
+>> DROP DETECTED! Total: 9087
+>> DROP DETECTED! Total: 9088
+>> DROP DETECTED! Total: 9089
+>> DROP DETECTED! Total: 9090
+>> DROP DETECTED! Total: 9091
+>> DROP DETECTED! Total: 9092
+>> DROP DETECTED! Total: 9093
+>> DROP DETECTED! Total: 9094
+>> DROP DETECTED! Total: 9095
+>> DROP DETECTED! Total: 9096
+>> DROP DETECTED! Total: 9097
+>> DROP DETECTED! Total: 9098
+>> DROP DETECTED! Total: 9099
+>> DROP DETECTED! Total: 9100
+>> DROP DETECTED! Total: 9101
+>> DROP DETECTED! Total: 9102
+>> DROP DETECTED! Total: 9103
+>> DROP DETECTED! Total: 9104
+>> DROP DETECTED! Total: 9105
+>> DROP DETECTED! Total: 9106
+>> DROP DETECTED! Total: 9107
+>> DROP DETECTED! Total: 9108
+>> DROP DETECTED! Total: 9109
+>> DROP DETECTED! Total: 9110
+>> DROP DETECTED! Total: 9111
+>> DROP DETECTED! Total: 9112
+>> DROP DETECTED! Total: 9113
+>> DROP DETECTED! Total: 9114
+>> DROP DETECTED! Total: 9115
+>> DROP DETECTED! Total: 9116
+>> DROP DETECTED! Total: 9117
+>> DROP DETECTED! Total: 9118
+>> DROP DETECTED! Total: 9119
+>> DROP DETECTED! Total: 9120
+>> DROP DETECTED! Total: 9121
+>> DROP DETECTED! Total: 9122
+>> DROP DETECTED! Total: 9123
+>> DROP DETECTED! Total: 9124
+>> DROP DETECTED! Total: 9125
+>> DROP DETECTED! Total: 9126
+>> DROP DETECTED! Total: 9127
+>> DROP DETECTED! Total: 9128
+>> DROP DETECTED! Total: 9129
+>> DROP DETECTED! Total: 9130
+>> DROP DETECTED! Total: 9131
+>> DROP DETECTED! Total: 9132
+>> DROP DETECTED! Total: 9133
+>> DROP DETECTED! Total: 9134
+>> DROP DETECTED! Total: 9135
+>> DROP DETECTED! Total: 9136
+>> DROP DETECTED! Total: 9137
+>> DROP DETECTED! Total: 9138
+>> DROP DETECTED! Total: 9139
+>> DROP DETECTED! Total: 9140
+>> DROP DETECTED! Total: 9141
+>> DROP DETECTED! Total: 9142
+>> DROP DETECTED! Total: 9143
+>> DROP DETECTED! Total: 9144
+>> DROP DETECTED! Total: 9145
+>> DROP DETECTED! Total: 9146
+>> DROP DETECTED! Total: 9147
+>> DROP DETECTED! Total: 9148
+>> DROP DETECTED! Total: 9149
+>> DROP DETECTED! Total: 9150
+>> DROP DETECTED! Total: 9151
+>> DROP DETECTED! Total: 9152
+>> DROP DETECTED! Total: 9153
+>> DROP DETECTED! Total: 9154
+>> DROP DETECTED! Total: 9155
+>> DROP DETECTED! Total: 9156
+>> DROP DETECTED! Total: 9157
+>> DROP DETECTED! Total: 9158
+>> DROP DETECTED! Total: 9159
+>> DROP DETECTED! Total: 9160
+>> DROP DETECTED! Total: 9161
+>> DROP DETECTED! Total: 9162
+>> DROP DETECTED! Total: 9163
+>> DROP DETECTED! Total: 9164
+>> DROP DETECTED! Total: 9165
+>> DROP DETECTED! Total: 9166
+>> DROP DETECTED! Total: 9167
+>> DROP DETECTED! Total: 9168
+>> DROP DETECTED! Total: 9169
+>> DROP DETECTED! Total: 9170
+>> DROP DETECTED! Total: 9171
+>> DROP DETECTED! Total: 9172
+>> DROP DETECTED! Total: 9173
+>> DROP DETECTED! Total: 9174
+>> DROP DETECTED! Total: 9175
+>> DROP DETECTED! Total: 9176
+>> DROP DETECTED! Total: 9177
+>> DROP DETECTED! Total: 9178
+>> DROP DETECTED! Total: 9179
+>> DROP DETECTED! Total: 9180
+>> DROP DETECTED! Total: 9181
+>> DROP DETECTED! Total: 9182
+>> DROP DETECTED! Total: 9183
+>> DROP DETECTED! Total: 9184
+>> DROP DETECTED! Total: 9185
+>> DROP DETECTED! Total: 9186
+>> DROP DETECTED! Total: 9187
+>> DROP DETECTED! Total: 9188
+>> DROP DETECTED! Total: 9189
+>> DROP DETECTED! Total: 9190
+>> DROP DETECTED! Total: 9191
+>> DROP DETECTED! Total: 9192
+>> DROP DETECTED! Total: 9193
+>> DROP DETECTED! Total: 9194
+>> DROP DETECTED! Total: 9195
+>> DROP DETECTED! Total: 9196
+>> DROP DETECTED! Total: 9197
+>> DROP DETECTED! Total: 9198
+>> DROP DETECTED! Total: 9199
+>> DROP DETECTED! Total: 9200
+>> DROP DETECTED! Total: 9201
+>> DROP DETECTED! Total: 9202
+>> DROP DETECTED! Total: 9203
+>> DROP DETECTED! Total: 9204
+>> DROP DETECTED! Total: 9205
+>> DROP DETECTED! Total: 9206
+>> DROP DETECTED! Total: 9207
+>> DROP DETECTED! Total: 9208
+>> DROP DETECTED! Total: 9209
+7 min | 1428 strokes | 1426 drops | 1.00 d/s | 1.3%
+>> DROP DETECTED! Total: 9210
+>> DROP DETECTED! Total: 9211
+>> DROP DETECTED! Total: 9212
+>> DROP DETECTED! Total: 9213
+>> DROP DETECTED! Total: 9214
+>> DROP DETECTED! Total: 9215
+>> DROP DETECTED! Total: 9216
+>> DROP DETECTED! Total: 9217
+>> DROP DETECTED! Total: 9218
+>> DROP DETECTED! Total: 9219
+>> DROP DETECTED! Total: 9220
+>> DROP DETECTED! Total: 9221
+>> DROP DETECTED! Total: 9222
+>> DROP DETECTED! Total: 9223
+>> DROP DETECTED! Total: 9224
+>> DROP DETECTED! Total: 9225
+>> DROP DETECTED! Total: 9226
+>> DROP DETECTED! Total: 9227
+>> DROP DETECTED! Total: 9228
+>> DROP DETECTED! Total: 9229
+>> DROP DETECTED! Total: 9230
+>> DROP DETECTED! Total: 9231
+>> DROP DETECTED! Total: 9232
+>> DROP DETECTED! Total: 9233
+>> DROP DETECTED! Total: 9234
+>> DROP DETECTED! Total: 9235
+>> DROP DETECTED! Total: 9236
+>> DROP DETECTED! Total: 9237
+>> DROP DETECTED! Total: 9238
+>> DROP DETECTED! Total: 9239
+>> DROP DETECTED! Total: 9240
+>> DROP DETECTED! Total: 9241
+>> DROP DETECTED! Total: 9242
+>> DROP DETECTED! Total: 9243
+>> DROP DETECTED! Total: 9244
+>> DROP DETECTED! Total: 9245
+>> DROP DETECTED! Total: 9246
+>> DROP DETECTED! Total: 9247
+>> DROP DETECTED! Total: 9248
+>> DROP DETECTED! Total: 9249
+>> DROP DETECTED! Total: 9250
+>> DROP DETECTED! Total: 9251
+>> DROP DETECTED! Total: 9252
+>> DROP DETECTED! Total: 9253
+>> DROP DETECTED! Total: 9254
+>> DROP DETECTED! Total: 9255
+>> DROP DETECTED! Total: 9256
+>> DROP DETECTED! Total: 9257
+>> DROP DETECTED! Total: 9258
+>> DROP DETECTED! Total: 9259
+>> DROP DETECTED! Total: 9260
+>> DROP DETECTED! Total: 9261
+>> DROP DETECTED! Total: 9262
+>> DROP DETECTED! Total: 9263
+>> DROP DETECTED! Total: 9264
+>> DROP DETECTED! Total: 9265
+>> DROP DETECTED! Total: 9266
+>> DROP DETECTED! Total: 9267
+>> DROP DETECTED! Total: 9268
+>> DROP DETECTED! Total: 9269
+>> DROP DETECTED! Total: 9270
+>> DROP DETECTED! Total: 9271
+>> DROP DETECTED! Total: 9272
+>> DROP DETECTED! Total: 9273
+>> DROP DETECTED! Total: 9274
+>> DROP DETECTED! Total: 9275
+>> DROP DETECTED! Total: 9276
+>> DROP DETECTED! Total: 9277
+>> DROP DETECTED! Total: 9278
+>> DROP DETECTED! Total: 9279
+>> DROP DETECTED! Total: 9280
+>> DROP DETECTED! Total: 9281
+>> DROP DETECTED! Total: 9282
+>> DROP DETECTED! Total: 9283
+>> DROP DETECTED! Total: 9284
+>> DROP DETECTED! Total: 9285
+>> DROP DETECTED! Total: 9286
+>> DROP DETECTED! Total: 9287
+>> DROP DETECTED! Total: 9288
+>> DROP DETECTED! Total: 9289
+>> DROP DETECTED! Total: 9290
+>> DROP DETECTED! Total: 9291
+>> DROP DETECTED! Total: 9292
+>> DROP DETECTED! Total: 9293
+>> DROP DETECTED! Total: 9294
+>> DROP DETECTED! Total: 9295
+>> DROP DETECTED! Total: 9296
+>> DROP DETECTED! Total: 9297
+>> DROP DETECTED! Total: 9298
+>> DROP DETECTED! Total: 9299
+>> DROP DETECTED! Total: 9300
+>> DROP DETECTED! Total: 9301
+>> DROP DETECTED! Total: 9302
+>> DROP DETECTED! Total: 9303
+>> DROP DETECTED! Total: 9304
+>> DROP DETECTED! Total: 9305
+>> DROP DETECTED! Total: 9306
+>> DROP DETECTED! Total: 9307
+>> DROP DETECTED! Total: 9308
+>> DROP DETECTED! Total: 9309
+>> DROP DETECTED! Total: 9310
+>> DROP DETECTED! Total: 9311
+>> DROP DETECTED! Total: 9312
+>> DROP DETECTED! Total: 9313
+>> DROP DETECTED! Total: 9314
+>> DROP DETECTED! Total: 9315
+>> DROP DETECTED! Total: 9316
+>> DROP DETECTED! Total: 9317
+>> DROP DETECTED! Total: 9318
+>> DROP DETECTED! Total: 9319
+>> DROP DETECTED! Total: 9320
+>> DROP DETECTED! Total: 9321
+>> DROP DETECTED! Total: 9322
+>> DROP DETECTED! Total: 9323
+>> DROP DETECTED! Total: 9324
+>> DROP DETECTED! Total: 9325
+>> DROP DETECTED! Total: 9326
+>> DROP DETECTED! Total: 9327
+>> DROP DETECTED! Total: 9328
+>> DROP DETECTED! Total: 9329
+>> DROP DETECTED! Total: 9330
+>> DROP DETECTED! Total: 9331
+>> DROP DETECTED! Total: 9332
+>> DROP DETECTED! Total: 9333
+>> DROP DETECTED! Total: 9334
+>> DROP DETECTED! Total: 9335
+>> DROP DETECTED! Total: 9336
+>> DROP DETECTED! Total: 9337
+>> DROP DETECTED! Total: 9338
+>> DROP DETECTED! Total: 9339
+>> DROP DETECTED! Total: 9340
+>> DROP DETECTED! Total: 9341
+>> DROP DETECTED! Total: 9342
+>> DROP DETECTED! Total: 9343
+>> DROP DETECTED! Total: 9344
+>> DROP DETECTED! Total: 9345
+>> DROP DETECTED! Total: 9346
+>> DROP DETECTED! Total: 9347
+>> DROP DETECTED! Total: 9348
+>> DROP DETECTED! Total: 9349
+>> DROP DETECTED! Total: 9350
+>> DROP DETECTED! Total: 9351
+>> DROP DETECTED! Total: 9352
+>> DROP DETECTED! Total: 9353
+>> DROP DETECTED! Total: 9354
+>> DROP DETECTED! Total: 9355
+>> DROP DETECTED! Total: 9356
+>> DROP DETECTED! Total: 9357
+>> DROP DETECTED! Total: 9358
+>> DROP DETECTED! Total: 9359
+>> DROP DETECTED! Total: 9360
+>> DROP DETECTED! Total: 9361
+>> DROP DETECTED! Total: 9362
+>> DROP DETECTED! Total: 9363
+>> DROP DETECTED! Total: 9364
+>> DROP DETECTED! Total: 9365
+>> DROP DETECTED! Total: 9366
+>> DROP DETECTED! Total: 9367
+>> DROP DETECTED! Total: 9368
+>> DROP DETECTED! Total: 9369
+>> DROP DETECTED! Total: 9370
+>> DROP DETECTED! Total: 9371
+>> DROP DETECTED! Total: 9372
+>> DROP DETECTED! Total: 9373
+>> DROP DETECTED! Total: 9374
+>> DROP DETECTED! Total: 9375
+>> DROP DETECTED! Total: 9376
+>> DROP DETECTED! Total: 9377
+>> DROP DETECTED! Total: 9378
+>> DROP DETECTED! Total: 9379
+>> DROP DETECTED! Total: 9380
+>> DROP DETECTED! Total: 9381
+>> DROP DETECTED! Total: 9382
+>> DROP DETECTED! Total: 9383
+>> DROP DETECTED! Total: 9384
+>> DROP DETECTED! Total: 9385
+>> DROP DETECTED! Total: 9386
+>> DROP DETECTED! Total: 9387
+>> DROP DETECTED! Total: 9388
+>> DROP DETECTED! Total: 9389
+>> DROP DETECTED! Total: 9390
+>> DROP DETECTED! Total: 9391
+>> DROP DETECTED! Total: 9392
+>> DROP DETECTED! Total: 9393
+>> DROP DETECTED! Total: 9394
+>> DROP DETECTED! Total: 9395
+>> DROP DETECTED! Total: 9396
+>> DROP DETECTED! Total: 9397
+>> DROP DETECTED! Total: 9398
+>> DROP DETECTED! Total: 9399
+>> DROP DETECTED! Total: 9400
+>> DROP DETECTED! Total: 9401
+>> DROP DETECTED! Total: 9402
+>> DROP DETECTED! Total: 9403
+>> DROP DETECTED! Total: 9404
+>> DROP DETECTED! Total: 9405
+>> DROP DETECTED! Total: 9406
+>> DROP DETECTED! Total: 9407
+>> DROP DETECTED! Total: 9408
+>> DROP DETECTED! Total: 9409
+>> DROP DETECTED! Total: 9410
+>> DROP DETECTED! Total: 9411
+>> DROP DETECTED! Total: 9412
+>> DROP DETECTED! Total: 9413
+8 min | 1632 strokes | 1630 drops | 1.00 d/s | 1.0%
+>> DROP DETECTED! Total: 9414
+>> DROP DETECTED! Total: 9415
+>> DROP DETECTED! Total: 9416
+>> DROP DETECTED! Total: 9417
+>> DROP DETECTED! Total: 9418
+>> DROP DETECTED! Total: 9419
+>> DROP DETECTED! Total: 9420
+>> DROP DETECTED! Total: 9421
+>> DROP DETECTED! Total: 9422
+>> DROP DETECTED! Total: 9423
+>> DROP DETECTED! Total: 9424
+>> DROP DETECTED! Total: 9425
+>> DROP DETECTED! Total: 9426
+>> DROP DETECTED! Total: 9427
+>> DROP DETECTED! Total: 9428
+>> DROP DETECTED! Total: 9429
+>> DROP DETECTED! Total: 9430
+>> DROP DETECTED! Total: 9431
+>> DROP DETECTED! Total: 9432
+>> DROP DETECTED! Total: 9433
+>> DROP DETECTED! Total: 9434
+>> DROP DETECTED! Total: 9435
+>> DROP DETECTED! Total: 9436
+>> DROP DETECTED! Total: 9437
+>> DROP DETECTED! Total: 9438
+>> DROP DETECTED! Total: 9439
+>> DROP DETECTED! Total: 9440
+>> DROP DETECTED! Total: 9441
+>> DROP DETECTED! Total: 9442
+>> DROP DETECTED! Total: 9443
+>> DROP DETECTED! Total: 9444
+>> DROP DETECTED! Total: 9445
+>> DROP DETECTED! Total: 9446
+>> DROP DETECTED! Total: 9447
+>> DROP DETECTED! Total: 9448
+>> DROP DETECTED! Total: 9449
+>> DROP DETECTED! Total: 9450
+>> DROP DETECTED! Total: 9451
+>> DROP DETECTED! Total: 9452
+>> DROP DETECTED! Total: 9453
+>> DROP DETECTED! Total: 9454
+>> DROP DETECTED! Total: 9455
+>> DROP DETECTED! Total: 9456
+>> DROP DETECTED! Total: 9457
+>> DROP DETECTED! Total: 9458
+>> DROP DETECTED! Total: 9459
+>> DROP DETECTED! Total: 9460
+>> DROP DETECTED! Total: 9461
+>> DROP DETECTED! Total: 9462
+>> DROP DETECTED! Total: 9463
+>> DROP DETECTED! Total: 9464
+>> DROP DETECTED! Total: 9465
+>> DROP DETECTED! Total: 9466
+>> DROP DETECTED! Total: 9467
+>> DROP DETECTED! Total: 9468
+>> DROP DETECTED! Total: 9469
+>> DROP DETECTED! Total: 9470
+>> DROP DETECTED! Total: 9471
+>> DROP DETECTED! Total: 9472
+>> DROP DETECTED! Total: 9473
+>> DROP DETECTED! Total: 9474
+>> DROP DETECTED! Total: 9475
+>> DROP DETECTED! Total: 9476
+>> DROP DETECTED! Total: 9477
+>> DROP DETECTED! Total: 9478
+>> DROP DETECTED! Total: 9479
+>> DROP DETECTED! Total: 9480
+>> DROP DETECTED! Total: 9481
+>> DROP DETECTED! Total: 9482
+>> DROP DETECTED! Total: 9483
+>> DROP DETECTED! Total: 9484
+>> DROP DETECTED! Total: 9485
+>> DROP DETECTED! Total: 9486
+>> DROP DETECTED! Total: 9487
+>> DROP DETECTED! Total: 9488
+>> DROP DETECTED! Total: 9489
+>> DROP DETECTED! Total: 9490
+>> DROP DETECTED! Total: 9491
+>> DROP DETECTED! Total: 9492
+>> DROP DETECTED! Total: 9493
+>> DROP DETECTED! Total: 9494
+>> DROP DETECTED! Total: 9495
+>> DROP DETECTED! Total: 9496
+>> DROP DETECTED! Total: 9497
+>> DROP DETECTED! Total: 9498
+>> DROP DETECTED! Total: 9499
+>> DROP DETECTED! Total: 9500
+>> DROP DETECTED! Total: 9501
+>> DROP DETECTED! Total: 9502
+>> DROP DETECTED! Total: 9503
+>> DROP DETECTED! Total: 9504
+>> DROP DETECTED! Total: 9505
+>> DROP DETECTED! Total: 9506
+>> DROP DETECTED! Total: 9507
+>> DROP DETECTED! Total: 9508
+>> DROP DETECTED! Total: 9509
+>> DROP DETECTED! Total: 9510
+>> DROP DETECTED! Total: 9511
+>> DROP DETECTED! Total: 9512
+>> DROP DETECTED! Total: 9513
+>> DROP DETECTED! Total: 9514
+>> DROP DETECTED! Total: 9515
+>> DROP DETECTED! Total: 9516
+>> DROP DETECTED! Total: 9517
+>> DROP DETECTED! Total: 9518
+>> DROP DETECTED! Total: 9519
+>> DROP DETECTED! Total: 9520
+>> DROP DETECTED! Total: 9521
+>> DROP DETECTED! Total: 9522
+>> DROP DETECTED! Total: 9523
+>> DROP DETECTED! Total: 9524
+>> DROP DETECTED! Total: 9525
+>> DROP DETECTED! Total: 9526
+>> DROP DETECTED! Total: 9527
+>> DROP DETECTED! Total: 9528
+>> DROP DETECTED! Total: 9529
+>> DROP DETECTED! Total: 9530
+>> DROP DETECTED! Total: 9531
+>> DROP DETECTED! Total: 9532
+>> DROP DETECTED! Total: 9533
+>> DROP DETECTED! Total: 9534
+>> DROP DETECTED! Total: 9535
+>> DROP DETECTED! Total: 9536
+>> DROP DETECTED! Total: 9537
+>> DROP DETECTED! Total: 9538
+>> DROP DETECTED! Total: 9539
+>> DROP DETECTED! Total: 9540
+>> DROP DETECTED! Total: 9541
+>> DROP DETECTED! Total: 9542
+>> DROP DETECTED! Total: 9543
+>> DROP DETECTED! Total: 9544
+>> DROP DETECTED! Total: 9545
+>> DROP DETECTED! Total: 9546
+>> DROP DETECTED! Total: 9547
+>> DROP DETECTED! Total: 9548
+>> DROP DETECTED! Total: 9549
+>> DROP DETECTED! Total: 9550
+>> DROP DETECTED! Total: 9551
+>> DROP DETECTED! Total: 9552
+>> DROP DETECTED! Total: 9553
+>> DROP DETECTED! Total: 9554
+>> DROP DETECTED! Total: 9555
+>> DROP DETECTED! Total: 9556
+>> DROP DETECTED! Total: 9557
+>> DROP DETECTED! Total: 9558
+>> DROP DETECTED! Total: 9559
+>> DROP DETECTED! Total: 9560
+>> DROP DETECTED! Total: 9561
+>> DROP DETECTED! Total: 9562
+>> DROP DETECTED! Total: 9563
+>> DROP DETECTED! Total: 9564
+>> DROP DETECTED! Total: 9565
+>> DROP DETECTED! Total: 9566
+>> DROP DETECTED! Total: 9567
+>> DROP DETECTED! Total: 9568
+>> DROP DETECTED! Total: 9569
+>> DROP DETECTED! Total: 9570
+>> DROP DETECTED! Total: 9571
+>> DROP DETECTED! Total: 9572
+>> DROP DETECTED! Total: 9573
+>> DROP DETECTED! Total: 9574
+>> DROP DETECTED! Total: 9575
+>> DROP DETECTED! Total: 9576
+>> DROP DETECTED! Total: 9577
+>> DROP DETECTED! Total: 9578
+>> DROP DETECTED! Total: 9579
+>> DROP DETECTED! Total: 9580
+>> DROP DETECTED! Total: 9581
+>> DROP DETECTED! Total: 9582
+>> DROP DETECTED! Total: 9583
+>> DROP DETECTED! Total: 9584
+>> DROP DETECTED! Total: 9585
+>> DROP DETECTED! Total: 9586
+>> DROP DETECTED! Total: 9587
+>> DROP DETECTED! Total: 9588
+>> DROP DETECTED! Total: 9589
+>> DROP DETECTED! Total: 9590
+>> DROP DETECTED! Total: 9591
+>> DROP DETECTED! Total: 9592
+>> DROP DETECTED! Total: 9593
+>> DROP DETECTED! Total: 9594
+>> DROP DETECTED! Total: 9595
+>> DROP DETECTED! Total: 9596
+>> DROP DETECTED! Total: 9597
+>> DROP DETECTED! Total: 9598
+>> DROP DETECTED! Total: 9599
+>> DROP DETECTED! Total: 9600
+>> DROP DETECTED! Total: 9601
+>> DROP DETECTED! Total: 9602
+>> DROP DETECTED! Total: 9603
+>> DROP DETECTED! Total: 9604
+>> DROP DETECTED! Total: 9605
+>> DROP DETECTED! Total: 9606
+>> DROP DETECTED! Total: 9607
+>> DROP DETECTED! Total: 9608
+>> DROP DETECTED! Total: 9609
+>> DROP DETECTED! Total: 9610
+>> DROP DETECTED! Total: 9611
+>> DROP DETECTED! Total: 9612
+>> DROP DETECTED! Total: 9613
+>> DROP DETECTED! Total: 9614
+>> DROP DETECTED! Total: 9615
+>> DROP DETECTED! Total: 9616
+>> DROP DETECTED! Total: 9617
+>> DROP DETECTED! Total: 9618
+9 min | 1836 strokes | 1835 drops | 1.00 d/s | 1.2%
+>> DROP DETECTED! Total: 9619
+>> DROP DETECTED! Total: 9620
+>> DROP DETECTED! Total: 9621
+>> DROP DETECTED! Total: 9622
+>> DROP DETECTED! Total: 9623
+>> DROP DETECTED! Total: 9624
+>> DROP DETECTED! Total: 9625
+>> DROP DETECTED! Total: 9626
+>> DROP DETECTED! Total: 9627
+>> DROP DETECTED! Total: 9628
+>> DROP DETECTED! Total: 9629
+>> DROP DETECTED! Total: 9630
+>> DROP DETECTED! Total: 9631
+>> DROP DETECTED! Total: 9632
+>> DROP DETECTED! Total: 9633
+>> DROP DETECTED! Total: 9634
+>> DROP DETECTED! Total: 9635
+>> DROP DETECTED! Total: 9636
+>> DROP DETECTED! Total: 9637
+>> DROP DETECTED! Total: 9638
+>> DROP DETECTED! Total: 9639
+>> DROP DETECTED! Total: 9640
+>> DROP DETECTED! Total: 9641
+>> DROP DETECTED! Total: 9642
+>> DROP DETECTED! Total: 9643
+>> DROP DETECTED! Total: 9644
+>> DROP DETECTED! Total: 9645
+>> DROP DETECTED! Total: 9646
+>> DROP DETECTED! Total: 9647
+>> DROP DETECTED! Total: 9648
+>> DROP DETECTED! Total: 9649
+>> DROP DETECTED! Total: 9650
+>> DROP DETECTED! Total: 9651
+>> DROP DETECTED! Total: 9652
+>> DROP DETECTED! Total: 9653
+>> DROP DETECTED! Total: 9654
+>> DROP DETECTED! Total: 9655
+>> DROP DETECTED! Total: 9656
+>> DROP DETECTED! Total: 9657
+>> DROP DETECTED! Total: 9658
+>> DROP DETECTED! Total: 9659
+>> DROP DETECTED! Total: 9660
+>> DROP DETECTED! Total: 9661
+>> DROP DETECTED! Total: 9662
+>> DROP DETECTED! Total: 9663
+>> DROP DETECTED! Total: 9664
+>> DROP DETECTED! Total: 9665
+>> DROP DETECTED! Total: 9666
+>> DROP DETECTED! Total: 9667
+>> DROP DETECTED! Total: 9668
+>> DROP DETECTED! Total: 9669
+>> DROP DETECTED! Total: 9670
+>> DROP DETECTED! Total: 9671
+>> DROP DETECTED! Total: 9672
+>> DROP DETECTED! Total: 9673
+>> DROP DETECTED! Total: 9674
+>> DROP DETECTED! Total: 9675
+>> DROP DETECTED! Total: 9676
+>> DROP DETECTED! Total: 9677
+>> DROP DETECTED! Total: 9678
+>> DROP DETECTED! Total: 9679
+>> DROP DETECTED! Total: 9680
+>> DROP DETECTED! Total: 9681
+>> DROP DETECTED! Total: 9682
+>> DROP DETECTED! Total: 9683
+>> DROP DETECTED! Total: 9684
+>> DROP DETECTED! Total: 9685
+>> DROP DETECTED! Total: 9686
+>> DROP DETECTED! Total: 9687
+>> DROP DETECTED! Total: 9688
+>> DROP DETECTED! Total: 9689
+>> DROP DETECTED! Total: 9690
+>> DROP DETECTED! Total: 9691
+>> DROP DETECTED! Total: 9692
+>> DROP DETECTED! Total: 9693
+>> DROP DETECTED! Total: 9694
+>> DROP DETECTED! Total: 9695
+>> DROP DETECTED! Total: 9696
+>> DROP DETECTED! Total: 9697
+>> DROP DETECTED! Total: 9698
+>> DROP DETECTED! Total: 9699
+>> DROP DETECTED! Total: 9700
+>> DROP DETECTED! Total: 9701
+>> DROP DETECTED! Total: 9702
+>> DROP DETECTED! Total: 9703
+>> DROP DETECTED! Total: 9704
+>> DROP DETECTED! Total: 9705
+>> DROP DETECTED! Total: 9706
+>> DROP DETECTED! Total: 9707
+>> DROP DETECTED! Total: 9708
+>> DROP DETECTED! Total: 9709
+>> DROP DETECTED! Total: 9710
+>> DROP DETECTED! Total: 9711
+>> DROP DETECTED! Total: 9712
+>> DROP DETECTED! Total: 9713
+>> DROP DETECTED! Total: 9714
+>> DROP DETECTED! Total: 9715
+>> DROP DETECTED! Total: 9716
+>> DROP DETECTED! Total: 9717
+>> DROP DETECTED! Total: 9718
+>> DROP DETECTED! Total: 9719
+>> DROP DETECTED! Total: 9720
+>> DROP DETECTED! Total: 9721
+>> DROP DETECTED! Total: 9722
+>> DROP DETECTED! Total: 9723
+>> DROP DETECTED! Total: 9724
+>> DROP DETECTED! Total: 9725
+>> DROP DETECTED! Total: 9726
+>> DROP DETECTED! Total: 9727
+>> DROP DETECTED! Total: 9728
+>> DROP DETECTED! Total: 9729
+>> DROP DETECTED! Total: 9730
+>> DROP DETECTED! Total: 9731
+>> DROP DETECTED! Total: 9732
+>> DROP DETECTED! Total: 9733
+>> DROP DETECTED! Total: 9734
+>> DROP DETECTED! Total: 9735
+>> DROP DETECTED! Total: 9736
+>> DROP DETECTED! Total: 9737
+>> DROP DETECTED! Total: 9738
+>> DROP DETECTED! Total: 9739
+>> DROP DETECTED! Total: 9740
+>> DROP DETECTED! Total: 9741
+>> DROP DETECTED! Total: 9742
+>> DROP DETECTED! Total: 9743
+>> DROP DETECTED! Total: 9744
+>> DROP DETECTED! Total: 9745
+>> DROP DETECTED! Total: 9746
+>> DROP DETECTED! Total: 9747
+>> DROP DETECTED! Total: 9748
+>> DROP DETECTED! Total: 9749
+>> DROP DETECTED! Total: 9750
+>> DROP DETECTED! Total: 9751
+>> DROP DETECTED! Total: 9752
+>> DROP DETECTED! Total: 9753
+>> DROP DETECTED! Total: 9754
+>> DROP DETECTED! Total: 9755
+>> DROP DETECTED! Total: 9756
+>> DROP DETECTED! Total: 9757
+>> DROP DETECTED! Total: 9758
+>> DROP DETECTED! Total: 9759
+>> DROP DETECTED! Total: 9760
+>> DROP DETECTED! Total: 9761
+>> DROP DETECTED! Total: 9762
+>> DROP DETECTED! Total: 9763
+>> DROP DETECTED! Total: 9764
+>> DROP DETECTED! Total: 9765
+>> DROP DETECTED! Total: 9766
+>> DROP DETECTED! Total: 9767
+>> DROP DETECTED! Total: 9768
+>> DROP DETECTED! Total: 9769
+>> DROP DETECTED! Total: 9770
+>> DROP DETECTED! Total: 9771
+>> DROP DETECTED! Total: 9772
+>> DROP DETECTED! Total: 9773
+>> DROP DETECTED! Total: 9774
+>> DROP DETECTED! Total: 9775
+>> DROP DETECTED! Total: 9776
+>> DROP DETECTED! Total: 9777
+>> DROP DETECTED! Total: 9778
+>> DROP DETECTED! Total: 9779
+>> DROP DETECTED! Total: 9780
+>> DROP DETECTED! Total: 9781
+>> DROP DETECTED! Total: 9782
+>> DROP DETECTED! Total: 9783
+>> DROP DETECTED! Total: 9784
+>> DROP DETECTED! Total: 9785
+>> DROP DETECTED! Total: 9786
+>> DROP DETECTED! Total: 9787
+>> DROP DETECTED! Total: 9788
+>> DROP DETECTED! Total: 9789
+>> DROP DETECTED! Total: 9790
+>> DROP DETECTED! Total: 9791
+>> DROP DETECTED! Total: 9792
+>> DROP DETECTED! Total: 9793
+>> DROP DETECTED! Total: 9794
+>> DROP DETECTED! Total: 9795
+>> DROP DETECTED! Total: 9796
+>> DROP DETECTED! Total: 9797
+>> DROP DETECTED! Total: 9798
+>> DROP DETECTED! Total: 9799
+>> DROP DETECTED! Total: 9800
+>> DROP DETECTED! Total: 9801
+>> DROP DETECTED! Total: 9802
+>> DROP DETECTED! Total: 9803
+>> DROP DETECTED! Total: 9804
+>> DROP DETECTED! Total: 9805
+>> DROP DETECTED! Total: 9806
+>> DROP DETECTED! Total: 9807
+>> DROP DETECTED! Total: 9808
+>> DROP DETECTED! Total: 9809
+>> DROP DETECTED! Total: 9810
+>> DROP DETECTED! Total: 9811
+>> DROP DETECTED! Total: 9812
+>> DROP DETECTED! Total: 9813
+>> DROP DETECTED! Total: 9814
+>> DROP DETECTED! Total: 9815
+>> DROP DETECTED! Total: 9816
+>> DROP DETECTED! Total: 9817
+>> DROP DETECTED! Total: 9818
+>> DROP DETECTED! Total: 9819
+>> DROP DETECTED! Total: 9820
+>> DROP DETECTED! Total: 9821
+>> DROP DETECTED! Total: 9822
+10 min | 2041 strokes | 2039 drops | 1.00 d/s | 1.5%
+>> DROP DETECTED! Total: 9823
+>> DROP DETECTED! Total: 9824
+>> DROP DETECTED! Total: 9825
+>> DROP DETECTED! Total: 9826
+>> DROP DETECTED! Total: 9827
+>> DROP DETECTED! Total: 9828
+>> DROP DETECTED! Total: 9829
+>> DROP DETECTED! Total: 9830
+>> DROP DETECTED! Total: 9831
+>> DROP DETECTED! Total: 9832
+>> DROP DETECTED! Total: 9833
+>> DROP DETECTED! Total: 9834
+>> DROP DETECTED! Total: 9835
+>> DROP DETECTED! Total: 9836
+>> DROP DETECTED! Total: 9837
+>> DROP DETECTED! Total: 9838
+>> DROP DETECTED! Total: 9839
+>> DROP DETECTED! Total: 9840
+>> DROP DETECTED! Total: 9841
+>> DROP DETECTED! Total: 9842
+>> DROP DETECTED! Total: 9843
+>> DROP DETECTED! Total: 9844
+>> DROP DETECTED! Total: 9845
+>> DROP DETECTED! Total: 9846
+>> DROP DETECTED! Total: 9847
+>> DROP DETECTED! Total: 9848
+>> DROP DETECTED! Total: 9849
+>> DROP DETECTED! Total: 9850
+>> DROP DETECTED! Total: 9851
+>> DROP DETECTED! Total: 9852
+>> DROP DETECTED! Total: 9853
+>> DROP DETECTED! Total: 9854
+>> DROP DETECTED! Total: 9855
+>> DROP DETECTED! Total: 9856
+>> DROP DETECTED! Total: 9857
+>> DROP DETECTED! Total: 9858
+>> DROP DETECTED! Total: 9859
+>> DROP DETECTED! Total: 9860
+>> DROP DETECTED! Total: 9861
+>> DROP DETECTED! Total: 9862
+>> DROP DETECTED! Total: 9863
+>> DROP DETECTED! Total: 9864
+>> DROP DETECTED! Total: 9865
+>> DROP DETECTED! Total: 9866
+>> DROP DETECTED! Total: 9867
+>> DROP DETECTED! Total: 9868
+>> DROP DETECTED! Total: 9869
+>> DROP DETECTED! Total: 9870
+>> DROP DETECTED! Total: 9871
+>> DROP DETECTED! Total: 9872
+
+Validation Aborted by User.
+>> DROP DETECTED! Total: 9873

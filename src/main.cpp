@@ -638,6 +638,130 @@ abort_calibration:
   setStatusColor(0, 255, 0); // Green
 }
 
+void runValidation(unsigned long pulse, unsigned long pause) {
+    Serial.println("\n==========================================");
+    Serial.println("       REAL-WORLD BURST VALIDATION");
+    Serial.println("==========================================");
+    Serial.printf("Testing Bursts with Pulse: %lu ms, Pause: %lu ms\n", pulse, pause);
+    Serial.printf("Simulating Riding Conditions: %d sec pause between bursts.\n", CAL_VALIDATION_BURST_PAUSE_SEC);
+    
+    // --- SCENARIO A: 2-Stroke Bursts ---
+    Serial.println("\n>>> SCENARIO A: 2-Stroke Bursts (Target: 2 Drops) <<<");
+    int totalDropsA = 0;
+    int totalStrokesA = 0;
+    int successfulBurstsA = 0;
+    
+    for (int i = 1; i <= CAL_VALIDATION_REPEATS; i++) {
+        if (checkAbort()) return;
+        
+        Serial.printf("  Burst %d/%d (2 Strokes)... ", i, CAL_VALIDATION_REPEATS);
+        
+        unsigned long dropsBefore = dropCount;
+        
+        // Fire 2 strokes
+        for(int s=0; s<2; s++) {
+            pumpPulse(pulse);
+            delay(pause);
+        }
+        totalStrokesA += 2;
+        
+        // Wait for drops to fall and settle (2s is enough for drops to fall)
+        delay(2000); 
+        unsigned long dropsAfter = dropCount;
+        int dropsInBurst = dropsAfter - dropsBefore;
+        totalDropsA += dropsInBurst;
+        
+        if (dropsInBurst == 2) {
+            Serial.println("OK (2 Drops)");
+            successfulBurstsA++;
+        } else {
+            Serial.printf("FAIL (%d Drops)\n", dropsInBurst);
+        }
+
+        // Simulate Riding Time
+        if (i < CAL_VALIDATION_REPEATS) {
+            Serial.printf("    Waiting %d sec... ", CAL_VALIDATION_BURST_PAUSE_SEC);
+            unsigned long steps = CAL_VALIDATION_BURST_PAUSE_SEC * 10;
+            for(unsigned long w=0; w<steps; w++) { 
+                if (checkAbort()) return;
+                delay(100);
+            }
+            Serial.println("Done.");
+        }
+    }
+
+    // --- SCENARIO B: 3-Stroke Bursts ---
+    Serial.println("\n>>> SCENARIO B: 3-Stroke Bursts (Target: 3 Drops) <<<");
+    int totalDropsB = 0;
+    int totalStrokesB = 0;
+    int successfulBurstsB = 0;
+    
+    for (int i = 1; i <= CAL_VALIDATION_REPEATS; i++) {
+        if (checkAbort()) return;
+
+        Serial.printf("  Burst %d/%d (3 Strokes)... ", i, CAL_VALIDATION_REPEATS);
+        
+        unsigned long dropsBefore = dropCount;
+        
+        // Fire 3 strokes
+        for(int s=0; s<3; s++) {
+            pumpPulse(pulse);
+            delay(pause);
+        }
+        totalStrokesB += 3;
+        
+        // Wait for drops to fall and settle
+        delay(2000); 
+        unsigned long dropsAfter = dropCount;
+        int dropsInBurst = dropsAfter - dropsBefore;
+        totalDropsB += dropsInBurst;
+        
+        if (dropsInBurst == 3) {
+            Serial.println("OK (3 Drops)");
+            successfulBurstsB++;
+        } else {
+            Serial.printf("FAIL (%d Drops)\n", dropsInBurst);
+        }
+
+        // Simulate Riding Time
+        if (i < CAL_VALIDATION_REPEATS) {
+            Serial.printf("    Waiting %d sec... ", CAL_VALIDATION_BURST_PAUSE_SEC);
+            unsigned long steps = CAL_VALIDATION_BURST_PAUSE_SEC * 10;
+            for(unsigned long w=0; w<steps; w++) { 
+                if (checkAbort()) return;
+                delay(100);
+            }
+            Serial.println("Done.");
+        }
+    }
+    
+    // --- FINAL REPORT ---
+    Serial.println("\n==========================================");
+    Serial.println("       VALIDATION RESULTS");
+    Serial.println("==========================================");
+    
+    float ratioA = (float)totalDropsA / totalStrokesA;
+    float ratioB = (float)totalDropsB / totalStrokesB;
+    float totalRatio = (float)(totalDropsA + totalDropsB) / (totalStrokesA + totalStrokesB);
+    
+    Serial.printf("Scenario A (2-Stroke): %d/%d Successful Bursts (Ratio: %.2f)\n", successfulBurstsA, CAL_VALIDATION_REPEATS, ratioA);
+    Serial.printf("Scenario B (3-Stroke): %d/%d Successful Bursts (Ratio: %.2f)\n", successfulBurstsB, CAL_VALIDATION_REPEATS, ratioB);
+    Serial.println("------------------------------------------");
+    Serial.printf("OVERALL ACCURACY: %.2f Drops/Stroke\n", totalRatio);
+    
+    if (successfulBurstsA == CAL_VALIDATION_REPEATS && successfulBurstsB == CAL_VALIDATION_REPEATS) {
+        Serial.println(">> RESULT: PERFECT! The configuration is robust.");
+        setStatusColor(0, 255, 0); // Green
+    } else if (totalRatio >= 0.9 && totalRatio <= 1.1) {
+        Serial.println(">> RESULT: GOOD. Minor deviations, but acceptable.");
+        setStatusColor(255, 255, 0); // Yellow
+    } else {
+        Serial.println(">> RESULT: UNSTABLE. Consider re-calibrating or increasing pulse width.");
+        setStatusColor(255, 0, 0); // Red
+    }
+    Serial.println("==========================================");
+}
+
 void setup() {
   Serial.begin(115200);
   

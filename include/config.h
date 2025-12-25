@@ -103,9 +103,11 @@ const unsigned long CAL_OPTIMIZATION_LOWER_BOUND_CAP = 250;
 // Solenoid Thermal Protection
 // Cool-down time between Pulse Width steps to prevent overheating.
 const unsigned long CAL_COOLDOWN_MS = 30000; // 30 Seconds
-// Validation Run
-// Duration of the automatic validation run after calibration (in minutes).
-const int CAL_VALIDATION_DURATION_MIN = 15;
+
+// Validation Run Settings
+// Instead of continuous running, we simulate real-world "Bursts".
+const int CAL_VALIDATION_BURST_PAUSE_SEC = 20; // Time between bursts (simulating riding)
+const int CAL_VALIDATION_REPEATS = 5;          // How many bursts to test per scenario
 
 // Pre-Calibration Bleed
 // Runs before the first calibration cycle to flush air bubbles and warm up the oil.
