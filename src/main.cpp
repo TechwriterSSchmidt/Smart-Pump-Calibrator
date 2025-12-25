@@ -551,7 +551,8 @@ void runCalibrationStep() {
           }
       }
 
-    } else {
+      } // End if (isBetter)
+    } else { // Else for if (candidatePause != 0)
         Serial.println("  => No valid config found for this pulse width.");
         consecutiveWorseResults++;
         if (consecutiveWorseResults >= CAL_MAX_CONSECUTIVE_WORSE_STEPS) {
@@ -567,7 +568,6 @@ void runCalibrationStep() {
     
     completedSteps++;
     preferences.putULong("strokes", strokeCounter); // Save progress
-  }
   } // End of loop
 
 finish_calibration:
@@ -759,6 +759,48 @@ void runValidation(unsigned long pulse, unsigned long pause) {
         Serial.println(">> RESULT: UNSTABLE. Consider re-calibrating or increasing pulse width.");
         setStatusColor(255, 0, 0); // Red
     }
+    Serial.println("==========================================");
+
+    // --- TEMPERATURE COMPENSATION GUIDE ---
+    Serial.println("\n==========================================");
+    Serial.println("    TEMPERATURE COMPENSATION GUIDE");
+    Serial.println("==========================================");
+    Serial.println("Based on your current calibration (assumed ~20C),");
+    Serial.println("here are estimated settings for other temperatures:");
+    Serial.println("");
+    Serial.println("Temp  | Pulse (ms) | Pause (ms) | Viscosity State");
+    Serial.println("------+------------+------------+----------------");
+    
+    // Factors based on typical chainsaw oil viscosity curves
+    struct TempFactor {
+        int temp;
+        float pulseFactor;
+        float pauseFactor;
+        const char* desc;
+    };
+    
+    TempFactor factors[] = {
+        {0,  1.40, 2.00, "Syrup (Winter)"},
+        {10, 1.20, 1.50, "Thick (Cold)"},
+        {20, 1.00, 1.00, "Current (Ref)"},
+        {30, 0.90, 0.80, "Fluid (Warm)"},
+        {40, 0.80, 0.60, "Thin (Hot)"}
+    };
+    
+    for(int i=0; i<5; i++) {
+        unsigned long tPulse = (unsigned long)(pulse * factors[i].pulseFactor);
+        unsigned long tPause = (unsigned long)(pause * factors[i].pauseFactor);
+        // Round pulse to nearest 5
+        tPulse = ((tPulse + 2) / 5) * 5;
+        
+        Serial.printf(" %2dC |    %3lu     |    %4lu    | %s\n", 
+            factors[i].temp, tPulse, tPause, factors[i].desc);
+    }
+    Serial.println("==========================================");
+    Serial.println("NOTE: These are estimates. Re-calibrate if possible when temp changes significantly.");
+    
+    Serial.println("\n>> FINAL RECOMMENDATION:");
+    Serial.printf("   Use Pulse: %lu ms / Pause: %lu ms\n", pulse, pause);
     Serial.println("==========================================");
 }
 

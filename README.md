@@ -127,6 +127,11 @@ Immediately after the final recommendation is calculated, the system automatical
     *   **Red**: Unstable (e.g., first drop missing after long pause).
 *   **Abort**: You can stop this run at any time by pressing the **Boot Button**.
 
+### 9. Temperature Compensation Guide
+At the very end of the log, the system prints a **Temperature Compensation Table**.
+*   Based on the calibration results (assumed to be at ~20°C), it calculates estimated settings for **0°C, 10°C, 30°C, and 40°C**.
+*   This helps you adjust settings for winter riding or hot summer days without re-calibrating immediately.
+
 ---
 
 ## Technical Details
