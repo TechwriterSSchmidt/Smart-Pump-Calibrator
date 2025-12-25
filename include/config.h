@@ -46,7 +46,7 @@ const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
-const unsigned long CAL_PAUSE_MIN = 250;     // Lower bound for binary search
+const unsigned long CAL_PAUSE_MIN = 280;     // Lower bound for binary search
 const unsigned long CAL_PAUSE_START = 1000;   // Upper bound for binary search (Max Pause - Optimization Limit)
 const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in binary search but good for reference)
 
