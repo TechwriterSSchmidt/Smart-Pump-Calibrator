@@ -645,7 +645,7 @@ void runValidation(unsigned long pulse, unsigned long pause) {
     Serial.println("\n==========================================");
     Serial.println("       REAL-WORLD BURST VALIDATION");
     Serial.println("==========================================");
-    Serial.printf("Testing Bursts with Pulse: %lu ms, Pause: %lu ms\n", pulse, pause);
+    Serial.printf("Testing Bursts with Pulse: %lu ms (First Pulse +%lu ms), Pause: %lu ms\n", pulse, BURST_FIRST_PULSE_ADDED_MS, pause);
     Serial.printf("Simulating Riding Conditions: %d sec pause between bursts.\n", CAL_VALIDATION_BURST_PAUSE_SEC);
     
     int totalDropsAll = 0;
@@ -670,7 +670,9 @@ void runValidation(unsigned long pulse, unsigned long pause) {
             
             // Fire strokes
             for(int s=0; s<burstSize; s++) {
-                pumpPulse(pulse);
+                unsigned long p = pulse;
+                if (s == 0) p += BURST_FIRST_PULSE_ADDED_MS; // Boost first pulse
+                pumpPulse(p);
                 delay(pause);
             }
             totalStrokes += burstSize;
@@ -725,6 +727,7 @@ void runValidation(unsigned long pulse, unsigned long pause) {
     Serial.printf("Successful Bursts: %d\n", successfulBurstsAll);
     Serial.println("------------------------------------------");
     Serial.printf("OVERALL ACCURACY: %.2f Drops/Stroke\n", totalRatio);
+    Serial.printf("STRATEGY: Priming Pulse (+%lu ms on first stroke)\n", BURST_FIRST_PULSE_ADDED_MS);
     
     if (successfulBurstsAll == totalBurstsAll) {
         Serial.println(">> RESULT: PERFECT! The configuration is robust.");
@@ -778,6 +781,7 @@ void runValidation(unsigned long pulse, unsigned long pause) {
     
     Serial.println("\n>> FINAL RECOMMENDATION:");
     Serial.printf("   Use Pulse: %lu ms / Pause: %lu ms\n", pulse, pause);
+    Serial.printf("   *IMPORTANT*: For bursts after long pauses (>%ds), add +%lu ms to the first pulse (Priming).\n", CAL_VALIDATION_BURST_PAUSE_SEC, BURST_FIRST_PULSE_ADDED_MS);
     Serial.println("==========================================");
 }
 

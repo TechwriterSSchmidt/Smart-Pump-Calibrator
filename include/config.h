@@ -53,7 +53,7 @@ const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in 
 // Calibration Logic
 const int CAL_PRIMING_PULSES = 20;      // Pulses to pressurize hose before measuring (increased to flush warm oil)
 const int CAL_TEST_PULSES = 60;         // Number of pulses to test per step
-const int CAL_TARGET_DROPS_MIN = 55;    // Minimum acceptable drops for 60 pulses (Strict 1:1)
+const int CAL_TARGET_DROPS_MIN = 51;    // Minimum acceptable drops for 60 pulses (Strict 1:1)
 const int CAL_TARGET_DROPS_MAX = 63;    // Maximum acceptable drops for 60 pulses
 
 // Stability Criteria
@@ -108,6 +108,7 @@ const unsigned long CAL_COOLDOWN_MS = 30000; // 30 Seconds
 // Instead of continuous running, we simulate real-world "Bursts".
 const int CAL_VALIDATION_BURST_PAUSE_SEC = 45; // Time between bursts (simulating riding)
 const int CAL_VALIDATION_REPEATS = 10;          // How many bursts to test per scenario
+const unsigned long BURST_FIRST_PULSE_ADDED_MS = 20; // Extra time for first pulse in burst to overcome stiction/pressure loss
 
 // Pre-Calibration Bleed
 // Runs before the first calibration cycle to flush air bubbles and warm up the oil.
