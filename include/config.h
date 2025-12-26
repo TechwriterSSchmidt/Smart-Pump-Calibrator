@@ -40,9 +40,9 @@ const unsigned long CAL_BREAK_IN_STROKES = 10000;
 // AUTO-CALIBRATION SETTINGS
 // ============================================================================
 // Pulse Width Search Range (ms)
-const unsigned long CAL_PULSE_MIN = 35;
-const unsigned long CAL_PULSE_MAX = 75;
-const unsigned long CAL_PULSE_STEP = 5;
+const unsigned long CAL_PULSE_MIN = 80;
+const unsigned long CAL_PULSE_MAX = 110;
+const unsigned long CAL_PULSE_STEP = 10;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
@@ -111,7 +111,9 @@ const int CAL_VALIDATION_REPEATS = 10;          // How many bursts to test per s
 
 // Priming Search Settings (Auto-Discovery)
 // The system will try to find the optimal "Priming Pulse" (extra time for the first stroke)
-// by testing 1-stroke bursts with increasing added time.
+// by testing 2-stroke bursts with increasing added time.
+// We use 2 strokes because a single stroke might produce a drop but fail to pressurize 
+// the system enough for the second stroke.
 const int CAL_PRIMING_SEARCH_REPEATS = 3;       // How many successes needed to accept a priming value
 const unsigned long CAL_PRIMING_START_MS = 0;   // Start searching at +0ms
 const unsigned long CAL_PRIMING_STEP_MS = 10;   // Increase by 10ms if failed

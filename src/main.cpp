@@ -650,7 +650,7 @@ void runValidation(unsigned long pulse, unsigned long pause) {
     
     // --- PHASE 1: FIND OPTIMAL PRIMING PULSE ---
     Serial.println("\n>>> PHASE 1: DETERMINING OPTIMAL PRIMING PULSE <<<");
-    Serial.println("(Testing 1-stroke bursts with increasing pulse width until stable)");
+    Serial.println("(Testing 2-stroke bursts with increasing pulse width until stable)");
     
     unsigned long optimalPrimingAddedMs = 0;
     bool primingFound = false;
@@ -672,15 +672,26 @@ void runValidation(unsigned long pulse, unsigned long pause) {
             }
             
             unsigned long dropsBefore = dropCount;
-            pumpPulse(pulse + added);
-            delay(2000); // Wait for drop
-            unsigned long dropsAfter = dropCount;
             
-            if (dropsAfter > dropsBefore) {
+            // BURST: 2 Strokes
+            // 1. Stroke: Priming
+            pumpPulse(pulse + added);
+            delay(pause);
+            
+            // 2. Stroke: Normal
+            pumpPulse(pulse);
+            delay(pause);
+
+            // Wait for drops
+            delay(2000); 
+            unsigned long dropsAfter = dropCount;
+            int dropsInBurst = dropsAfter - dropsBefore;
+            
+            if (dropsInBurst == 2) { // STRICT CHECK: Must be 2 drops
                 Serial.print("OK. ");
                 successes++;
             } else {
-                Serial.print("FAIL. ");
+                Serial.printf("FAIL (%d Drops). ", dropsInBurst);
                 break; // Stop repeats for this setting, it's not reliable
             }
         }
@@ -709,12 +720,16 @@ void runValidation(unsigned long pulse, unsigned long pause) {
     int totalStrokesAll = 0;
     int successfulBurstsAll = 0;
     int totalBurstsAll = 0;
+    
+    // Track safety (>= 1 drop) for each scenario
+    int safeBurstsPerScenario[6] = {0}; // Index 1-5 used
 
     // Iterate through burst sizes 1 to 5
     for (int burstSize = 1; burstSize <= 5; burstSize++) {
         Serial.printf("\n>>> SCENARIO: %d-Stroke Bursts (Target: %d Drops) <<<\n", burstSize, burstSize);
         
         int successfulBursts = 0;
+        int safeBursts = 0;
         int totalDrops = 0;
         int totalStrokes = 0;
 
@@ -746,6 +761,10 @@ void runValidation(unsigned long pulse, unsigned long pause) {
             } else {
                 Serial.printf("FAIL (%d Drops)\n", dropsInBurst);
             }
+            
+            if (dropsInBurst >= 1) {
+                safeBursts++;
+            }
 
             // Simulate Riding Time
             if (i < CAL_VALIDATION_REPEATS) {
@@ -759,8 +778,11 @@ void runValidation(unsigned long pulse, unsigned long pause) {
             }
         }
         
+        safeBurstsPerScenario[burstSize] = safeBursts;
+        
         float ratio = (float)totalDrops / totalStrokes;
-        Serial.printf(">> Scenario %d-Stroke Result: %d/%d Successful (Ratio: %.2f)\n", burstSize, successfulBursts, CAL_VALIDATION_REPEATS, ratio);
+        Serial.printf(">> Scenario %d-Stroke Result: %d/%d Perfect, %d/%d Safe (>=1 Drop) (Ratio: %.2f)\n", 
+            burstSize, successfulBursts, CAL_VALIDATION_REPEATS, safeBursts, CAL_VALIDATION_REPEATS, ratio);
         
         totalDropsAll += totalDrops;
         totalStrokesAll += totalStrokes;
@@ -781,11 +803,40 @@ void runValidation(unsigned long pulse, unsigned long pause) {
     float totalRatio = (float)totalDropsAll / totalStrokesAll;
     
     Serial.printf("Total Bursts: %d\n", totalBurstsAll);
-    Serial.printf("Successful Bursts: %d\n", successfulBurstsAll);
+    Serial.printf("Successful Bursts: %d (Perfect 1:1)\n", successfulBurstsAll);
+    Serial.println("------------------------------------------");
+    Serial.println("SAFETY CHECK (At least 1 drop per burst):");
+    
+    int recommendedMinBurst = 1;
+
+    for(int b=1; b<=5; b++) {
+        Serial.printf("  %d-Stroke: %d/%d Safe", b, safeBurstsPerScenario[b], CAL_VALIDATION_REPEATS);
+        
+        if (safeBurstsPerScenario[b] == CAL_VALIDATION_REPEATS) {
+            Serial.println(" (SAFE)");
+        } else {
+            Serial.println(" (RISK!)");
+            // If this burst size is risky, the recommended minimum must be higher
+            if (b >= recommendedMinBurst) {
+                recommendedMinBurst = b + 1;
+            }
+        }
+    }
+    if (recommendedMinBurst > 5) recommendedMinBurst = 5; // Cap at 5
+
     Serial.println("------------------------------------------");
     Serial.printf("OVERALL ACCURACY: %.2f Drops/Stroke\n", totalRatio);
     Serial.printf("STRATEGY: Priming Pulse (+%lu ms on first stroke)\n", optimalPrimingAddedMs);
     
+    Serial.println("\n>> LONG-DISTANCE RELIABILITY ADVICE:");
+    if (recommendedMinBurst > 1) {
+        Serial.printf("   ! WARNING: Single strokes are not 100%% reliable after pauses.\n");
+        Serial.printf("   ! RECOMMENDATION: Configure ChainJuicer to use a MINIMUM BURST of %d strokes.\n", recommendedMinBurst);
+        Serial.printf("   ! (Increase distance interval to compensate, e.g., 30km instead of 15km)\n");
+    } else {
+        Serial.println("   > Single strokes are reliable. You can use any burst size.");
+    }
+
     if (successfulBurstsAll == totalBurstsAll) {
         Serial.println(">> RESULT: PERFECT! The configuration is robust.");
         setStatusColor(0, 255, 0); // Green
