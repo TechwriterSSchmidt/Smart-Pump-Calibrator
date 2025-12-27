@@ -24,8 +24,8 @@ const int NUM_LEDS = 1;
 // Default "Bleeding Mode" Settings
 // Used on startup or if calibration fails.
 // Purpose: Quickly fill the hose with oil and bleed air bubbles.
-const unsigned long DEFAULT_BLEED_PULSE_MS = 45;
-const unsigned long DEFAULT_BLEED_PAUSE_MS = 400;
+const unsigned long DEFAULT_BLEED_PULSE_MS = 55;
+const unsigned long DEFAULT_BLEED_PAUSE_MS = 2000;
 
 // Debounce Settings (ms)
 const int BUTTON_DEBOUNCE_MS = 25;

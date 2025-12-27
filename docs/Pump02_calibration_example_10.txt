@@ -1,0 +1,774 @@
+Pump type: https://de.aliexpress.com/item/1005010143451204.html?spm=a2g0o.detail.pcDetailTopMoreOtherSeller.1.1aafdrywdrywGH&gps-id=pcDetailTopMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=63fef1b4-f90a-4889-b5dc-a476a2e55b9f&_t=gps-id:pcDetailTopMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:63fef1b4-f90a-4889-b5dc-a476a2e55b9f,tpp_buckets:668%232846%238109%231935&pdp_ext_f=%7B%22order%22%3A%2233%22%2C%22spu_best_type%22%3A%22order%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2230050%22%2C%22fromPage%22%3A%22recommend%22%7D&pdp_npi=6%40dis%21CHF%217.21%216.99%21%21%2163.08%2161.16%21%40211b629217666777857357377e7d41%2112000051300927212%21rec%21CH%211702792198%21XZ%211%210%21n_tag%3A-29919%3Bd%3A94cdc6e3%3Bm03_new_user%3A-29895&utparam-url=scene%3ApcDetailTopMoreOtherSeller%7Cquery_from%3A%7Cx_object_id%3A1005010143451204%7C_p_origin_prod%3A
+Pump strokes total: 132071
+Calibration cycles: 5x
+Burst test: activated
+NEW: Stiffer tube
+
+---- Closed the serial port COM5 ----
+---- Opened the serial port COM5 ----
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0xa (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+Smart Pump Calibrator (ESP32-S3)
+--------------------------------
+Total Lifetime Strokes: 132071
+Break-in Period: COMPLETE
+Flash Size: 16 MB
+PSRAM Size: 7 MB
+--------------------------------
+State: READY (Green).
+  - External Button (GPIO 5): Toggle Continuous Pumping (ON/OFF)
+  - Boot Button (GPIO 0): Start/Stop AUTO-CALIBRATION
+  - Current Config: Pulse 45 ms / Pause 400 ms
+Boot Button -> Starting Calibration...
+
+>>> STARTING PRE-CALIBRATION BLEED <<<
+   (Flushing system for 30 s to remove air bubbles...)
+>> BLEED COMPLETE. System primed.
+
+
+>>> STARTING CALIBRATION CYCLE 1 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 132071
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 45 ms [ETA: Calculating...]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 45, Jitter: 3.5%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 47, Jitter: 3.6%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 50, Jitter: 2.5%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 50, Jitter: 1.4%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 50, Jitter: 1.6%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 45 ms / 215 ms (Cycle: 260 ms, Jitter: 1.6%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.1 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 50 ms [ETA: 14m 22s]
+  [Range 215-500] Testing Pause 355 ms... FAIL (Drops: 46, Jitter: 17.2%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-350] Testing Pause 280 ms... FAIL (Drops: 47, Jitter: 7.3%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 49, Jitter: 3.6%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 50, Jitter: 1.7%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 50, Jitter: 1.9%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 50 ms / 215 ms (Cycle: 265 ms, Jitter: 1.9%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 55 ms [ETA: 12m 23s]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 45, Jitter: 3.0%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 46, Jitter: 2.9%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 47, Jitter: 3.3%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 50, Jitter: 2.9%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 50, Jitter: 1.6%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 55 ms / 215 ms (Cycle: 270 ms, Jitter: 1.6%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 60 ms [ETA: 10m 22s]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 45, Jitter: 2.8%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 46, Jitter: 2.7%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 47, Jitter: 3.1%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 48, Jitter: 3.3%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 49, Jitter: 3.1%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 60 ms / 215 ms (Cycle: 275 ms, Jitter: 3.1%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 65 ms [ETA: 8m 20s]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 45, Jitter: 2.9%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 46, Jitter: 2.4%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 46, Jitter: 2.8%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 48, Jitter: 3.3%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 48, Jitter: 3.2%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 65 ms / 215 ms (Cycle: 280 ms, Jitter: 3.2%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 70 ms [ETA: 6m 17s]
+   [Physics] Skipping pauses < 220 ms (Ratio 3.1)
+  [Range 220-500] Testing Pause 360 ms... OK (Drops: 45, Jitter: 3.1%)
+  [Range 220-355] Testing Pause 285 ms... OK (Drops: 45, Jitter: 2.3%)
+  [Range 220-280] Testing Pause 250 ms... OK (Drops: 46, Jitter: 2.7%)
+  [Range 220-245] Testing Pause 230 ms... FAIL (Drops: 47, Jitter: 6.0%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 220-225] Testing Pause 220 ms... OK (Drops: 48, Jitter: 2.9%)
+  => Valid Config Found: 70 ms / 220 ms (Cycle: 290 ms, Jitter: 2.9%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 75 ms [ETA: 4m 13s]
+   [Physics] Skipping pauses < 236 ms (Ratio 3.1)
+  [Range 236-500] Testing Pause 365 ms... OK (Drops: 45, Jitter: 5.0%)
+  [Range 236-360] Testing Pause 295 ms... OK (Drops: 45, Jitter: 2.7%)
+  [Range 236-290] Testing Pause 260 ms... OK (Drops: 46, Jitter: 2.7%)
+  [Range 236-255] Testing Pause 245 ms... OK (Drops: 46, Jitter: 2.2%)
+  [Range 236-240] Testing Pause 235 ms... OK (Drops: 46, Jitter: 2.7%)
+  => Valid Config Found: 75 ms / 235 ms (Cycle: 310 ms, Jitter: 2.7%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 80 ms [ETA: 2m 8s]
+   [Physics] Skipping pauses < 251 ms (Ratio 3.1)
+  [Range 251-500] Testing Pause 375 ms... OK (Drops: 44, Jitter: 2.8%)
+  [Range 251-370] Testing Pause 310 ms... OK (Drops: 45, Jitter: 2.7%)
+  [Range 251-305] Testing Pause 275 ms... OK (Drops: 45, Jitter: 4.7%)
+  [Range 251-270] Testing Pause 260 ms... OK (Drops: 46, Jitter: 2.4%)
+  [Range 251-255] Testing Pause 250 ms... OK (Drops: 45, Jitter: 2.3%)
+  => Valid Config Found: 80 ms / 250 ms (Cycle: 330 ms, Jitter: 2.3%)
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 16 min 46 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 45 ms
+  Pause: 215 ms
+  Cycle: 260 ms
+  Learned Elasticity Ratio: 3.1
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 45 ms
+  Pause: 236 ms  (includes +10% safety margin)
+  Cycle: 281 ms
+  Ratio: 1.00 Drops/Stroke (Measured: 50 drops / 50 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 1 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 2 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 134271
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 45 ms [ETA: Calculating...]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 2.9%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.5%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 45, Jitter: 3.0%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 47, Jitter: 3.1%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 47, Jitter: 2.7%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 45 ms / 215 ms (Cycle: 260 ms, Jitter: 2.7%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.1 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 50 ms [ETA: 14m 22s]
+  [Range 215-500] Testing Pause 355 ms... FAIL (Drops: 44, Jitter: 8.6%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.6%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 45, Jitter: 2.7%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 47, Jitter: 2.8%)
+  [Range 215-220] Testing Pause 215 ms... FAIL (Drops: 47, Jitter: 6.6%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 50 ms / 225 ms (Cycle: 275 ms, Jitter: 2.8%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 55 ms [ETA: 12m 23s]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.4%)
+  [Range 215-275] Testing Pause 245 ms... FAIL (Drops: 44, Jitter: 15.0%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-240] Testing Pause 225 ms... FAIL (Drops: 46, Jitter: 18.9%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-220] Testing Pause 215 ms... FAIL (Drops: 46, Jitter: 14.4%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 55 ms / 280 ms (Cycle: 335 ms, Jitter: 2.4%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 60 ms [ETA: 10m 22s]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 2.8%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.3%)
+  [Range 215-275] Testing Pause 245 ms... FAIL (Drops: 46, Jitter: 9.4%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 47, Jitter: 2.8%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 46, Jitter: 2.9%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 60 ms / 215 ms (Cycle: 275 ms, Jitter: 2.9%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 65 ms [ETA: 8m 20s]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 2.3%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.6%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.6%)
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 46, Jitter: 2.4%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 65 ms / 215 ms (Cycle: 280 ms, Jitter: 2.4%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 70 ms [ETA: 6m 17s]
+   [Physics] Skipping pauses < 220 ms (Ratio 3.1)
+  [Range 220-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 2.8%)
+  [Range 220-355] Testing Pause 285 ms... OK (Drops: 44, Jitter: 2.0%)
+  [Range 220-280] Testing Pause 250 ms... OK (Drops: 45, Jitter: 2.4%)
+  [Range 220-245] Testing Pause 230 ms... OK (Drops: 46, Jitter: 2.7%)
+  [Range 220-225] Testing Pause 220 ms... OK (Drops: 46, Jitter: 2.6%)
+  => Valid Config Found: 70 ms / 220 ms (Cycle: 290 ms, Jitter: 2.6%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 75 ms [ETA: 4m 13s]
+   [Physics] Skipping pauses < 236 ms (Ratio 3.1)
+  [Range 236-500] Testing Pause 365 ms... OK (Drops: 44, Jitter: 2.9%)
+  [Range 236-360] Testing Pause 295 ms... OK (Drops: 44, Jitter: 2.4%)
+  [Range 236-290] Testing Pause 260 ms...  [End: Sensor Blocked/Stream] FAIL (Drops: 46, Jitter: 11.2%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 236-255] Testing Pause 245 ms... OK (Drops: 46, Jitter: 2.4%)
+  [Range 236-240] Testing Pause 235 ms... FAIL (Drops: 46, Jitter: 11.1%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 75 ms / 245 ms (Cycle: 320 ms, Jitter: 2.4%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 80 ms [ETA: 2m 8s]
+   [Physics] Skipping pauses < 251 ms (Ratio 3.1)
+  [Range 251-500] Testing Pause 375 ms... OK (Drops: 44, Jitter: 2.7%)
+  [Range 251-370] Testing Pause 310 ms... OK (Drops: 44, Jitter: 2.2%)
+  [Range 251-305] Testing Pause 275 ms... OK (Drops: 44, Jitter: 2.0%)
+  [Range 251-270] Testing Pause 260 ms... OK (Drops: 45, Jitter: 2.1%)
+  [Range 251-255] Testing Pause 250 ms... OK (Drops: 45, Jitter: 2.2%)
+  => Valid Config Found: 80 ms / 250 ms (Cycle: 330 ms, Jitter: 2.2%)
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 16 min 46 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 45 ms
+  Pause: 215 ms
+  Cycle: 260 ms
+  Learned Elasticity Ratio: 3.1
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 45 ms
+  Pause: 236 ms  (includes +10% safety margin)
+  Cycle: 281 ms
+  Ratio: 0.94 Drops/Stroke (Measured: 47 drops / 50 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 2 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 3 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 136471
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 45 ms [ETA: Calculating...]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 2.9%)
+  [Range 215-350] Testing Pause 280 ms... FAIL (Drops: 44, Jitter: 15.9%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 46, Jitter: 3.0%)
+  [Range 215-220] Testing Pause 215 ms... FAIL (Drops: 45, Jitter: 14.8%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 45 ms / 225 ms (Cycle: 270 ms, Jitter: 3.0%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.2 [Moving Avg])
+     (Optimization: Next search starts at 225 ms)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 50 ms [ETA: 14m 22s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 2.4%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 2.0%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.3%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 3.1%)
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.5%)
+  => Valid Config Found: 50 ms / 225 ms (Cycle: 275 ms, Jitter: 2.5%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.7 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 55 ms [ETA: 12m 29s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 2.2%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 44, Jitter: 2.3%)
+  [Range 225-285] Testing Pause 255 ms... FAIL (Drops: 46, Jitter: 8.0%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 225-250] Testing Pause 235 ms... FAIL (Drops: 47, Jitter: 5.4%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 47, Jitter: 2.5%)
+  => Valid Config Found: 55 ms / 225 ms (Cycle: 280 ms, Jitter: 2.5%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.7 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 60 ms [ETA: 10m 30s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 2.4%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 2.5%)
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.7%)
+  => Valid Config Found: 60 ms / 225 ms (Cycle: 285 ms, Jitter: 2.7%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 65 ms [ETA: 8m 27s]
+   [Physics] Skipping pauses < 238 ms (Ratio 3.7)
+  [Range 238-500] Testing Pause 365 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 238-360] Testing Pause 295 ms... OK (Drops: 44, Jitter: 2.0%)
+  [Range 238-290] Testing Pause 260 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 238-255] Testing Pause 245 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 238-240] Testing Pause 235 ms...  [End: Sensor Blocked/Stream] FAIL (Drops: 47, Jitter: 12.2%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 65 ms / 245 ms (Cycle: 310 ms, Jitter: 2.2%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 70 ms [ETA: 6m 24s]
+   [Physics] Skipping pauses < 256 ms (Ratio 3.7)
+  [Range 256-500] Testing Pause 375 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 256-370] Testing Pause 310 ms... OK (Drops: 44, Jitter: 2.3%)
+  [Range 256-305] Testing Pause 280 ms... OK (Drops: 44, Jitter: 2.1%)
+  [Range 256-275] Testing Pause 265 ms... OK (Drops: 45, Jitter: 1.9%)
+  [Range 256-260] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.0%)
+  => Valid Config Found: 70 ms / 255 ms (Cycle: 325 ms, Jitter: 2.0%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 75 ms [ETA: 4m 19s]
+   [Physics] Skipping pauses < 274 ms (Ratio 3.7)
+  [Range 274-500] Testing Pause 385 ms... OK (Drops: 44, Jitter: 2.3%)
+  [Range 274-380] Testing Pause 325 ms... OK (Drops: 44, Jitter: 2.5%)
+  [Range 274-320] Testing Pause 295 ms... OK (Drops: 44, Jitter: 2.4%)
+  [Range 274-290] Testing Pause 280 ms... FAIL (Drops: 45, Jitter: 6.3%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 274-275] Testing Pause 270 ms... FAIL (Drops: 45, Jitter: 15.4%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 75 ms / 295 ms (Cycle: 370 ms, Jitter: 2.4%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 80 ms [ETA: 2m 11s]
+   [Physics] Skipping pauses < 293 ms (Ratio 3.7)
+  [Range 293-500] Testing Pause 395 ms... OK (Drops: 44, Jitter: 2.7%)
+  [Range 293-390] Testing Pause 340 ms... OK (Drops: 44, Jitter: 2.4%)
+  [Range 293-335] Testing Pause 310 ms... OK (Drops: 44, Jitter: 2.4%)
+  [Range 293-305] Testing Pause 295 ms... OK (Drops: 44, Jitter: 2.3%)
+  => Valid Config Found: 80 ms / 295 ms (Cycle: 375 ms, Jitter: 2.3%)
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 17 min 1 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 55 ms
+  Pause: 225 ms
+  Cycle: 280 ms
+  Learned Elasticity Ratio: 3.7
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 55 ms
+  Pause: 247 ms  (includes +10% safety margin)
+  Cycle: 302 ms
+  Ratio: 0.94 Drops/Stroke (Measured: 47 drops / 50 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 3 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 4 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 138616
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 45 ms [ETA: Calculating...]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 3.0%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.4%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 45, Jitter: 2.4%)
+  [Range 215-240] Testing Pause 225 ms... FAIL (Drops: 47, Jitter: 12.4%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 215-220] Testing Pause 215 ms... OK (Drops: 46, Jitter: 2.8%)
+   => Reached Minimum Pause Limit. Stopping search.
+  => Valid Config Found: 45 ms / 215 ms (Cycle: 260 ms, Jitter: 2.8%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.1 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 50 ms [ETA: 14m 22s]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 46, Jitter: 2.6%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 47, Jitter: 3.3%)
+  [Range 215-220] Testing Pause 215 ms... FAIL (Drops: 46, Jitter: 25.5%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 50 ms / 225 ms (Cycle: 275 ms, Jitter: 3.3%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.6 [Moving Avg])
+     (Optimization: Next search starts at 225 ms)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 55 ms [ETA: 12m 23s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 2.8%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 2.1%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 3.7%)
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 47, Jitter: 3.4%)
+  => Valid Config Found: 55 ms / 225 ms (Cycle: 280 ms, Jitter: 3.4%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 60 ms [ETA: 10m 26s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 3.6%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 2.1%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 2.4%)
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.4%)
+  => Valid Config Found: 60 ms / 225 ms (Cycle: 285 ms, Jitter: 2.4%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 65 ms [ETA: 8m 25s]
+   [Physics] Skipping pauses < 234 ms (Ratio 3.6)
+  [Range 234-500] Testing Pause 365 ms... OK (Drops: 44, Jitter: 2.4%)
+  [Range 234-360] Testing Pause 295 ms... OK (Drops: 44, Jitter: 2.1%)
+  [Range 234-290] Testing Pause 260 ms... OK (Drops: 46, Jitter: 2.7%)
+  [Range 234-255] Testing Pause 240 ms... OK (Drops: 46, Jitter: 2.5%)
+  [Range 234-235] Testing Pause 230 ms... OK (Drops: 46, Jitter: 2.7%)
+  => Valid Config Found: 65 ms / 230 ms (Cycle: 295 ms, Jitter: 2.7%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 70 ms [ETA: 6m 22s]
+   [Physics] Skipping pauses < 252 ms (Ratio 3.6)
+  [Range 252-500] Testing Pause 375 ms... OK (Drops: 44, Jitter: 2.1%)
+  [Range 252-370] Testing Pause 310 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 252-305] Testing Pause 275 ms... FAIL (Drops: 45, Jitter: 5.1%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 252-270] Testing Pause 260 ms... OK (Drops: 46, Jitter: 2.1%)
+  [Range 252-255] Testing Pause 250 ms... FAIL (Drops: 44, Jitter: 14.7%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 70 ms / 260 ms (Cycle: 330 ms, Jitter: 2.1%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 75 ms [ETA: 4m 18s]
+   [Physics] Skipping pauses < 270 ms (Ratio 3.6)
+  [Range 270-500] Testing Pause 385 ms... OK (Drops: 44, Jitter: 2.7%)
+  [Range 270-380] Testing Pause 325 ms... OK (Drops: 44, Jitter: 2.1%)
+  [Range 270-320] Testing Pause 295 ms... FAIL (Drops: 44, Jitter: 15.9%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 270-290] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 270-275] Testing Pause 270 ms... OK (Drops: 46, Jitter: 2.5%)
+  => Valid Config Found: 75 ms / 270 ms (Cycle: 345 ms, Jitter: 2.5%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 80 ms [ETA: 2m 11s]
+   [Physics] Skipping pauses < 288 ms (Ratio 3.6)
+  [Range 288-500] Testing Pause 390 ms... FAIL (Drops: 42, Jitter: 15.6%) -> Need longer pause.
+  [Range 395-500] Testing Pause 445 ms... OK (Drops: 44, Jitter: 2.8%)
+  [Range 395-440] Testing Pause 415 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 395-410] Testing Pause 400 ms... OK (Drops: 44, Jitter: 2.7%)
+  [Range 395-395] Testing Pause 395 ms... OK (Drops: 44, Jitter: 2.4%)
+  => Valid Config Found: 80 ms / 395 ms (Cycle: 475 ms, Jitter: 2.4%)
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 17 min 41 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 50 ms
+  Pause: 225 ms
+  Cycle: 275 ms
+  Learned Elasticity Ratio: 3.6
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 50 ms
+  Pause: 247 ms  (includes +10% safety margin)
+  Cycle: 297 ms
+  Ratio: 0.94 Drops/Stroke (Measured: 47 drops / 50 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 4 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 5 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 140816
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 45 ms [ETA: Calculating...]
+  [Range 215-500] Testing Pause 355 ms... OK (Drops: 44, Jitter: 2.5%)
+  [Range 215-350] Testing Pause 280 ms... OK (Drops: 45, Jitter: 2.6%)
+  [Range 215-275] Testing Pause 245 ms... OK (Drops: 46, Jitter: 2.7%)
+  [Range 215-240] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.6%)
+  [Range 215-220] Testing Pause 215 ms... FAIL (Drops: 46, Jitter: 14.3%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 45 ms / 225 ms (Cycle: 270 ms, Jitter: 2.6%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.2 [Moving Avg])
+     (Optimization: Next search starts at 225 ms)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 50 ms [ETA: 14m 22s]
+  [Range 225-500] Testing Pause 360 ms... FAIL (Drops: 44, Jitter: 6.4%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 2.3%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 46, Jitter: 2.6%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 3.0%)
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.8%)
+  => Valid Config Found: 50 ms / 225 ms (Cycle: 275 ms, Jitter: 2.8%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 55 ms [ETA: 12m 29s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 2.5%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 2.1%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.3%)
+  [Range 225-250] Testing Pause 235 ms... FAIL (Drops: 47, Jitter: 7.1%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 225-230] Testing Pause 225 ms... FAIL (Drops: 46, Jitter: 16.1%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 55 ms / 255 ms (Cycle: 310 ms, Jitter: 2.3%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 60 ms [ETA: 10m 30s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 3.0%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 4.0%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 46, Jitter: 2.4%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 2.4%)
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.6%)
+  => Valid Config Found: 60 ms / 225 ms (Cycle: 285 ms, Jitter: 2.6%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 65 ms [ETA: 8m 27s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 3.0%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 45, Jitter: 2.4%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 2.4%)
+  [Range 225-230] Testing Pause 225 ms... OK (Drops: 46, Jitter: 2.4%)
+  => Valid Config Found: 65 ms / 225 ms (Cycle: 290 ms, Jitter: 2.4%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~3.2 [Moving Avg])
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 70 ms [ETA: 6m 23s]
+  [Range 225-500] Testing Pause 360 ms... OK (Drops: 44, Jitter: 2.3%)
+  [Range 225-355] Testing Pause 290 ms... OK (Drops: 44, Jitter: 2.2%)
+  [Range 225-285] Testing Pause 255 ms... OK (Drops: 45, Jitter: 2.6%)
+  [Range 225-250] Testing Pause 235 ms... OK (Drops: 46, Jitter: 2.8%)
+  [Range 225-230] Testing Pause 225 ms... FAIL (Drops: 47, Jitter: 9.9%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 70 ms / 235 ms (Cycle: 305 ms, Jitter: 2.8%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 75 ms [ETA: 4m 16s]
+   [Physics] Skipping pauses < 238 ms (Ratio 3.2)
+  [Range 238-500] Testing Pause 365 ms... OK (Drops: 44, Jitter: 2.6%)
+  [Range 238-360] Testing Pause 295 ms... OK (Drops: 44, Jitter: 2.3%)
+  [Range 238-290] Testing Pause 260 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 238-255] Testing Pause 245 ms... OK (Drops: 45, Jitter: 2.6%)
+  [Range 238-240] Testing Pause 235 ms... OK (Drops: 46, Jitter: 2.4%)
+  => Valid Config Found: 75 ms / 235 ms (Cycle: 310 ms, Jitter: 2.4%)
+   [Cool-Down] Letting coil rest for 30 seconds...
+
+Testing Pulse Width: 80 ms [ETA: 2m 9s]
+   [Physics] Skipping pauses < 254 ms (Ratio 3.2)
+  [Range 254-500] Testing Pause 375 ms... OK (Drops: 44, Jitter: 2.8%)
+  [Range 254-370] Testing Pause 310 ms... FAIL (Drops: 45, Jitter: 7.9%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 254-305] Testing Pause 275 ms... OK (Drops: 45, Jitter: 2.1%)
+  [Range 254-270] Testing Pause 260 ms... OK (Drops: 45, Jitter: 2.2%)
+  [Range 254-255] Testing Pause 250 ms... FAIL (Drops: 46, Jitter: 9.7%) -> High Jitter detected. Trying SHORTER pause.
+  => Valid Config Found: 80 ms / 260 ms (Cycle: 340 ms, Jitter: 2.2%)
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 16 min 57 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 65 ms
+  Pause: 225 ms
+  Cycle: 290 ms
+  Learned Elasticity Ratio: 3.2
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 65 ms
+  Pause: 247 ms  (includes +10% safety margin)
+  Cycle: 312 ms
+  Ratio: 0.92 Drops/Stroke (Measured: 46 drops / 50 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+
+##########################################
+       MULTI-CYCLE CALIBRATION REPORT
+##########################################
+Cycle | Pulse | Pause | Ratio | Jitter | Duration
+------+-------+-------+-------+--------+----------
+  1   | 45 ms | 215 ms |  3.1  |  1.6%  | 16 min 46 s
+  2   | 45 ms | 215 ms |  3.1  |  2.7%  | 16 min 46 s
+  3   | 55 ms | 225 ms |  3.7  |  2.5%  | 17 min 1 s
+  4   | 50 ms | 225 ms |  3.6  |  3.3%  | 17 min 41 s
+  5   | 65 ms | 225 ms |  3.2  |  2.4%  | 16 min 57 s
+##########################################
+
+FINAL RECOMMENDATION (Trimmed Mean Strategy):
+  (Outliers removed: Lowest and Highest values ignored to ensure stability.)
+  Pulse Width:    50 ms (Base Avg: 50 ms)
+  Pause Duration: 243 ms (Base Avg: 221 ms + 10% margin)
+  Cycle Time:     293 ms
+##########################################
+
+
+==========================================
+       REAL-WORLD BURST VALIDATION
+==========================================
+Base Settings: Pulse 50 ms / Pause 243 ms
+Simulating Riding Conditions: 45 sec pause between bursts.
+
+>>> PHASE 1: DETERMINING OPTIMAL PRIMING PULSE <<<
+(Testing 2-stroke bursts with increasing pulse width until stable)
+
+Testing Priming +0 ms (Pulse: 50 ms)... [1/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +10 ms (Pulse: 60 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... OK. [3/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +20 ms (Pulse: 70 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... OK. [3/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +30 ms (Pulse: 80 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... OK. [3/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +40 ms (Pulse: 90 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... OK. [3/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +50 ms (Pulse: 100 ms)... [1/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +60 ms (Pulse: 110 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... OK. [3/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+>> WARNING: Could not find stable priming pulse within range.
+>> Using Max (+60 ms) for validation.
+
+>>> PHASE 2: FULL SCENARIO VALIDATION (1-5 Strokes) <<<
+Using Priming: +60 ms for first stroke of each burst.
+
+>>> SCENARIO: 1-Stroke Bursts (Target: 1 Drops) <<<
+  Burst 1/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 2/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 3/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 4/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 5/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 6/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 7/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 8/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 9/10 (1 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 10/10 (1 Strokes)... OK
+>> Scenario 1-Stroke Result: 10/10 Perfect, 10/10 Safe (>=1 Drop) (Ratio: 1.00)
+   (Switching to next scenario...)
+
+>>> SCENARIO: 2-Stroke Bursts (Target: 2 Drops) <<<
+  Burst 1/10 (2 Strokes)... FAIL (1 Drops)
+    Waiting 45 sec... Done.
+  Burst 2/10 (2 Strokes)... FAIL (1 Drops)
+    Waiting 45 sec... Done.
+  Burst 3/10 (2 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 4/10 (2 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 5/10 (2 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 6/10 (2 Strokes)... FAIL (1 Drops)
+    Waiting 45 sec... Done.
+  Burst 7/10 (2 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 8/10 (2 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 9/10 (2 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 10/10 (2 Strokes)... FAIL (1 Drops)
+>> Scenario 2-Stroke Result: 6/10 Perfect, 10/10 Safe (>=1 Drop) (Ratio: 0.80)
+   (Switching to next scenario...)
+
+>>> SCENARIO: 3-Stroke Bursts (Target: 3 Drops) <<<
+  Burst 1/10 (3 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 2/10 (3 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 3/10 (3 Strokes)... FAIL (2 Drops)
+    Waiting 45 sec... Done.
+  Burst 4/10 (3 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 5/10 (3 Strokes)... FAIL (2 Drops)
+    Waiting 45 sec... Done.
+  Burst 6/10 (3 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 7/10 (3 Strokes)... FAIL (2 Drops)
+    Waiting 45 sec... Done.
+  Burst 8/10 (3 Strokes)... FAIL (2 Drops)
+    Waiting 45 sec... Done.
+  Burst 9/10 (3 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 10/10 (3 Strokes)... FAIL (2 Drops)
+>> Scenario 3-Stroke Result: 5/10 Perfect, 10/10 Safe (>=1 Drop) (Ratio: 0.83)
+   (Switching to next scenario...)
+
+>>> SCENARIO: 4-Stroke Bursts (Target: 4 Drops) <<<
+  Burst 1/10 (4 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 2/10 (4 Strokes)... FAIL (3 Drops)
+    Waiting 45 sec... Done.
+  Burst 3/10 (4 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 4/10 (4 Strokes)... FAIL (3 Drops)
+    Waiting 45 sec... Done.
+  Burst 5/10 (4 Strokes)... FAIL (3 Drops)
+    Waiting 45 sec... Done.
+  Burst 6/10 (4 Strokes)... FAIL (3 Drops)
+    Waiting 45 sec... Done.
+  Burst 7/10 (4 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 8/10 (4 Strokes)... FAIL (3 Drops)
+    Waiting 45 sec... Done.
+  Burst 9/10 (4 Strokes)... FAIL (3 Drops)
+    Waiting 45 sec... Done.
+  Burst 10/10 (4 Strokes)... FAIL (3 Drops)
+>> Scenario 4-Stroke Result: 3/10 Perfect, 10/10 Safe (>=1 Drop) (Ratio: 0.82)
+   (Switching to next scenario...)
+
+>>> SCENARIO: 5-Stroke Bursts (Target: 5 Drops) <<<
+  Burst 1/10 (5 Strokes)... FAIL (4 Drops)
+    Waiting 45 sec... Done.
+  Burst 2/10 (5 Strokes)... FAIL (3 Drops)
+    Waiting 45 sec... Done.
+  Burst 3/10 (5 Strokes)... FAIL (4 Drops)
+    Waiting 45 sec... Done.
+  Burst 4/10 (5 Strokes)... OK
+    Waiting 45 sec... Done.
+  Burst 5/10 (5 Strokes)... FAIL (4 Drops)
+    Waiting 45 sec... Done.
+  Burst 6/10 (5 Strokes)... FAIL (4 Drops)
+    Waiting 45 sec... Done.
+  Burst 7/10 (5 Strokes)... FAIL (4 Drops)
+    Waiting 45 sec... Done.
+  Burst 8/10 (5 Strokes)... FAIL (4 Drops)
+    Waiting 45 sec... Done.
+  Burst 9/10 (5 Strokes)... FAIL (4 Drops)
+    Waiting 45 sec... Done.
+  Burst 10/10 (5 Strokes)... OK
+>> Scenario 5-Stroke Result: 2/10 Perfect, 10/10 Safe (>=1 Drop) (Ratio: 0.82)
+
+==========================================
+       VALIDATION RESULTS
+==========================================
+Total Bursts: 50
+Successful Bursts: 26 (Perfect 1:1)
+------------------------------------------
+SAFETY CHECK (At least 1 drop per burst):
+  1-Stroke: 10/10 Safe (SAFE)
+  2-Stroke: 10/10 Safe (SAFE)
+  3-Stroke: 10/10 Safe (SAFE)
+  4-Stroke: 10/10 Safe (SAFE)
+  5-Stroke: 10/10 Safe (SAFE)
+------------------------------------------
+OVERALL ACCURACY: 0.83 Drops/Stroke
+STRATEGY: Priming Pulse (+60 ms on first stroke)
+
+>> LONG-DISTANCE RELIABILITY ADVICE:
+   > Single strokes are reliable. You can use any burst size.
+>> RESULT: UNSTABLE. Consider re-calibrating or increasing pulse width.
+==========================================
+
+==========================================
+    TEMPERATURE COMPENSATION GUIDE
+==========================================
+Based on your current calibration (assumed ~20C),
+here are estimated settings for other temperatures:
+
+Temp  | Pulse (ms) | Pause (ms) | Viscosity State
+------+------------+------------+----------------
+  0C |     70     |     486    | Syrup (Winter)
+ 10C |     60     |     364    | Thick (Cold)
+ 20C |     50     |     243    | Current (Ref)
+ 30C |     45     |     194    | Fluid (Warm)
+ 40C |     40     |     145    | Thin (Hot)
+==========================================
+NOTE: These are estimates. Re-calibrate if possible when temp changes significantly.
+
+>> FINAL RECOMMENDATION:
+   Use Pulse: 50 ms / Pause: 243 ms
+   *IMPORTANT*: For bursts after long pauses (>45s), add +60 ms to the first pulse (Priming).
+==========================================
+>> DROP DETECTED! Total: 10035
