@@ -1,0 +1,243 @@
+Pump type: https://de.aliexpress.com/item/1005010143451204.html?spm=a2g0o.detail.pcDetailTopMoreOtherSeller.1.1aafdrywdrywGH&gps-id=pcDetailTopMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=63fef1b4-f90a-4889-b5dc-a476a2e55b9f&_t=gps-id:pcDetailTopMoreOtherSeller,scm-url:1007.40050.354490.0,pvid:63fef1b4-f90a-4889-b5dc-a476a2e55b9f,tpp_buckets:668%232846%238109%231935&pdp_ext_f=%7B%22order%22%3A%2233%22%2C%22spu_best_type%22%3A%22order%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2230050%22%2C%22fromPage%22%3A%22recommend%22%7D&pdp_npi=6%40dis%21CHF%217.21%216.99%21%21%2163.08%2161.16%21%40211b629217666777857357377e7d41%2112000051300927212%21rec%21CH%211702792198%21XZ%211%210%21n_tag%3A-29919%3Bd%3A94cdc6e3%3Bm03_new_user%3A-29895&utparam-url=scene%3ApcDetailTopMoreOtherSeller%7Cquery_from%3A%7Cx_object_id%3A1005010143451204%7C_p_origin_prod%3A
+Pump strokes total: 104056
+Calibration cycles: 5x
+Burst test: activated
+NEW: Stiffer tube
+
+---- Opened the serial port COM5 ----
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x4bc
+load:0x403c9700,len:0xbd8
+load:0x403cc700,len:0x2a0c
+entry 0x403c98d0
+Smart Pump Calibrator (ESP32-S3)
+--------------------------------
+Total Lifetime Strokes: 113741
+Break-in Period: COMPLETE
+Flash Size: 16 MB
+PSRAM Size: 7 MB
+--------------------------------
+State: READY (Green).
+  - External Button (GPIO 5): Toggle Continuous Pumping (ON/OFF)
+  - Boot Button (GPIO 0): Start/Stop AUTO-CALIBRATION
+  - Current Config: Pulse 45 ms / Pause 400 ms
+Boot Button -> Starting Calibration...
+
+>>> STARTING PRE-CALIBRATION BLEED <<<
+   (Flushing system for 30 s to remove air bubbles...)
+>> BLEED COMPLETE. System primed.
+
+
+>>> STARTING CALIBRATION CYCLE 1 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 113741
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 60 ms [ETA: Calculating...]
+  [Range 120-300] Testing Pause 210 ms... OK (Drops: 58, Jitter: 4.7%)
+  [Range 120-205] Testing Pause 160 ms... FAIL (Drops: 61, Jitter: 12.2%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 120-155] Testing Pause 135 ms... FAIL (Drops: 68) -> NOZZLE SATURATION (Splatter)
+  => Valid Config Found: 60 ms / 210 ms (Cycle: 270 ms, Jitter: 4.7%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~2.1 [Moving Avg])
+     (Optimization: Next search starts at 210 ms)
+   => Stopping Calibration: Physical limit reached.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 0 min 49 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 60 ms
+  Pause: 210 ms
+  Cycle: 270 ms
+  Learned Elasticity Ratio: 2.1
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 60 ms
+  Pause: 231 ms  (includes +10% safety margin)
+  Cycle: 291 ms
+  Ratio: 0.97 Drops/Stroke (Measured: 58 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 1 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 2 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 113936
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 60 ms [ETA: Calculating...]
+  [Range 120-300] Testing Pause 210 ms... OK (Drops: 58, Jitter: 4.8%)
+  [Range 120-205] Testing Pause 160 ms... FAIL (Drops: 61, Jitter: 12.1%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 120-155] Testing Pause 135 ms... FAIL (Drops: 69) -> NOZZLE SATURATION (Splatter)
+  => Valid Config Found: 60 ms / 210 ms (Cycle: 270 ms, Jitter: 4.8%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~2.1 [Moving Avg])
+     (Optimization: Next search starts at 210 ms)
+   => Stopping Calibration: Physical limit reached.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 0 min 49 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 60 ms
+  Pause: 210 ms
+  Cycle: 270 ms
+  Learned Elasticity Ratio: 2.1
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 60 ms
+  Pause: 231 ms  (includes +10% safety margin)
+  Cycle: 291 ms
+  Ratio: 0.97 Drops/Stroke (Measured: 58 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 2 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 3 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 114131
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 60 ms [ETA: Calculating...]
+  [Range 120-300] Testing Pause 210 ms... FAIL (Drops: 59, Jitter: 5.7%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 120-205] Testing Pause 160 ms... FAIL (Drops: 62, Jitter: 11.8%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 120-155] Testing Pause 135 ms... FAIL (Drops: 69) -> NOZZLE SATURATION (Splatter)
+  => No valid config found for this pulse width.
+   => Stopping Calibration: Physical limit reached.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 0 min 49 sec
+FAILURE: No stable configuration found.
+>> Reverting to defaults (Bleeding Mode: 45/400).
+==========================================
+
+>>> CYCLE 3 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 4 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 114326
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 60 ms [ETA: Calculating...]
+  [Range 120-300] Testing Pause 210 ms... OK (Drops: 57, Jitter: 4.3%)
+  [Range 120-205] Testing Pause 160 ms... FAIL (Drops: 62, Jitter: 14.6%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 120-155] Testing Pause 135 ms... FAIL (Drops: 68) -> NOZZLE SATURATION (Splatter)
+  => Valid Config Found: 60 ms / 210 ms (Cycle: 270 ms, Jitter: 4.3%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~2.1 [Moving Avg])
+     (Optimization: Next search starts at 210 ms)
+   => Stopping Calibration: Physical limit reached.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 0 min 49 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 60 ms
+  Pause: 210 ms
+  Cycle: 270 ms
+  Learned Elasticity Ratio: 2.1
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 60 ms
+  Pause: 231 ms  (includes +10% safety margin)
+  Cycle: 291 ms
+  Ratio: 0.95 Drops/Stroke (Measured: 57 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+>>> CYCLE 4 COMPLETE. Cooling down for 30 seconds before next cycle...
+
+>>> STARTING CALIBRATION CYCLE 5 / 5 <<<
+
+=== STARTING FAST AUTO-CALIBRATION (Binary Search) ===
+Total Lifetime Strokes: 114521
+Features: Binary Search, Quick Fail, Stability Check (Max Jitter 5%)
+Press BOOT BUTTON to STOP.
+
+Testing Pulse Width: 60 ms [ETA: Calculating...]
+  [Range 120-300] Testing Pause 210 ms... OK (Drops: 56, Jitter: 4.9%)
+  [Range 120-205] Testing Pause 160 ms... FAIL (Drops: 60, Jitter: 17.5%) -> High Jitter detected. Trying SHORTER pause.
+  [Range 120-155] Testing Pause 135 ms... FAIL (Drops: 67) -> NOZZLE SATURATION (Splatter)
+  => Valid Config Found: 60 ms / 210 ms (Cycle: 270 ms, Jitter: 4.9%)
+     (NEW BEST CONFIGURATION!)
+     (Learning: Hose elasticity requires ratio ~2.1 [Moving Avg])
+     (Optimization: Next search starts at 210 ms)
+   => Stopping Calibration: Physical limit reached.
+
+==========================================
+       CALIBRATION COMPLETE
+==========================================
+Total Duration: 0 min 49 sec
+Raw Optimal Values (Lab Conditions):
+  Pulse: 60 ms
+  Pause: 210 ms
+  Cycle: 270 ms
+  Learned Elasticity Ratio: 2.1
+------------------------------------------
+RECOMMENDED SETTINGS (Robust Operation):
+  Pulse: 60 ms
+  Pause: 231 ms  (includes +10% safety margin)
+  Cycle: 291 ms
+  Ratio: 0.93 Drops/Stroke (Measured: 56 drops / 60 pulses)
+>> SETTINGS APPLIED FOR CONTINUOUS MODE.
+==========================================
+
+
+##########################################
+       MULTI-CYCLE CALIBRATION REPORT
+##########################################
+Cycle | Pulse | Pause | Ratio | Jitter | Duration
+------+-------+-------+-------+--------+----------
+  1   | 60 ms | 210 ms |  2.1  |  4.7%  | 0 min 49 s
+  2   | 60 ms | 210 ms |  2.1  |  4.8%  | 0 min 49 s
+  3   | 60 ms | 210 ms |  2.1  |  4.3%  | 0 min 49 s
+  4   | 60 ms | 210 ms |  2.1  |  4.9%  | 0 min 49 s
+##########################################
+
+FINAL RECOMMENDATION (Trimmed Mean Strategy):
+  (Outliers removed: Lowest and Highest values ignored to ensure stability.)
+  Pulse Width:    60 ms (Base Avg: 60 ms)
+  Pause Duration: 231 ms (Base Avg: 210 ms + 10% margin)
+  Cycle Time:     291 ms
+##########################################
+
+
+==========================================
+       REAL-WORLD BURST VALIDATION
+==========================================
+Base Settings: Pulse 60 ms / Pause 231 ms
+Simulating Riding Conditions: 45 sec pause between bursts.
+
+>>> PHASE 1: DETERMINING OPTIMAL PRIMING PULSE <<<
+(Testing 2-stroke bursts with increasing pulse width until stable)
+
+Testing Priming +0 ms (Pulse: 60 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +10 ms (Pulse: 70 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +20 ms (Pulse: 80 ms)... [1/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +30 ms (Pulse: 90 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... OK. [3/5] Wait 45s... FAIL (1 Drops). -> Unstable.
+
+Testing Priming +40 ms (Pulse: 100 ms)... [1/5] Wait 45s... OK. [2/5] Wait 45s... 
+---- Closed the serial port COM5 ----

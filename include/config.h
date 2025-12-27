@@ -40,14 +40,14 @@ const unsigned long CAL_BREAK_IN_STROKES = 10000;
 // AUTO-CALIBRATION SETTINGS
 // ============================================================================
 // Pulse Width Search Range (ms)
-const unsigned long CAL_PULSE_MIN = 60;
-const unsigned long CAL_PULSE_MAX = 110;
+const unsigned long CAL_PULSE_MIN = 35;
+const unsigned long CAL_PULSE_MAX = 80;
 const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
-const unsigned long CAL_PAUSE_MIN = 240;     // Lower bound for binary search
-const unsigned long CAL_PAUSE_START = 750;   // Upper bound for binary search (Max Pause - Optimization Limit)
+const unsigned long CAL_PAUSE_MIN = 200;     // Lower bound for binary search
+const unsigned long CAL_PAUSE_START = 500;   // Upper bound for binary search (Max Pause - Optimization Limit)
 const unsigned long CAL_PAUSE_STEP = 5;     // Resolution (not strictly used in binary search but good for reference)
 
 // Calibration Logic
@@ -65,7 +65,7 @@ const float CAL_MAX_JITTER_PERCENT = 0.05;
 // Safety Factor
 // Added to the experimentally found minimum pause to ensure reliability.
 // 1.15 = +15% safety margin
-const float CAL_SAFETY_MARGIN_FACTOR = 1.10;
+const float CAL_SAFETY_MARGIN_FACTOR = 1.05;
 
 // Recommendation Settings
 // Rounding for Pulse Width Recommendation (e.g. 5ms).
@@ -77,7 +77,7 @@ const int CAL_RECOMMENDATION_PULSE_ROUNDING_MS = 5;
 // Minimum Ratio of Pause to Pulse duration.
 // The hose needs time to relax (Windkessel effect). 
 // 3.0 means: If Pulse is 50ms, Pause must be at least 150ms.
-const float CAL_ELASTICITY_RATIO = 3.5;
+const float CAL_ELASTICITY_RATIO = 2.0;
 
 // Smart Exit Optimization
 // If the best found jitter is below this threshold (e.g., 0.8%),
