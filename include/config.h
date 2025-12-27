@@ -42,7 +42,7 @@ const unsigned long CAL_BREAK_IN_STROKES = 10000;
 // Pulse Width Search Range (ms)
 const unsigned long CAL_PULSE_MIN = 60;
 const unsigned long CAL_PULSE_MAX = 110;
-const unsigned long CAL_PULSE_STEP = 10;
+const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
@@ -114,7 +114,7 @@ const int CAL_VALIDATION_REPEATS = 10;          // How many bursts to test per s
 // by testing 2-stroke bursts with increasing added time.
 // We use 2 strokes because a single stroke might produce a drop but fail to pressurize 
 // the system enough for the second stroke.
-const int CAL_PRIMING_SEARCH_REPEATS = 3;       // How many successes needed to accept a priming value
+const int CAL_PRIMING_SEARCH_REPEATS = 5;       // How many successes needed to accept a priming value
 const unsigned long CAL_PRIMING_START_MS = 0;   // Start searching at +0ms
 const unsigned long CAL_PRIMING_STEP_MS = 10;   // Increase by 10ms if failed
 const unsigned long CAL_PRIMING_MAX_MS = 60;    // Stop searching if we reach +60ms
@@ -133,7 +133,7 @@ const bool PUMP_USE_PWM = true;
 const int PUMP_PWM_FREQ = 5000;      // 5 kHz is safe for most solenoids
 const int PUMP_PWM_CHANNEL = 0;      // ESP32 LEDC Channel
 const int PUMP_PWM_RESOLUTION = 8;   // 8-bit resolution (0-255)
-const int PUMP_RAMP_UP_MS = 10;      // Soft-Start duration (Generic: 12ms)
-const int PUMP_RAMP_DOWN_MS = 10;    // Soft-Stop duration (Generic: 12ms)
+const int PUMP_RAMP_UP_MS = 15;      // Soft-Start duration (Generic: 12ms)
+const int PUMP_RAMP_DOWN_MS = 15;    // Soft-Stop duration (Generic: 12ms)
 
 #endif
