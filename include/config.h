@@ -25,7 +25,7 @@ const int NUM_LEDS = 1;
 // Used on startup or if calibration fails.
 // Purpose: Quickly fill the hose with oil and bleed air bubbles.
 const unsigned long DEFAULT_BLEED_PULSE_MS = 55;
-const unsigned long DEFAULT_BLEED_PAUSE_MS = 2000;
+const unsigned long DEFAULT_BLEED_PAUSE_MS = 300;
 
 // Debounce Settings (ms)
 const int BUTTON_DEBOUNCE_MS = 25;
@@ -40,21 +40,21 @@ const unsigned long CAL_BREAK_IN_STROKES = 15000;
 // AUTO-CALIBRATION SETTINGS
 // ============================================================================
 // Pulse Width Search Range (ms)
-const unsigned long CAL_PULSE_MIN = 55;
-const unsigned long CAL_PULSE_MAX = 65;
+const unsigned long CAL_PULSE_MIN = 50;
+const unsigned long CAL_PULSE_MAX = 70;
 const unsigned long CAL_PULSE_STEP = 5;
 
 // Pause Duration Search Range (ms)
 // Binary Search Range: [MIN, MAX]
 const unsigned long CAL_PAUSE_MIN = 1800;     // Lower bound for binary search
-const unsigned long CAL_PAUSE_START = 2200;   // Upper bound for binary search (Max Pause - Optimization Limit)
-const unsigned long CAL_PAUSE_STEP = 50;     // Resolution (not strictly used in binary search but good for reference)
+const unsigned long CAL_PAUSE_START = 2800;   // Upper bound for binary search (Max Pause - Optimization Limit)
+const unsigned long CAL_PAUSE_STEP = 100;     // Resolution (not strictly used in binary search but good for reference)
 
 // Calibration Logic
 const int CAL_PRIMING_PULSES = 20;      // Pulses to pressurize hose before measuring (increased to flush warm oil)
 const int CAL_TEST_PULSES = 25;         // Number of pulses to test per step
-const int CAL_TARGET_DROPS_MIN = 22;    // Minimum acceptable drops for 60 pulses (Strict 1:1)
-const int CAL_TARGET_DROPS_MAX = 28;    // Maximum acceptable drops for 60 pulses
+const int CAL_TARGET_DROPS_MIN = 20;    // Minimum acceptable drops for 60 pulses (Strict 1:1)
+const int CAL_TARGET_DROPS_MAX = 35;    // Maximum acceptable drops for 60 pulses
 
 // Stability Criteria
 // Maximum allowed jitter (Standard Deviation / Average Interval).
@@ -107,7 +107,7 @@ const unsigned long CAL_COOLDOWN_MS = 30000; // 30 Seconds
 // Validation Run Settings
 // Instead of continuous running, we simulate real-world "Bursts".
 const int CAL_VALIDATION_BURST_PAUSE_SEC = 45; // Time between bursts (simulating riding)
-const int CAL_VALIDATION_REPEATS = 10;          // How many bursts to test per scenario
+const int CAL_VALIDATION_REPEATS = 5;          // How many bursts to test per scenario
 
 // Priming Search Settings (Auto-Discovery)
 // The system will try to find the optimal "Priming Pulse" (extra time for the first stroke)
@@ -122,7 +122,7 @@ const unsigned long CAL_PRIMING_MAX_MS = 60;    // Stop searching if we reach +6
 // Pre-Calibration Bleed
 // Runs before the first calibration cycle to flush air bubbles and warm up the oil.
 const bool CAL_ENABLE_PRE_BLEED = true;
-const unsigned long CAL_PRE_BLEED_DURATION_MS = 10000; // 30 Seconds
+const unsigned long CAL_PRE_BLEED_DURATION_MS = 20000; // 20 Seconds
 const unsigned long CAL_PRE_BLEED_PULSE_MS = 55;
 const unsigned long CAL_PRE_BLEED_PAUSE_MS = 500;      // Fast pumping to force bubbles out
 
